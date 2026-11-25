@@ -114,9 +114,23 @@ function findCrossMatch(liveBid, projects = [], recurringFamilies = []) {
       return `${p.year}년: ${p.succBidCorp || '낙찰'} (${amtStr})`;
     });
 
-    // 실측 투찰률 계산
-    const validRates = matchedProjects.map(p => p.bidRate).filter(r => typeof r === 'number' && r > 50);
+    // 실측 투찰률 / 계약률 계산 (공식 투찰률 우선, 없을 시 배정예산 대비 실제 계약률 활용)
+    const rateInfos = matchedProjects.map(p => {
+      if (typeof p.bidRate === 'number' && p.bidRate >= 50 && p.bidRate <= 105) {
+        return { rate: p.bidRate, type: '낙찰률' };
+      }
+      if (p.contractAmt && p.assignBdgtAmt && p.assignBdgtAmt > 0) {
+        const rate = Number(((p.contractAmt / p.assignBdgtAmt) * 100).toFixed(2));
+        if (rate >= 50 && rate <= 105) {
+          return { rate, type: '계약률' };
+        }
+      }
+      return null;
+    }).filter(Boolean);
+
+    const validRates = rateInfos.map(r => r.rate);
     const avgRate = validRates.length > 0 ? Number((validRates.reduce((a, b) => a + b, 0) / validRates.length).toFixed(2)) : null;
+    const rateType = rateInfos.some(r => r.type === '낙찰률') ? '낙찰률' : (rateInfos.length > 0 ? '계약률' : null);
     const recommendedBid = avgRate ? Math.round((budget * (avgRate / 100)) / 1000) * 1000 : null;
 
     const isLocked = matchedProjects.length >= 2 && matchedProjects.every(p => p.succBidCorp === incumbent);
@@ -132,6 +146,7 @@ function findCrossMatch(liveBid, projects = [], recurringFamilies = []) {
       isIncumbentLocked: isLocked,
       pastWinners,
       avgBidRate: avgRate,
+      rateType,
       recommendedBid,
       pastBudget2026: latest.assignBdgtAmt,
       strategicAdvice: isLocked
@@ -163,8 +178,21 @@ function findCrossMatch(liveBid, projects = [], recurringFamilies = []) {
     ].filter(Boolean);
 
     const incumbent = matchedFamily.incumbentCompany || (h26 ? h26.winnerCorp : '기존 사업자');
-    const bidRates = [h24?.bidRate, h25?.bidRate, h26?.bidRate].filter(r => typeof r === 'number' && r > 50);
-    const avgRate = bidRates.length > 0 ? Number((bidRates.reduce((a, b) => a + b, 0) / bidRates.length).toFixed(2)) : null;
+    const bidRateInfos = [h24, h25, h26].map(h => {
+      if (!h) return null;
+      if (typeof h.bidRate === 'number' && h.bidRate >= 50 && h.bidRate <= 105) {
+        return { rate: h.bidRate, type: '낙찰률' };
+      }
+      if (h.contractAmt && h.budget && h.budget > 0) {
+        const rate = Number(((h.contractAmt / h.budget) * 100).toFixed(2));
+        if (rate >= 50 && rate <= 105) return { rate, type: '계약률' };
+      }
+      return null;
+    }).filter(Boolean);
+
+    const validRates = bidRateInfos.map(r => r.rate);
+    const avgRate = validRates.length > 0 ? Number((validRates.reduce((a, b) => a + b, 0) / validRates.length).toFixed(2)) : null;
+    const rateType = bidRateInfos.some(r => r.type === '낙찰률') ? '낙찰률' : (bidRateInfos.length > 0 ? '계약률' : null);
     const recommendedBid = avgRate ? Math.round((budget * (avgRate / 100)) / 1000) * 1000 : null;
 
     return {
@@ -178,6 +206,7 @@ function findCrossMatch(liveBid, projects = [], recurringFamilies = []) {
       isIncumbentLocked: matchedFamily.isIncumbentLocked || false,
       pastWinners,
       avgBidRate: avgRate,
+      rateType,
       recommendedBid,
       pastBudget2026: h26?.budget || matchedFamily.total3YrBudget / 3,
       strategicAdvice: matchedFamily.isIncumbentLocked
@@ -202,6 +231,7 @@ function createEmptyMatch(liveBid) {
     isIncumbentLocked: false,
     pastWinners: [],
     avgBidRate: null,
+    rateType: null,
     recommendedBid: null,
     pastBudget2026: null,
     strategicAdvice: '직전 3개년간 동일 명칭의 선행 조달 이력이 없는 신규/단년 사업입니다. 기득권 사업자가 없어 모든 응찰자에게 동등한 기회가 열려 있으며, 과거 낙찰 데이터가 없으므로 과업지시서 및 원가계산서 기준 자율 투찰이 필요합니다.'

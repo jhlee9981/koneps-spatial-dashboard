@@ -1572,5 +1572,36 @@
       "3D/3차원"
     ],
     "summary": "경상남도에서 발주한 경상남도 3차원 실내공간정보관리시스템 유지관리 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01855524-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 산림공간정보서비스 운영 및 유지관리",
+    "ntceInsttNm": "조달청",
+    "dminsttNm": "산림청",
+    "orgType": "국가기관",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 537360800,
+    "presmptPrce": 484545455,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-25 14:32:26",
+    "bidClseDt": "2026-12-22 10:00:00",
+    "opengDt": "2026-12-22 11:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01855524&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": false,
+    "budgetTier": "5억 이상",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "산림청에서 발주한 2027년 산림공간정보서비스 운영 및 유지관리 실제 조달청 나라장터 공고입니다."
   }
 ]

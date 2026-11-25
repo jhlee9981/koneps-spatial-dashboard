@@ -943,16 +943,16 @@ function renderProjectsList() {
  ? `<span class="px-1.5 py-0.2 rounded bg-cyan-600 text-white font-bold text-[10px]">LIVE 접수중</span>`
  : `<span class="px-1.5 py-0.2 rounded bg-slate-600 text-white font-bold text-[10px]">${p.year ? p.year + '년 실적' : '과거 실적'}</span>`;
 
- const matchBox = (p.isLiveNotice && p.crossMatch && p.crossMatch.matched && p.crossMatch.recommendedBid)
- ? `<div class="mt-2 p-2 bg-indigo-50 border border-indigo-200/80 rounded-xl text-[11px] text-indigo-900 leading-snug">
- <span class="font-bold">전년도 수주:</span> ${p.crossMatch.incumbentCompany} 
- <span class="text-emerald-700 font-bold ml-1">(실측 추천 ${formatMoney(p.crossMatch.recommendedBid)})</span>
- </div>`
- : (p.isLiveNotice && p.crossMatch && !p.crossMatch.matched)
- ? `<div class="mt-2 p-2 bg-blue-50/70 border border-blue-200/60 rounded-xl text-[11px] text-blue-900 leading-snug">
- <span class="font-bold">신규 진입 기회:</span> 기존 고착 사업자 없음 (과거 이력 무)
- </div>`
- : '';
+ const matchBox = (p.isLiveNotice && p.crossMatch && p.crossMatch.matched)
+    ? `<div class="mt-2 p-2 bg-indigo-50 border border-indigo-200/80 rounded-xl text-[11px] text-indigo-900 leading-snug">
+        <span class="font-bold">전년도 수주:</span> ${p.crossMatch.incumbentCompany} 
+        ${p.crossMatch.recommendedBid ? `<span class="text-emerald-700 font-bold ml-1">(실측 추천 ${formatMoney(p.crossMatch.recommendedBid)})</span>` : ''}
+      </div>`
+    : (p.isLiveNotice && p.crossMatch && !p.crossMatch.matched)
+    ? `<div class="mt-2 p-2 bg-blue-50/70 border border-blue-200/60 rounded-xl text-[11px] text-blue-900 leading-snug">
+        <span class="font-bold">신규 진입 기회:</span> 기존 고착 사업자 없음 (과거 이력 무)
+      </div>`
+    : '';
 
  return `
  <div onclick="openDetailModalById('${p.bidNtceNo}')" class="gov-card p-4 transition-all cursor-pointer flex flex-col justify-between ${p.isLiveNotice ? 'border-t-2 border-t-[#1543a3]' : ''}">
@@ -1202,18 +1202,29 @@ function openDetailModal(p) {
  const recPriceEl = document.getElementById('modal-cross-recommended-price');
  const recRateEl = document.getElementById('modal-cross-avg-rate');
 
- if (cm.matched && cm.recommendedBid && cm.avgBidRate) {
- document.getElementById('modal-cross-incumbent').innerText = cm.incumbentCompany || '확인됨';
- recPriceEl.innerText = formatMoney(cm.recommendedBid);
- recPriceEl.className = 'text-emerald-700 font-bold text-xs sm:text-sm';
- recRateEl.innerText = `(실측 낙찰률 ${cm.avgBidRate}%)`;
- } else {
- // 기존 고착 사업자나 과거 실적이 없는 경우 가짜 데이터 완전 배제
- document.getElementById('modal-cross-incumbent').innerText = '기존 고착 사업자 없음 (신규 기회)';
- recPriceEl.innerText = '해당 없음 (신규 사업)';
- recPriceEl.className = 'text-slate-500 font-semibold text-xs';
- recRateEl.innerText = '(과거 투찰 데이터 없음)';
- }
+     const incumbentEl = document.getElementById('modal-cross-incumbent');
+    if (cm.matched && cm.incumbentCompany && cm.incumbentCompany !== '기존 고착 사업자 없음 (신규 기회)') {
+      incumbentEl.innerText = cm.incumbentCompany;
+      incumbentEl.className = 'text-slate-900 font-extrabold text-xs sm:text-sm';
+    } else {
+      incumbentEl.innerText = '기존 고착 사업자 없음 (신규 기회)';
+      incumbentEl.className = 'text-blue-700 font-bold text-xs sm:text-sm';
+    }
+
+    if (cm.matched && cm.recommendedBid && cm.avgBidRate) {
+      recPriceEl.innerText = formatMoney(cm.recommendedBid);
+      recPriceEl.className = 'text-emerald-700 font-bold text-xs sm:text-sm';
+      recRateEl.innerText = `(실측 ${cm.rateType || '낙찰률'} ${cm.avgBidRate}%)`;
+    } else if (cm.matched) {
+      recPriceEl.innerText = '협상계약 (원가/과업 기준 산정)';
+      recPriceEl.className = 'text-slate-600 font-semibold text-xs';
+      recRateEl.innerText = '(과거 수주 이력 참조)';
+    } else {
+      // 기존 고착 사업자나 과거 실적이 없는 경우 가짜 데이터 완전 배제
+      recPriceEl.innerText = '해당 없음 (신규 사업)';
+      recPriceEl.className = 'text-slate-500 font-semibold text-xs';
+      recRateEl.innerText = '(과거 투찰 데이터 없음)';
+    }
  const histEl = document.getElementById('modal-cross-history');
  if (histEl) {
  histEl.innerHTML = (cm.pastWinners && cm.pastWinners.length > 0)
