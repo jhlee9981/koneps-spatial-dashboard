@@ -8,7 +8,8 @@ let analyticsData = null;
 let recurringData = null;
 let recurringFilteredFamilies = [];
 let currentRecurringQuickFilter = 'all';
-let currentDashboardYear = 'all'; // 'all', '2026', '2025', '2024'
+let currentDashboardYear = 'all';
+let currentAnalyticsYear = 'all'; // 'all', '2026', '2025', '2024' // 'all', '2026', '2025', '2024'
 let serverInfo = { primaryIp: 'localhost', port: 3000 };
 let currentTab = 'dashboard';
 let currentFilters = {
@@ -505,12 +506,113 @@ function renderHighlightUnder500Projects(curScope = 'all') {
  }).join('');
 }
 
+// 3-2. 구간별 심층분석 연도 전환
+function setAnalyticsYear(year) {
+  currentAnalyticsYear = year;
+  document.querySelectorAll('.analytics-year-btn').forEach(btn => {
+    btn.classList.remove('active', 'bg-white', 'text-[#1543a3]', 'shadow-xs', 'font-bold');
+    btn.classList.add('text-[#495057]', 'font-medium');
+  });
+  const activeBtn = document.getElementById(`btn-ana-year-${year}`);
+  if (activeBtn) {
+    activeBtn.classList.add('active', 'bg-white', 'text-[#1543a3]', 'shadow-xs', 'font-bold');
+    activeBtn.classList.remove('text-[#495057]', 'font-medium');
+  }
+  const badge = document.getElementById('analytics-scope-badge');
+  if (badge) {
+    if (year === 'all') badge.innerText = '3개년 종합 (2024~2026년 355건 / 466.1억 원)';
+    else if (year === '2026') badge.innerText = '2026년 실측 (92건 / 130.6억 원)';
+    else if (year === '2025') badge.innerText = '2025년 실측 (136건 / 174.0억 원)';
+    else if (year === '2024') badge.innerText = '2024년 실측 (127건 / 161.5억 원)';
+  }
+  renderAnalyticsDeepDive();
+}
+
+function renderAnalyticsYearlyTrendChart() {
+  const ctx = document.getElementById('chart-analytics-yearly-trend')?.getContext('2d');
+  if (!ctx || !analyticsData || !analyticsData.yearly) return;
+
+  if (chartInstances['anaYearlyTrend']) chartInstances['anaYearlyTrend'].destroy();
+
+  const years = ['2024', '2025', '2026'];
+  const counts = years.map(yr => {
+    const item = analyticsData.yearly.find(y => String(y.year) === yr);
+    return item ? item.under500Count : 0;
+  });
+  const budgets = years.map(yr => {
+    const item = analyticsData.yearly.find(y => String(y.year) === yr);
+    return item ? Number((item.under500Budget / 100000000).toFixed(1)) : 0;
+  });
+
+  chartInstances['anaYearlyTrend'] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['2024년', '2025년', '2026년'],
+      datasets: [
+        {
+          type: 'line',
+          label: '5억 미만 합산 예산 (억원)',
+          data: budgets,
+          borderColor: '#10b981',
+          backgroundColor: '#10b981',
+          borderWidth: 3,
+          tension: 0.2,
+          yAxisID: 'y1',
+          pointRadius: 6,
+          pointBackgroundColor: '#10b981'
+        },
+        {
+          type: 'bar',
+          label: '5억 미만 공고 건수 (건)',
+          data: counts,
+          backgroundColor: '#1543a3',
+          borderRadius: 6,
+          yAxisID: 'y',
+          maxBarThickness: 50
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ctx.dataset.type === 'line' ? ` 총 예산: ${ctx.parsed.y} 억 원` : ` 공고 건수: ${ctx.parsed.y} 건`
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: {
+          position: 'left',
+          title: { display: true, text: '건수 (건)', font: { size: 10 } },
+          grid: { color: '#f1f5f9' },
+          beginAtZero: true
+        },
+        y1: {
+          position: 'right',
+          title: { display: true, text: '예산 (억원)', font: { size: 10 } },
+          grid: { drawOnChartArea: false },
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
 // 4. 구간별 심층 분석 페이지 차트 렌더링 (Deep Dive)
 function renderAnalyticsDeepDive() {
- if (!analyticsData || !analyticsData.under500M) return;
+  if (!analyticsData) return;
+  const curScope = currentAnalyticsYear || 'all';
+  const curData = (analyticsData.byYear && analyticsData.byYear[curScope]) ? analyticsData.byYear[curScope] : analyticsData;
+  const u = curData.under500M || analyticsData.under500M;
+  if (!u) return;
+  const buckets = u.buckets || [];
 
- const u = analyticsData.under500M;
- const buckets = u.buckets || [];
+  // 0) 3개년 연도별 추이 비교 차트 렌더링
+  renderAnalyticsYearlyTrendChart();
 
  // 1) 4대 구간별 종합 비교 차트 (chart-tier-comparison)
  const ctxTier = document.getElementById('chart-tier-comparison')?.getContext('2d');
@@ -626,10 +728,11 @@ function renderAnalyticsDeepDive() {
 
  // 3) 5억 미만 수요기관 분포 차트 (chart-org-types)
  const ctxOrg = document.getElementById('chart-org-types')?.getContext('2d');
- if (ctxOrg && analyticsData.orgTypes) {
+ const orgs = curData.orgTypes || analyticsData.orgTypes || [];
+  if (ctxOrg && orgs.length > 0) {
  if (chartInstances['deepOrg']) chartInstances['deepOrg'].destroy();
 
- const orgs = analyticsData.orgTypes;
+ // orgs already resolved
  chartInstances['deepOrg'] = new Chart(ctxOrg, {
  type: 'doughnut',
  data: {
@@ -709,8 +812,9 @@ function renderAnalyticsDeepDive() {
 
  // 5) 빈출 키워드 클라우드
  const themesCloud = document.getElementById('themes-cloud-container');
- if (themesCloud && analyticsData.topThemes) {
- themesCloud.innerHTML = analyticsData.topThemes.map(th => `
+ const themesList = curData.topThemes || analyticsData.topThemes || [];
+  if (themesCloud && themesList.length > 0) {
+ themesCloud.innerHTML = themesList.map(th => `
  <button onclick="searchTheme('${th.theme}')" class="px-3 py-1.5 rounded-xl border border-slate-200/60 bg-amber-50/50 hover:bg-amber-100 hover:border-amber-400 text-xs font-semibold text-slate-800 flex items-center space-x-1.5">
  <span>#${th.theme}</span>
  <span class="text-[10px] bg-white px-1.5 py-0.2 rounded-full font-mono text-amber-700">${th.count}</span>
@@ -718,18 +822,27 @@ function renderAnalyticsDeepDive() {
  `).join('');
  }
 
- // 6) 수주 기업 현황 테이블
- const winTbody = document.getElementById('analytics-winners-body');
- if (winTbody && analyticsData.winStats?.topWinners) {
- winTbody.innerHTML = analyticsData.winStats.topWinners.map((w, idx) => `
- <tr class="hover:bg-amber-50/30 transition-colors">
- <td class="py-2.5 px-3 font-semibold text-slate-400 font-mono">${idx + 1}</td>
- <td class="py-2.5 px-3 font-bold text-slate-800">${w.winner}</td>
- <td class="py-2.5 px-3 text-center text-slate-700 font-semibold">${w.under500Count || w.count} 건</td>
- <td class="py-2.5 px-3 text-right font-extrabold text-amber-700">${formatMoney(w.totalWon)}</td>
- </tr>
- `).join('');
- }
+ // 6) 수주 기업 현황 테이블 (5억 미만 중점 분석)
+  const winTbody = document.getElementById('analytics-winners-body');
+  const winnersList = u.topWinners || curData.winStats?.topWinners || analyticsData.under500M?.topWinners || [];
+  if (winTbody && winnersList) {
+    winTbody.innerHTML = winnersList.map((w, idx) => {
+      const underCount = w.under500Count !== undefined ? w.under500Count : w.count;
+      const underAmount = w.under500TotalWon !== undefined ? w.under500TotalWon : w.totalWon;
+      const hasOtherTiers = w.count && w.count > underCount;
+      return `
+        <tr class="hover:bg-amber-50/30 transition-colors">
+          <td class="py-2.5 px-3 font-semibold text-slate-400 font-mono">${idx + 1}</td>
+          <td class="py-2.5 px-3 font-bold text-slate-800">${w.winner}</td>
+          <td class="py-2.5 px-3 text-center text-slate-700 font-semibold">${underCount} 건</td>
+          <td class="py-2.5 px-3 text-right">
+            <span class="font-extrabold text-amber-700">${formatMoney(underAmount)}</span>
+            ${hasOtherTiers ? `<span class="block text-[10px] text-slate-400 font-normal">(전체 합계: ${w.count}건 / ${formatMoney(w.totalWon)})</span>` : ''}
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
 }
 
 function searchTheme(theme) {

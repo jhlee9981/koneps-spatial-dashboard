@@ -551,16 +551,88 @@
       <!-- 상단 인사이트 배너 (공공 포털 브리핑 스타일) -->
       <div class="gov-card p-5 sm:p-6 bg-white border border-[#dcdfe3] border-l-4 border-l-[#1543a3]">
         <div class="max-w-3xl">
-          <span
-            class="px-2 py-0.5 text-xs font-bold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] rounded mb-2.5 inline-block">
-            5억 미만 조달시장 통계 분석
-          </span>
-          <h2 class="text-lg sm:text-xl font-bold text-[#071952] mb-2">지자체 실무 중심의 공간정보 사업 구조와 진입 전략</h2>
+          <div class="flex items-center space-x-2 mb-2 flex-wrap gap-1">
+            <span class="px-2 py-0.5 text-xs font-bold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] rounded">
+              5억 미만 조달시장 심층 분석
+            </span>
+            <span class="px-2 py-0.5 text-xs font-bold bg-[#e6f6f1] text-[#00835f] border border-[#b2e7d7] rounded">
+              2024~2026년 3개년 전수 분석 (총 355건 / 466.1억 원)
+            </span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-bold text-[#071952] mb-2">지자체 실무 중심의 3개년 공간정보 사업 구조와 진입 전략</h2>
           <p class="text-xs sm:text-sm text-[#4e5968] leading-relaxed">
-            5억 미만 공고는 대형 인프라 구축보다는 <strong>기초 시·군·구의 생활지리 웹 개편</strong>,
-            <strong>도시계획 인허가 공간지원</strong>, <strong>지하시설물 수시갱신</strong>, <strong>일상 유지관리</strong> 비중이 높습니다.
-            특히 <strong>수의계약(1억 미만)</strong> 및 <strong>지역제한/제한경쟁</strong>을 적극 활용하는 것이 실질적인 수주 전략입니다.
+            2024년부터 2026년까지 조달청 나라장터에 발주된 5억 미만 공간정보 사업 <strong>총 355건(466.1억 원)</strong>의 계약 실적을 전수 분석한 통계입니다.
+            대형 인프라 구축보다는 <strong>기초 시·군·구의 생활지리 웹 개편</strong>, <strong>도시계획 인허가 공간지원</strong>, <strong>지하시설물 수시갱신</strong>, <strong>일상 유지관리</strong> 비중이 높으며,
+            <strong>수의계약(1억 미만)</strong> 및 <strong>지역제한/제한경쟁</strong>을 활용한 실질적 수주 전략을 도출할 수 있습니다.
           </p>
+        </div>
+      </div>
+
+      <!-- 심층분석 분석 기간(연도) 선택 컨트롤 바 -->
+      <div class="gov-card p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-[#dcdfe3]">
+        <div class="flex items-center space-x-2">
+          <span class="text-xs font-bold text-[#071952]">분석 대상 기간:</span>
+          <span id="analytics-scope-badge" class="px-2.5 py-0.5 text-xs font-bold bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">
+            3개년 종합 (2024~2026년 실측 355건 / 466.1억 원)
+          </span>
+        </div>
+        <div class="inline-flex rounded p-1 bg-[#f1f3f5] border border-[#dee2e6] space-x-1" role="group">
+          <button onclick="setAnalyticsYear('all')" id="btn-ana-year-all" class="analytics-year-btn active px-3 py-1.5 text-xs font-bold text-[#1543a3] bg-white rounded shadow-xs transition-all">
+            3개년 종합 (355건)
+          </button>
+          <button onclick="setAnalyticsYear('2026')" id="btn-ana-year-2026" class="analytics-year-btn px-3 py-1.5 text-xs font-medium text-[#495057] hover:text-[#212529] rounded transition-all">
+            2026년 (92건)
+          </button>
+          <button onclick="setAnalyticsYear('2025')" id="btn-ana-year-2025" class="analytics-year-btn px-3 py-1.5 text-xs font-medium text-[#495057] hover:text-[#212529] rounded transition-all">
+            2025년 (136건)
+          </button>
+          <button onclick="setAnalyticsYear('2024')" id="btn-ana-year-2024" class="analytics-year-btn px-3 py-1.5 text-xs font-medium text-[#495057] hover:text-[#212529] rounded transition-all">
+            2024년 (127건)
+          </button>
+        </div>
+      </div>
+
+      <!-- 3개년(2024~2026) 연도별 5억 미만 조달시장 추이 비교 섹션 -->
+      <div class="gov-card p-5 sm:p-6 bg-white border border-[#dcdfe3]">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb] gap-2">
+          <div>
+            <h3 class="gov-section-title">3개년(2024~2026년) 5억 미만 조달시장 규모 추이</h3>
+            <p class="text-xs text-[#8b95a1] mt-0.5">2024년, 2025년, 2026년 연도별 5억 미만 공고 건수(건) 및 합산 예산(억원) 비교</p>
+          </div>
+          <div class="flex items-center space-x-3 text-xs">
+            <span class="flex items-center space-x-1 text-[#4e5968]">
+              <span class="w-3 h-3 bg-[#1543a3] rounded-xs"></span>
+              <span>5억 미만 건수 (건)</span>
+            </span>
+            <span class="flex items-center space-x-1 text-[#4e5968]">
+              <span class="w-3 h-1 bg-[#10b981]"></span>
+              <span>합산 예산 (억원)</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- 3개년 요약 4대 지표 카드 -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          <div class="p-3 bg-[#f8f9fa] border border-[#e9ecef] rounded">
+            <span class="text-[11px] text-[#6c757d] font-medium">3개년 종합 합계</span>
+            <div class="text-base sm:text-lg font-bold text-[#071952] mt-0.5">355건 <span class="text-xs font-normal text-[#495057]">(466.1억)</span></div>
+          </div>
+          <div class="p-3 bg-[#f8f9fa] border border-[#e9ecef] rounded">
+            <span class="text-[11px] text-[#6c757d] font-medium">2024년 실측</span>
+            <div class="text-base sm:text-lg font-bold text-[#071952] mt-0.5">127건 <span class="text-xs font-normal text-[#495057]">(161.5억)</span></div>
+          </div>
+          <div class="p-3 bg-[#f8f9fa] border border-[#e9ecef] rounded">
+            <span class="text-[11px] text-[#6c757d] font-medium">2025년 실측</span>
+            <div class="text-base sm:text-lg font-bold text-[#071952] mt-0.5">136건 <span class="text-xs font-normal text-[#495057]">(174.0억)</span></div>
+          </div>
+          <div class="p-3 bg-[#f8f9fa] border border-[#e9ecef] rounded">
+            <span class="text-[11px] text-[#6c757d] font-medium">2026년 실측</span>
+            <div class="text-base sm:text-lg font-bold text-[#071952] mt-0.5">92건 <span class="text-xs font-normal text-[#495057]">(130.6억)</span></div>
+          </div>
+        </div>
+
+        <div class="relative h-60 sm:h-64 w-full">
+          <canvas id="chart-analytics-yearly-trend"></canvas>
         </div>
       </div>
 
@@ -654,7 +726,7 @@
                 <th class="py-2.5 px-3 text-left">순위</th>
                 <th class="py-2.5 px-3 text-left">수주 기업 / 컨소시엄</th>
                 <th class="py-2.5 px-3 text-center">5억미만 수주 건수</th>
-                <th class="py-2.5 px-3 text-right">총 수주 금액</th>
+                <th class="py-2.5 px-3 text-right">5억미만 총 수주금액</th>
               </tr>
             </thead>
             <tbody id="analytics-winners-body" class="bg-white"></tbody>

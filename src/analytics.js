@@ -198,11 +198,23 @@ function calculateSingleSet(projects, scopeYear = 'all') {
         succRateCount += 1;
       }
       if (p.succBidCorp) {
-        const winner = p.succBidCorp;
-        if (!winnerMap[winner]) winnerMap[winner] = { winner, count: 0, totalWon: 0, under500Count: 0 };
+        const winner = p.succBidCorp.trim();
+        const amt = p.contractAmt || p.succBidAmt || budget || 0;
+        if (!winnerMap[winner]) {
+          winnerMap[winner] = {
+            winner,
+            count: 0,
+            totalWon: 0,
+            under500Count: 0,
+            under500TotalWon: 0
+          };
+        }
         winnerMap[winner].count += 1;
-        winnerMap[winner].totalWon += (p.succBidAmt || budget);
-        if (isUnder500M) winnerMap[winner].under500Count += 1;
+        winnerMap[winner].totalWon += amt;
+        if (isUnder500M) {
+          winnerMap[winner].under500Count += 1;
+          winnerMap[winner].under500TotalWon += amt;
+        }
       }
     }
   });
@@ -256,9 +268,18 @@ function calculateSingleSet(projects, scopeYear = 'all') {
     .sort((a, b) => b.count - a.count)
     .slice(0, 15);
 
-  const topWinners = Object.values(winnerMap)
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 8);
+  // 5억 미만 사업 기준 주요 수주 기업 (5억 미만 수주 건수 및 5억 미만 수주 금액 기준 랭킹)
+  const topUnder500Winners = Object.values(winnerMap)
+    .filter(w => w.under500Count > 0)
+    .sort((a, b) => b.under500Count - a.under500Count || b.under500TotalWon - a.under500TotalWon)
+    .slice(0, 10);
+
+  // 전체 사업 기준 수주 기업 (전체 건수 및 전체 수주 금액 기준 랭킹)
+  const topWinnersAll = Object.values(winnerMap)
+    .sort((a, b) => b.count - a.count || b.totalWon - a.totalWon)
+    .slice(0, 10);
+
+  const topWinners = topUnder500Winners;
 
   return {
     scopeYear,
@@ -285,7 +306,8 @@ function calculateSingleSet(projects, scopeYear = 'all') {
       buckets: under500Buckets,
       categories: under500Categories,
       topAgencies: topUnder500Agencies,
-      contractMethods: under500ContractMethods
+      contractMethods: under500ContractMethods,
+      topWinners: topUnder500Winners
     },
     monthly,
     categories,
@@ -301,7 +323,8 @@ function calculateSingleSet(projects, scopeYear = 'all') {
     winStats: {
       awardedCount: successCount,
       avgSuccRate: Number(avgSuccRate),
-      topWinners
+      topWinners: topUnder500Winners,
+      topWinnersAll
     }
   };
 }
@@ -330,7 +353,8 @@ function calculateAnalytics(projects) {
       under500Count: allResult.under500M.totalCount,
       under500Budget: allResult.under500M.totalBudget,
       under500Ratio: allResult.under500M.countRatio,
-      avgUnder500Budget: allResult.under500M.avgBudget
+      avgUnder500Budget: allResult.under500M.avgBudget,
+      buckets: allResult.under500M.buckets
     },
     {
       year: '2026',
@@ -340,7 +364,8 @@ function calculateAnalytics(projects) {
       under500Count: res2026.under500M.totalCount,
       under500Budget: res2026.under500M.totalBudget,
       under500Ratio: res2026.under500M.countRatio,
-      avgUnder500Budget: res2026.under500M.avgBudget
+      avgUnder500Budget: res2026.under500M.avgBudget,
+      buckets: res2026.under500M.buckets
     },
     {
       year: '2025',
@@ -350,7 +375,8 @@ function calculateAnalytics(projects) {
       under500Count: res2025.under500M.totalCount,
       under500Budget: res2025.under500M.totalBudget,
       under500Ratio: res2025.under500M.countRatio,
-      avgUnder500Budget: res2025.under500M.avgBudget
+      avgUnder500Budget: res2025.under500M.avgBudget,
+      buckets: res2025.under500M.buckets
     },
     {
       year: '2024',
@@ -360,7 +386,8 @@ function calculateAnalytics(projects) {
       under500Count: res2024.under500M.totalCount,
       under500Budget: res2024.under500M.totalBudget,
       under500Ratio: res2024.under500M.countRatio,
-      avgUnder500Budget: res2024.under500M.avgBudget
+      avgUnder500Budget: res2024.under500M.avgBudget,
+      buckets: res2024.under500M.buckets
     }
   ];
 
