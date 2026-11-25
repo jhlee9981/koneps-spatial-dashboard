@@ -50,6 +50,8 @@ body {
   color: var(--krds-text-primary);
   font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   -webkit-font-smoothing: antialiased;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* 모바일 Safe Area */
@@ -307,6 +309,26 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* 한글 단어 단위 줄바꿈 및 모바일 레이아웃 최적화 */
+.break-keep {
+  word-break: keep-all;
+}
+.break-all {
+  word-break: break-all;
+}
+
+/* 터치 가로스크롤 부드럽게 */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 모바일 카드 텍스트 여백 및 가독성 향상 */
+@media (max-width: 640px) {
+  .gov-card {
+    border-radius: 4px;
+  }
 }
 
 /* 터치 제스처 최적화 */

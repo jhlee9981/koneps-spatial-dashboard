@@ -3,11 +3,29 @@
  * [3개년(2024, 2025, 2026) 통합 & 5억 미만 중점 분석 세그먼트]
  */
 
+/**
+ * 공공기관 / 협회 / 학회 / 연구원 / 산학협력단 판별 함수
+ * 순수 민간 기업을 선별하기 위해 공공 성격의 기관을 분류합니다.
+ */
+function isPublicOrg(name) {
+  if (!name) return false;
+  const n = name.trim();
+  // 공기업 / 공공기관 / 국가 연구기관
+  if (/^(한국국토정보공사|국토연구원|공간정보산업진흥원|한국산지보전협회|한국치산기술협회|한국건설기술연구원|한국광기술원|한국지능정보사회진흥원|한국전자기술연구원|한국수자원공사|한국토지주택공사|한국도로공사|한국환경공단|한국농어촌공사|한국임업진흥원)/.test(n)) return true;
+  // 대학 산학협력단, 학회, 협회
+  if (/산학협력단|학회|협회/.test(n)) return true;
+  // 대학교, 대학원, 비영리 재단법인, 비영리 사단법인 ((주), 주식회사가 포함된 일반 영리기업 제외)
+  if (/(대학교|대학원|재단법인|사단법인)/.test(n) && !/주식회사|\(주\)/.test(n)) return true;
+  // 명칭 끝이 공사, 공단, 진흥원, 연구원으로 끝나며 (주)가 아닌 공공/연구기관
+  if (/(공사|공단|진흥원|연구원)$/.test(n) && !/주식회사|\(주\)/.test(n)) return true;
+  return false;
+}
+
 function calculateSingleSet(projects, scopeYear = 'all') {
   if (!projects || projects.length === 0) {
     return {
       summary: { totalCount: 0, totalBudget: 0, avgBudget: 0, maxBudget: 0, maxBudgetTitle: '', successCount: 0, pendingCount: 0, successRatio: 0, uniqueAgencies: 0 },
-      under500M: { totalCount: 0, totalBudget: 0, avgBudget: 0, countRatio: 0, budgetRatio: 0, under100Count: 0, under50Count: 0, buckets: [], categories: [], topAgencies: [], contractMethods: [] },
+      under500M: { totalCount: 0, totalBudget: 0, avgBudget: 0, countRatio: 0, budgetRatio: 0, under100Count: 0, under50Count: 0, buckets: [], categories: [], topAgencies: [], contractMethods: [], topWinners: [], allWinners: [], totalPrivateWinnersCount: 0, totalPublicWinnersCount: 0 },
       monthly: [],
       categories: [],
       orgTypes: [],
@@ -15,7 +33,7 @@ function calculateSingleSet(projects, scopeYear = 'all') {
       budgetRanges: [],
       contractMethods: [],
       topThemes: [],
-      winStats: { awardedCount: 0, avgSuccRate: 0, topWinners: [] }
+      winStats: { awardedCount: 0, avgSuccRate: 0, topWinners: [], allWinners: [], topWinnersAll: [] }
     };
   }
 
@@ -203,6 +221,7 @@ function calculateSingleSet(projects, scopeYear = 'all') {
         if (!winnerMap[winner]) {
           winnerMap[winner] = {
             winner,
+            isPublic: isPublicOrg(winner),
             count: 0,
             totalWon: 0,
             under500Count: 0,
@@ -268,18 +287,20 @@ function calculateSingleSet(projects, scopeYear = 'all') {
     .sort((a, b) => b.count - a.count)
     .slice(0, 15);
 
-  // 5억 미만 사업 기준 주요 수주 기업 (5억 미만 수주 건수 및 5억 미만 수주 금액 기준 랭킹)
-  const topUnder500Winners = Object.values(winnerMap)
+  // 5억 미만 사업 기준 전체 수주 기업 목록 (5억 미만 수주 건수 및 5억 미만 수주 금액 기준 랭킹)
+  const allUnder500Winners = Object.values(winnerMap)
     .filter(w => w.under500Count > 0)
-    .sort((a, b) => b.under500Count - a.under500Count || b.under500TotalWon - a.under500TotalWon)
-    .slice(0, 10);
+    .sort((a, b) => b.under500Count - a.under500Count || b.under500TotalWon - a.under500TotalWon);
+
+  // 5억 미만 민간 기업 전수 목록 (공공기관, 연구원, 대학 산학협력단, 협회/학회 제외)
+  const topUnder500PrivateWinners = allUnder500Winners.filter(w => !w.isPublic);
+
+  // 기본 반환: 민간 기업 전체 목록 (전수 제공)
+  const topUnder500Winners = topUnder500PrivateWinners;
 
   // 전체 사업 기준 수주 기업 (전체 건수 및 전체 수주 금액 기준 랭킹)
   const topWinnersAll = Object.values(winnerMap)
-    .sort((a, b) => b.count - a.count || b.totalWon - a.totalWon)
-    .slice(0, 10);
-
-  const topWinners = topUnder500Winners;
+    .sort((a, b) => b.count - a.count || b.totalWon - a.totalWon);
 
   return {
     scopeYear,
@@ -307,7 +328,10 @@ function calculateSingleSet(projects, scopeYear = 'all') {
       categories: under500Categories,
       topAgencies: topUnder500Agencies,
       contractMethods: under500ContractMethods,
-      topWinners: topUnder500Winners
+      topWinners: topUnder500PrivateWinners, // 민간 기업 전체 목록
+      allWinners: allUnder500Winners,        // 공공기관 포함 전체 목록
+      totalPrivateWinnersCount: topUnder500PrivateWinners.length,
+      totalPublicWinnersCount: allUnder500Winners.length - topUnder500PrivateWinners.length
     },
     monthly,
     categories,
@@ -323,7 +347,8 @@ function calculateSingleSet(projects, scopeYear = 'all') {
     winStats: {
       awardedCount: successCount,
       avgSuccRate: Number(avgSuccRate),
-      topWinners: topUnder500Winners,
+      topWinners: topUnder500PrivateWinners,
+      allWinners: allUnder500Winners,
       topWinnersAll
     }
   };
@@ -403,4 +428,4 @@ function calculateAnalytics(projects) {
   };
 }
 
-module.exports = { calculateAnalytics, calculateSingleSet };
+module.exports = { calculateAnalytics, calculateSingleSet, isPublicOrg };

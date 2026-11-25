@@ -822,36 +822,497 @@ function renderAnalyticsDeepDive() {
  `).join('');
  }
 
- // 6) 수주 기업 현황 테이블 (5억 미만 중점 분석)
-  const winTbody = document.getElementById('analytics-winners-body');
-  const winnersList = u.topWinners || curData.winStats?.topWinners || analyticsData.under500M?.topWinners || [];
-  if (winTbody && winnersList) {
-    winTbody.innerHTML = winnersList.map((w, idx) => {
-      const underCount = w.under500Count !== undefined ? w.under500Count : w.count;
-      const underAmount = w.under500TotalWon !== undefined ? w.under500TotalWon : w.totalWon;
-      const hasOtherTiers = w.count && w.count > underCount;
-      return `
-        <tr class="hover:bg-amber-50/30 transition-colors">
-          <td class="py-2.5 px-3 font-semibold text-slate-400 font-mono">${idx + 1}</td>
-          <td class="py-2.5 px-3 font-bold text-slate-800">${w.winner}</td>
-          <td class="py-2.5 px-3 text-center text-slate-700 font-semibold">${underCount} 건</td>
-          <td class="py-2.5 px-3 text-right">
-            <span class="font-extrabold text-amber-700">${formatMoney(underAmount)}</span>
-            ${hasOtherTiers ? `<span class="block text-[10px] text-slate-400 font-normal">(전체 합계: ${w.count}건 / ${formatMoney(w.totalWon)})</span>` : ''}
-          </td>
-        </tr>
-      `;
-    }).join('');
+  // 6) 수주 기업 현황 테이블 (5억 미만 중점 분석)
+  const winnersList = u.allWinners || curData.winStats?.allWinners || u.topWinners || curData.winStats?.topWinners || analyticsData.under500M?.allWinners || analyticsData.under500M?.topWinners || [];
+  winnerTableState.data = winnersList;
+  winnerTableState.page = 1;
+  renderAnalyticsWinnersTable();
+}
+
+// ==========================================
+// 5억 미만 주요 수주 기업 전수 테이블 관리 상태 및 함수
+// ==========================================
+let winnerTableState = {
+  page: 1,
+  pageSize: 15,
+  searchQuery: '',
+  excludePublic: true,
+  data: []
+};
+
+function toggleWinnerPublicFilter() {
+  winnerTableState.excludePublic = !winnerTableState.excludePublic;
+  winnerTableState.page = 1;
+  const labelEl = document.getElementById('winner-filter-label');
+  const indEl = document.getElementById('winner-filter-indicator');
+  if (labelEl && indEl) {
+    if (winnerTableState.excludePublic) {
+      labelEl.innerText = '공공기관 제외 (민간기업만)';
+      indEl.className = 'inline-block w-2 h-2 rounded-full bg-[#00835f]';
+    } else {
+      labelEl.innerText = '공공기관 포함 (전체 표시)';
+      indEl.className = 'inline-block w-2 h-2 rounded-full bg-[#1543a3]';
+    }
   }
+  renderAnalyticsWinnersTable();
+}
+
+function handleWinnerSearch(val) {
+  winnerTableState.searchQuery = (val || '').trim().toLowerCase();
+  winnerTableState.page = 1;
+  renderAnalyticsWinnersTable();
+}
+
+function changeWinnersPageSize(val) {
+  if (val === 'all') {
+    winnerTableState.pageSize = 999999;
+  } else {
+    winnerTableState.pageSize = parseInt(val, 10) || 15;
+  }
+  winnerTableState.page = 1;
+  renderAnalyticsWinnersTable();
+}
+
+function setWinnersPage(p) {
+  winnerTableState.page = p;
+  renderAnalyticsWinnersTable();
+}
+
+function searchWinnerInProjects(corpName) {
+  if (!corpName) return;
+
+  // 1. 사업 목록 탭으로 전환
+  switchTab('projects');
+
+  // 2. 과거 수주/개찰 실적 데이터가 포함되도록 projectViewSource를 'all'로 전환
+  setProjectViewSource('all');
+
+  // 3. 5억 미만 사업 수주 목록에서 연계되었으므로 5억 미만 구간 필터 및 칩 활성화
+  filterBudgetRange('5억 미만');
+
+  // 4. 연도 필터는 3개년 전체 조회를 위해 'all'로 설정 및 칩 활성화
+  filterProjectYear('all');
+
+  // 5. 카테고리 필터 초기화
+  filterCategory('전체');
+
+  // 6. 북마크 및 실시간 퀵필터 초기화
+  currentFilters.bookmarkOnly = false;
+  currentLiveQuickFilter = 'all';
+
+  // 7. 검색어 설정 및 입력창 동기화
+  currentFilters.q = corpName;
+  const sInput = document.getElementById('input-search') || searchInput;
+  if (sInput) {
+    sInput.value = corpName;
+  }
+  document.getElementById('btn-clear-search')?.classList.remove('hidden');
+
+  // 8. 1페이지로 리셋 및 목록 재렌더링
+  pagination.page = 1;
+  renderProjectsList();
+
+  // 9. 상단 검색 영역으로 부드럽게 스크롤
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function downloadWinnersCsv() {
+  if (!winnerTableState.data || winnerTableState.data.length === 0) {
+    alert('다운로드할 수주 기업 데이터가 없습니다.');
+    return;
+  }
+  let list = winnerTableState.data;
+  if (winnerTableState.excludePublic) {
+    list = list.filter(w => !w.isPublic);
+  }
+  if (winnerTableState.searchQuery) {
+    list = list.filter(w => (w.winner || '').toLowerCase().includes(winnerTableState.searchQuery));
+  }
+
+  const csvRows = [];
+  csvRows.push(['순위', '기업명', '구분', '5억미만 수주건수', '5억미만 총수주금액(원)', '전체 수주건수', '전체 총수주금액(원)'].join(','));
+
+  list.forEach((w, idx) => {
+    const underCount = w.under500Count !== undefined ? w.under500Count : w.count;
+    const underAmount = w.under500TotalWon !== undefined ? w.under500TotalWon : w.totalWon;
+    const corpType = w.isPublic ? '공공기관/연구원' : '민간기업';
+    const row = [
+      idx + 1,
+      `"${(w.winner || '').replace(/"/g, '""')}"`,
+      `"${corpType}"`,
+      underCount,
+      underAmount,
+      w.count || underCount,
+      w.totalWon || underAmount
+    ];
+    csvRows.push(row.join(','));
+  });
+
+  const blob = new Blob(["\uFEFF" + csvRows.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `5억미만_사업_주요수주기업_실적목록_${winnerTableState.excludePublic ? '민간기업' : '전체'}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ==========================================
+// 5억 미만 수주 기업별 인라인 사업 목록 확장 로직
+// ==========================================
+const winnerExpandedRows = {};
+
+function toggleWinnerProjectsInline(idx, corpName, underCount, filterMode = 'under500') {
+  const expandRow = document.getElementById(`winner-expand-row-${idx}`);
+  const contentEl = document.getElementById(`winner-expand-content-${idx}`);
+  const btnEl = document.getElementById(`btn-expand-winner-${idx}`);
+  const arrowEl = document.getElementById(`winner-expand-arrow-${idx}`);
+  if (!expandRow || !contentEl) return;
+
+  const isCurrentlyOpen = !expandRow.classList.contains('hidden');
+
+  // 같은 필터 모드에서 열려있는데 다시 누른 경우 -> 접기
+  if (isCurrentlyOpen && winnerExpandedRows[idx]?.mode === filterMode) {
+    expandRow.classList.add('hidden');
+    delete winnerExpandedRows[idx];
+    if (btnEl) {
+      btnEl.innerHTML = `<span>수주사업 보기 (${underCount}건)</span><span class="text-[9px]">▼</span>`;
+      btnEl.className = 'text-[11px] px-2.5 py-1 border border-[#1543a3] text-[#1543a3] hover:bg-[#1543a3] hover:text-white rounded transition-colors font-medium flex items-center justify-center gap-1 mx-auto bg-white';
+    }
+    if (arrowEl) arrowEl.innerText = '▼';
+    return;
+  }
+
+  // 열기 또는 필터 모드 전환
+  expandRow.classList.remove('hidden');
+  winnerExpandedRows[idx] = { corpName, underCount, mode: filterMode };
+
+  if (btnEl) {
+    btnEl.innerHTML = `<span>목록 접기</span><span class="text-[9px]">▲</span>`;
+    btnEl.className = 'text-[11px] px-2.5 py-1 border border-[#4e5968] bg-[#4e5968] text-white rounded transition-colors font-medium flex items-center justify-center gap-1 mx-auto';
+  }
+  if (arrowEl) arrowEl.innerText = '▲';
+
+  // 해당 기업의 수주 사업 검색 (allProjects + liveBidsData)
+  const normQ = corpName.toLowerCase().trim();
+  const cleanQ = normQ.replace(/주식회사|\(주\)|\s+/g, '');
+
+  const allPool = [
+    ...(allProjects || []).map(p => ({ ...p, isLiveNotice: false })),
+    ...(liveBidsData || []).map(b => ({ ...b, isLiveNotice: true }))
+  ];
+
+  const matchedProjects = allPool.filter(p => {
+    if (p.succBidCorp) {
+      const corp = p.succBidCorp.toLowerCase();
+      if (corp.includes(normQ)) return true;
+      if (cleanQ.length >= 2 && corp.replace(/주식회사|\(주\)|\s+/g, '').includes(cleanQ)) return true;
+    }
+    if (p.bidStatusLabel && p.bidStatusLabel.toLowerCase().includes(normQ)) return true;
+    return false;
+  }).sort((a, b) => new Date(b.bidNtceDt) - new Date(a.bidNtceDt));
+
+  const under500Projects = matchedProjects.filter(p => (p.assignBdgtAmt || p.bsnsBdgtAmt || 0) < 500000000);
+  const displayList = filterMode === 'all' ? matchedProjects : under500Projects;
+  const currentTotalAmount = displayList.reduce((acc, p) => acc + (p.assignBdgtAmt || p.bsnsBdgtAmt || 0), 0);
+  const safeCorpAttr = corpName.replace(/"/g, '&quot;');
+
+  contentEl.innerHTML = `
+    <div class="bg-white p-3.5 sm:p-4 rounded-lg border border-[#cfdfff] shadow-xs space-y-3">
+      <!-- 서브 헤더 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-[#e5e8eb] gap-2">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="font-bold text-sm text-[#191f28] flex items-center gap-1.5 break-keep">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-[#1543a3] shrink-0"></span>
+            ${corpName} 수주 실적 상세 내역
+          </span>
+          <span class="text-xs px-2.5 py-0.5 rounded font-semibold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] shrink-0 whitespace-nowrap">
+            ${filterMode === 'all' ? '전체 사업' : '5억 미만 실적'}: ${displayList.length}건 (${formatMoney(currentTotalAmount)})
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <!-- 5억 미만 vs 전체 토글 (다른 구간 실적이 있는 경우) -->
+          ${matchedProjects.length > under500Projects.length ? `
+            <div class="inline-flex rounded border border-[#ced4da] p-0.5 bg-[#f8f9fa] text-xs shrink-0">
+              <button type="button" onclick="toggleWinnerProjectsInline(${idx}, '${safeCorpAttr}', ${underCount}, 'under500')" class="px-2.5 py-1 rounded font-medium transition-colors whitespace-nowrap ${filterMode === 'under500' ? 'bg-[#1543a3] text-white font-bold' : 'text-[#4e5968] hover:text-[#191f28]'}">
+                5억 미만 (${under500Projects.length}건)
+              </button>
+              <button type="button" onclick="toggleWinnerProjectsInline(${idx}, '${safeCorpAttr}', ${underCount}, 'all')" class="px-2.5 py-1 rounded font-medium transition-colors whitespace-nowrap ${filterMode === 'all' ? 'bg-[#1543a3] text-white font-bold' : 'text-[#4e5968] hover:text-[#191f28]'}">
+                전체 실적 (${matchedProjects.length}건)
+              </button>
+            </div>
+          ` : ''}
+
+          <!-- 사업목록 메뉴 이동 버튼 -->
+          <button type="button" onclick="searchWinnerInProjects('${safeCorpAttr}')" class="text-xs px-2.5 py-1 border border-[#ced4da] rounded hover:border-[#1543a3] hover:text-[#1543a3] text-[#4e5968] bg-white transition-colors flex items-center gap-1 shrink-0 whitespace-nowrap" title="사업 목록 메뉴에서 필터링하여 보기">
+            <span>사업목록 메뉴에서 열기</span>
+            <span class="text-[10px]">↗</span>
+          </button>
+
+          <!-- 닫기 버튼 -->
+          <button type="button" onclick="toggleWinnerProjectsInline(${idx}, '${safeCorpAttr}', ${underCount}, '${filterMode}')" class="text-xs px-2 py-1 text-[#8b95a1] hover:text-[#191f28] rounded border border-transparent hover:border-[#ced4da] shrink-0 whitespace-nowrap">
+            닫기 ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- 서브 테이블 -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-xs">
+          <thead>
+            <tr class="bg-[#f8fafc] text-[#4e5968] border-b border-[#e5e8eb]">
+              <th class="py-2 px-3 text-center w-16">연도</th>
+              <th class="py-2 px-3 text-left w-28">공고번호</th>
+              <th class="py-2 px-3 text-left">사업명 / 공고명</th>
+              <th class="py-2 px-3 text-left w-40">수요기관 (지자체)</th>
+              <th class="py-2 px-3 text-center w-24">계약방법</th>
+              <th class="py-2 px-3 text-right w-28">배정예산</th>
+              <th class="py-2 px-3 text-center w-24">예산구간</th>
+              <th class="py-2 px-3 text-center w-16">상세</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#e5e8eb]">
+            ${displayList.length === 0 ? `
+              <tr>
+                <td colspan="8" class="py-6 text-center text-[#8b95a1]">해당 조건의 수주 사업 내역이 없습니다.</td>
+              </tr>
+            ` : displayList.map(p => {
+              const tier = getBudgetTier(p.assignBdgtAmt);
+              const budgetVal = p.assignBdgtAmt || p.bsnsBdgtAmt || 0;
+              const yearText = p.year ? `${p.year}년` : (p.bidNtceDt ? `${p.bidNtceDt.substring(0, 4)}년` : '실적');
+              const safeNo = p.bidNtceNo || '';
+              return `
+                <tr class="hover:bg-[#f1f5f9] transition-colors">
+                  <td class="py-2.5 px-3 text-center font-semibold text-[#4e5968]">${yearText}</td>
+                  <td class="py-2.5 px-3 font-mono text-[11px] text-[#64748b]">${safeNo}</td>
+                  <td class="py-2.5 px-3 font-medium text-[#191f28]">
+                    <button type="button" onclick="openDetailModalById('${safeNo}')" class="hover:text-[#1543a3] hover:underline text-left line-clamp-1 font-semibold" title="${p.bidNtceNm}">
+                      ${p.bidNtceNm}
+                    </button>
+                  </td>
+                  <td class="py-2.5 px-3 text-[#4e5968] truncate max-w-[160px]" title="${p.dminsttNm || p.ntceInsttNm}">
+                    ${p.dminsttNm || p.ntceInsttNm || '-'}
+                  </td>
+                  <td class="py-2.5 px-3 text-center text-[#64748b] text-[11px]">
+                    ${p.cntrctCnclsMthdNm || p.noticeType || '일반경쟁'}
+                  </td>
+                  <td class="py-2.5 px-3 text-right font-bold text-[#1543a3]">
+                    ${formatMoney(budgetVal)}
+                  </td>
+                  <td class="py-2.5 px-3 text-center">
+                    <span class="px-1.5 py-0.5 text-[10px] font-semibold rounded border ${tier.color}">
+                      ${tier.label}
+                    </span>
+                  </td>
+                  <td class="py-2.5 px-3 text-center">
+                    <button type="button" onclick="openDetailModalById('${safeNo}')" class="px-2 py-0.5 text-[11px] font-medium bg-[#f1f5f9] hover:bg-[#e2e8f0] text-[#334155] rounded border border-[#cbd5e1] transition-colors">
+                      보기
+                    </button>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderAnalyticsWinnersTable() {
+  const winTbody = document.getElementById('analytics-winners-body');
+  if (!winTbody) return;
+
+  const allData = winnerTableState.data || [];
+  
+  // 1. 공공기관 필터 적용
+  let filtered = winnerTableState.excludePublic
+    ? allData.filter(w => !w.isPublic)
+    : allData;
+
+  // 2. 검색어 필터 적용
+  if (winnerTableState.searchQuery) {
+    filtered = filtered.filter(w => (w.winner || '').toLowerCase().includes(winnerTableState.searchQuery));
+  }
+
+  // 상단 뱃지 갱신
+  const totalBadge = document.getElementById('winners-total-badge');
+  if (totalBadge) {
+    const pubCount = allData.filter(w => w.isPublic).length;
+    const privCount = allData.length - pubCount;
+    if (winnerTableState.excludePublic) {
+      totalBadge.innerText = `민간 ${privCount}개사 전수`;
+      totalBadge.className = 'text-xs px-2.5 py-0.5 rounded font-semibold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff]';
+    } else {
+      totalBadge.innerText = `전체 ${allData.length}개사 (민간 ${privCount} + 공공 ${pubCount})`;
+      totalBadge.className = 'text-xs px-2.5 py-0.5 rounded font-semibold bg-[#f8f9fa] text-[#4e5968] border border-[#ced4da]';
+    }
+  }
+
+  const totalItems = filtered.length;
+  const pageSize = winnerTableState.pageSize;
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+  
+  if (winnerTableState.page > totalPages) {
+    winnerTableState.page = totalPages;
+  }
+  const page = winnerTableState.page;
+  const startIdx = (page - 1) * pageSize;
+  const endIdx = Math.min(startIdx + pageSize, totalItems);
+  const pagedList = filtered.slice(startIdx, endIdx);
+
+  // 상단 페이지 정보
+  const pageInfoEl = document.getElementById('winners-page-info');
+  if (pageInfoEl) {
+    if (pageSize >= 999999) {
+      pageInfoEl.innerText = `전체보기 (총 ${totalItems}개사)`;
+    } else {
+      pageInfoEl.innerText = `${page} / ${totalPages} 페이지 (총 ${totalItems}개사)`;
+    }
+  }
+
+  // 하단 요약 문구
+  const summaryTextEl = document.getElementById('winners-summary-text');
+  if (summaryTextEl) {
+    if (totalItems === 0) {
+      summaryTextEl.innerText = '검색된 기업이 없습니다.';
+    } else if (pageSize >= 999999) {
+      summaryTextEl.innerText = `전체 ${totalItems}개 기업 목록 표시 중`;
+    } else {
+      summaryTextEl.innerText = `총 ${totalItems}개 기업 중 ${startIdx + 1} ~ ${endIdx}번째 표시`;
+    }
+  }
+
+  if (pagedList.length === 0) {
+    winTbody.innerHTML = `
+      <tr>
+        <td colspan="7" class="py-8 text-center text-[#8b95a1]">
+          ${winnerTableState.searchQuery ? `'${winnerTableState.searchQuery}'에 일치하는 기업이 없습니다.` : '수주 기업 데이터가 없습니다.'}
+        </td>
+      </tr>
+    `;
+    renderWinnersPagination(0, 1, 15);
+    return;
+  }
+
+  winTbody.innerHTML = pagedList.map((w, idx) => {
+    const globalRank = startIdx + idx + 1;
+    const underCount = w.under500Count !== undefined ? w.under500Count : w.count;
+    const underAmount = w.under500TotalWon !== undefined ? w.under500TotalWon : w.totalWon;
+    const hasOtherTiers = w.count && w.count > underCount;
+    const isPublic = !!w.isPublic;
+    const safeWinner = (w.winner || '').replace(/"/g, '&quot;');
+
+    const isExpanded = !!winnerExpandedRows[idx];
+    const expandMode = winnerExpandedRows[idx]?.mode || 'under500';
+
+    return `
+      <tr id="winner-row-${idx}" class="hover:bg-[#f8f9fa] transition-colors border-b border-[#e5e8eb]">
+        <td class="py-2.5 px-3 font-semibold text-[#8b95a1] font-mono text-center">${globalRank}</td>
+        <td class="py-2.5 px-3">
+          <button type="button" onclick="toggleWinnerProjectsInline(${idx}, '${safeWinner}', ${underCount})" class="font-bold text-[#191f28] hover:text-[#1543a3] hover:underline text-left transition-colors flex items-center gap-1.5" title="클릭하여 수주 사업 목록 펼치기">
+            <span>${w.winner}</span>
+            <span id="winner-expand-arrow-${idx}" class="text-[10px] text-[#8b95a1] font-bold">${isExpanded ? '▲' : '▼'}</span>
+          </button>
+        </td>
+        <td class="py-2.5 px-3 text-center">
+          ${isPublic 
+            ? `<span class="inline-block px-2 py-0.5 text-[11px] font-semibold bg-[#f3f4f6] text-[#4b5563] rounded border border-[#e5e7eb]">공공기관</span>`
+            : `<span class="inline-block px-2 py-0.5 text-[11px] font-semibold bg-[#e6f6f1] text-[#00835f] rounded border border-[#b2e7d7]">민간기업</span>`
+          }
+        </td>
+        <td class="py-2.5 px-3 text-center text-[#191f28] font-semibold">${underCount} 건</td>
+        <td class="py-2.5 px-3 text-right">
+          <span class="font-bold text-[#1543a3]">${formatMoney(underAmount)}</span>
+        </td>
+        <td class="py-2.5 px-3 text-right">
+          ${hasOtherTiers ? `
+            <span class="text-xs text-[#4e5968] font-medium">${w.count}건 / ${formatMoney(w.totalWon)}</span>
+          ` : `
+            <span class="text-xs text-[#8b95a1]">5억미만 전담</span>
+          `}
+        </td>
+        <td class="py-2.5 px-3 text-center">
+          <button type="button" id="btn-expand-winner-${idx}" onclick="toggleWinnerProjectsInline(${idx}, '${safeWinner}', ${underCount})" class="text-[11px] px-2.5 py-1 border ${isExpanded ? 'border-[#4e5968] bg-[#4e5968] text-white' : 'border-[#1543a3] text-[#1543a3] bg-white hover:bg-[#1543a3] hover:text-white'} rounded transition-colors font-medium flex items-center justify-center gap-1 mx-auto">
+            <span>${isExpanded ? '목록 접기' : `수주사업 보기 (${underCount}건)`}</span>
+            <span class="text-[9px]">${isExpanded ? '▲' : '▼'}</span>
+          </button>
+        </td>
+      </tr>
+      <tr id="winner-expand-row-${idx}" class="${isExpanded ? '' : 'hidden'} bg-[#f8fafc] border-b-2 border-[#1543a3]/30">
+        <td colspan="7" class="p-3 sm:p-4">
+          <div id="winner-expand-content-${idx}">
+            <!-- 동적 인라인 사업 목록 삽입 영역 -->
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  renderWinnersPagination(totalItems, page, pageSize);
+}
+
+function renderWinnersPagination(totalItems, currentPage, pageSize) {
+  const container = document.getElementById('winners-page-buttons');
+  if (!container) return;
+  if (pageSize >= 999999 || totalItems <= pageSize) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const totalPages = Math.ceil(totalItems / pageSize);
+  let html = '';
+
+  // 이전 버튼
+  html += `
+    <button type="button" onclick="setWinnersPage(${Math.max(1, currentPage - 1)})" ${currentPage === 1 ? 'disabled class="px-2 py-1 border border-[#e5e8eb] rounded text-[#8b95a1] bg-[#f8f9fa] cursor-not-allowed"' : 'class="px-2 py-1 border border-[#ced4da] rounded text-[#333d4b] hover:bg-[#f8f9fa]"'}>
+      이전
+    </button>
+  `;
+
+  // 페이지 번호 (최대 5개 표시)
+  let startPage = Math.max(1, currentPage - 2);
+  let endPage = Math.min(totalPages, startPage + 4);
+  if (endPage - startPage < 4) {
+    startPage = Math.max(1, endPage - 4);
+  }
+
+  for (let p = startPage; p <= endPage; p++) {
+    if (p === currentPage) {
+      html += `<button type="button" class="px-2.5 py-1 font-bold text-white bg-[#1543a3] rounded border border-[#1543a3]">${p}</button>`;
+    } else {
+      html += `<button type="button" onclick="setWinnersPage(${p})" class="px-2.5 py-1 text-[#333d4b] hover:bg-[#f8f9fa] rounded border border-[#ced4da]">${p}</button>`;
+    }
+  }
+
+  // 다음 버튼
+  html += `
+    <button type="button" onclick="setWinnersPage(${Math.min(totalPages, currentPage + 1)})" ${currentPage === totalPages ? 'disabled class="px-2 py-1 border border-[#e5e8eb] rounded text-[#8b95a1] bg-[#f8f9fa] cursor-not-allowed"' : 'class="px-2 py-1 border border-[#ced4da] rounded text-[#333d4b] hover:bg-[#f8f9fa]"'}>
+      다음
+    </button>
+  `;
+
+  container.innerHTML = html;
 }
 
 function searchTheme(theme) {
- switchTab('projects');
- if (searchInput) searchInput.value = theme;
- currentFilters.q = theme;
- document.getElementById('btn-clear-search')?.classList.remove('hidden');
- pagination.page = 1;
- renderProjectsList();
+  if (!theme) return;
+  switchTab('projects');
+  setProjectViewSource('all');
+  filterCategory('전체');
+  currentFilters.bookmarkOnly = false;
+  currentLiveQuickFilter = 'all';
+
+  const sInput = document.getElementById('input-search') || searchInput;
+  if (sInput) sInput.value = theme;
+  currentFilters.q = theme;
+  document.getElementById('btn-clear-search')?.classList.remove('hidden');
+  pagination.page = 1;
+  renderProjectsList();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // 5. 사업 목록 렌더링 & 필터링
@@ -887,15 +1348,40 @@ function getFilteredProjects() {
  else if (bRange === '3억 ~ 5억') list = list.filter(p => p.assignBdgtAmt >= 300000000 && p.assignBdgtAmt < 500000000);
  else if (bRange === '5억 이상') list = list.filter(p => p.assignBdgtAmt >= 500000000);
 
- if (currentFilters.q) {
- const q = currentFilters.q.toLowerCase().trim();
- list = list.filter(p => 
- (p.bidNtceNm && p.bidNtceNm.toLowerCase().includes(q)) ||
- (p.dminsttNm && p.dminsttNm.toLowerCase().includes(q)) ||
- (p.ntceInsttNm && p.ntceInsttNm.toLowerCase().includes(q)) ||
- (p.bidNtceNo && p.bidNtceNo.includes(q))
- );
- }
+  if (currentFilters.q) {
+    const q = currentFilters.q.toLowerCase().trim();
+    const cleanQ = q.replace(/주식회사|\(주\)|\s+/g, '');
+    list = list.filter(p => {
+      // 1. 공고명, 수요기관, 공고기관, 공고번호 기본 검색
+      if (p.bidNtceNm && p.bidNtceNm.toLowerCase().includes(q)) return true;
+      if (p.dminsttNm && p.dminsttNm.toLowerCase().includes(q)) return true;
+      if (p.ntceInsttNm && p.ntceInsttNm.toLowerCase().includes(q)) return true;
+      if (p.bidNtceNo && p.bidNtceNo.includes(q)) return true;
+
+      // 2. 수주 기업 / 낙찰 기업 검색 (succBidCorp, bidStatusLabel)
+      if (p.succBidCorp) {
+        const corp = p.succBidCorp.toLowerCase();
+        if (corp.includes(q)) return true;
+        if (cleanQ.length >= 2 && corp.replace(/주식회사|\(주\)|\s+/g, '').includes(cleanQ)) return true;
+      }
+      if (p.bidStatusLabel && p.bidStatusLabel.toLowerCase().includes(q)) return true;
+
+      // 3. 연계 크로스매칭 이력 검색
+      if (p.crossMatch) {
+        if (p.crossMatch.matchedCorp && p.crossMatch.matchedCorp.toLowerCase().includes(q)) return true;
+        if (Array.isArray(p.crossMatch.history)) {
+          if (p.crossMatch.history.some(h => (h.corp && h.corp.toLowerCase().includes(q)) || (h.text && h.text.toLowerCase().includes(q)))) return true;
+        }
+      }
+
+      // 4. 주요 테마 키워드 검색
+      if (Array.isArray(p.keyThemes)) {
+        if (p.keyThemes.some(th => th.toLowerCase().includes(q))) return true;
+      }
+
+      return false;
+    });
+  }
 
  if (currentFilters.category !== '전체') {
  list = list.filter(p => p.category === currentFilters.category);
@@ -985,9 +1471,12 @@ function renderProjectsList() {
  ? `<span class="px-1.5 py-0.2 rounded bg-cyan-600 text-white font-bold text-[9px]">LIVE</span>`
  : `<span class="px-1.5 py-0.2 rounded bg-slate-600 text-white font-bold text-[9px]">${p.year ? p.year + '년' : '실적'}</span>`;
 
- const matchPill = p.crossMatch && p.crossMatch.matched
- ? `<span class="ml-1 px-1.5 py-0.2 rounded bg-indigo-100 text-indigo-800 font-bold text-[9px]" title="전년도 수주사: ${p.crossMatch.incumbentCompany}">전년: ${p.crossMatch.incumbentCompany ? p.crossMatch.incumbentCompany.slice(0, 6) : '전년매칭'}</span>`
- : '';
+    const matchPill = p.crossMatch && p.crossMatch.matched
+      ? `<span class="ml-1 px-1.5 py-0.2 rounded bg-indigo-100 text-indigo-800 font-bold text-[9px]" title="전년도 수주사: ${p.crossMatch.incumbentCompany}">전년: ${p.crossMatch.incumbentCompany ? p.crossMatch.incumbentCompany.slice(0, 6) : '전년매칭'}</span>`
+      : '';
+    const winnerBadge = p.succBidCorp
+      ? `<span class="ml-1.5 px-1.5 py-0.2 rounded text-[10px] font-semibold bg-[#e6f6f1] text-[#00835f] border border-[#b2e7d7]">수주: ${p.succBidCorp}</span>`
+      : '';
 
  return `
  <tr class="hover:bg-[#f4f8fe] transition-colors cursor-pointer" onclick="openDetailModalById('${p.bidNtceNo}')">
@@ -1007,7 +1496,7 @@ function renderProjectsList() {
  <div class="flex items-center space-x-1.5 mb-1 flex-wrap gap-y-1">
  <span class="px-1.5 py-0.2 text-[10px] font-bold rounded border ${tier.color}">${tier.label}</span>
  <span class="font-bold text-slate-800 hover:text-amber-600 transition-colors line-clamp-1">${p.bidNtceNm}</span>
- ${matchPill}
+ ${matchPill} ${winnerBadge}
  </div>
  <div class="flex items-center space-x-1.5">
  ${(p.keyThemes || []).slice(0, 3).map(th => `<span class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.2 rounded">${th}</span>`).join('')}
@@ -2076,7 +2565,7 @@ function renderRecurringFamiliesList(families) {
  ${f.isUnder500M ? '<span class="px-2 py-0.5 text-xs font-bold rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200">5억 미만</span>' : '<span class="px-2 py-0.5 text-xs font-medium rounded-lg bg-slate-100 text-slate-700">5억 이상</span>'}
  ${statusBadgeHtml}
  </div>
- <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">${f.familyName}</h3>
+ <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug break-keep">${f.familyName}</h3>
  </div>
 
  <!-- 2027년 재발주 일정 뱃지 -->
@@ -2183,7 +2672,7 @@ function renderRecurringFamiliesList(families) {
  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
  <div class="flex items-start space-x-2 text-xs text-slate-700 bg-amber-50/60 p-3 rounded-xl border border-amber-200/60 flex-1">
  
- <div class="leading-relaxed">
+ <div class="leading-relaxed break-keep">
  <strong class="font-bold text-amber-900">수주 공략 제언:</strong> ${f.strategicAction}
  </div>
  </div>
