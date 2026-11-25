@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#1543a3">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>공간정보 조달 포털 - 나라장터 발주 및 계약 데이터 분석</title>
+  <title>YESLT - 나라장터 발주 및 계약 자료 검토</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -53,18 +53,19 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <!-- 로고 및 서비스 타이틀 (공공기관 표준 스타일) -->
       <div class="flex items-center space-x-3.5">
-        <div class="w-9 h-9 bg-[#1543a3] rounded flex flex-col items-center justify-center text-white shadow-xs shrink-0">
+        <div
+          class="w-9 h-9 bg-[#1543a3] rounded flex flex-col items-center justify-center text-white shadow-xs shrink-0">
           <span class="text-[10px] font-bold leading-tight tracking-tight">공간</span>
           <span class="text-[10px] font-black leading-tight tracking-wider">정보</span>
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <h1 class="text-base sm:text-lg font-extrabold text-[#071952] tracking-tight">공간정보 데이터 분석 포털</h1>
+            <h1 class="text-base sm:text-lg font-extrabold text-[#071952] tracking-tight">공간정보관련 발주사업 검토</h1>
             <span class="px-2 py-0.5 text-[11px] font-bold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] rounded">
               5억 미만 중점
             </span>
           </div>
-          <p class="text-[11px] text-[#6c757d] hidden sm:block">조달청 나라장터 2024~2026년 3개년 계약 실적 및 실시간 입찰 데이터</p>
+          <p class="text-[11px] text-[#6c757d] hidden sm:block">조달청 나라장터 2024~2026년 3개년 계약 실적 및 입찰 자료</p>
         </div>
       </div>
 
@@ -161,7 +162,8 @@
         <div class="gov-card p-4 sm:p-5 relative border-t-2 border-t-[#1543a3]">
           <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">5억 미만 사업</div>
           <div class="flex items-baseline space-x-1">
-            <span id="kpi-under500-count" class="text-2xl sm:text-3xl font-extrabold text-[#1543a3] tracking-tight">--</span>
+            <span id="kpi-under500-count"
+              class="text-2xl sm:text-3xl font-extrabold text-[#1543a3] tracking-tight">--</span>
             <span class="text-xs sm:text-sm text-[#4e5968] font-semibold">건</span>
           </div>
           <p id="kpi-under500-ratio" class="text-[11px] sm:text-xs text-[#6c757d] mt-2 font-medium">전체 대비 --% 점유</p>
@@ -170,7 +172,8 @@
         <div class="gov-card p-4 sm:p-5 relative border-t-2 border-t-[#00835f]">
           <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">5억 미만 총 배정예산</div>
           <div class="flex items-baseline space-x-1">
-            <span id="kpi-under500-budget" class="text-2xl sm:text-3xl font-extrabold text-[#191f28] tracking-tight">--</span>
+            <span id="kpi-under500-budget"
+              class="text-2xl sm:text-3xl font-extrabold text-[#191f28] tracking-tight">--</span>
             <span class="text-xs sm:text-sm text-[#00835f] font-bold">억 원</span>
           </div>
           <p id="kpi-under500-raw-budget" class="text-[11px] sm:text-xs text-[#8b95a1] mt-2">합산 배정예산</p>
@@ -179,7 +182,8 @@
         <div class="gov-card p-4 sm:p-5 relative border-t-2 border-t-[#1d58cc]">
           <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">건당 평균 사업비</div>
           <div class="flex items-baseline space-x-1">
-            <span id="kpi-under500-avg" class="text-2xl sm:text-3xl font-extrabold text-[#1d58cc] tracking-tight">--</span>
+            <span id="kpi-under500-avg"
+              class="text-2xl sm:text-3xl font-extrabold text-[#1d58cc] tracking-tight">--</span>
             <span class="text-xs sm:text-sm text-[#1d58cc] font-bold">억 원</span>
           </div>
           <p class="text-[11px] sm:text-xs text-[#8b95a1] mt-2">5억 미만 건당 평균액</p>
@@ -188,7 +192,8 @@
         <div class="gov-card p-4 sm:p-5 relative border-t-2 border-t-[#495057]">
           <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">1억 미만 소액사업</div>
           <div class="flex items-baseline space-x-1">
-            <span id="kpi-under100-count" class="text-2xl sm:text-3xl font-extrabold text-[#343a40] tracking-tight">--</span>
+            <span id="kpi-under100-count"
+              class="text-2xl sm:text-3xl font-extrabold text-[#343a40] tracking-tight">--</span>
             <span class="text-xs sm:text-sm text-[#4e5968] font-semibold">건</span>
           </div>
           <p id="kpi-under50-detail" class="text-[11px] sm:text-xs text-[#495057] font-medium mt-2">5천만 미만 수의계약: --건</p>
@@ -199,10 +204,12 @@
       <div class="gov-card p-4 sm:p-5">
         <div class="mb-4 pb-2 border-b border-[#e5e8eb] flex items-center justify-between">
           <div>
-            <h2 class="gov-section-title">5억 미만 4대 예산 구간별 사업 분포</h2>
-            <p class="text-xs text-[#6c757d] mt-0.5">초소액 수의계약부터 중소기업 핵심 중형 프로젝트까지 세부 구간 비교</p>
+            <h2 class="gov-section-title">5억 미만 구간별 사업 분포</h2>
+            <p class="text-xs text-[#6c757d] mt-0.5">소액 수의계약, 중소기업대상 프로젝트까지 세부 구간 비교</p>
           </div>
-          <span class="text-xs font-semibold px-2 py-0.5 bg-[#f1f3f5] text-[#495057] rounded border border-[#dee2e6]">구간별 비교</span>
+          <span
+            class="text-xs font-semibold px-2 py-0.5 bg-[#f1f3f5] text-[#495057] rounded border border-[#dee2e6]">구간별
+            비교</span>
         </div>
         <div id="under500-buckets-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <!-- 동적 주입 -->
@@ -212,7 +219,8 @@
       <!-- 차트 그리드 1: 5억 미만 세부 구간 분포 & 월별 발주 추이 -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div class="lg:col-span-2 gov-card p-4 sm:p-5 flex flex-col justify-between">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb] gap-2">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb] gap-2">
             <div>
               <h2 id="chart-monthly-title" class="gov-section-title">5억 미만 발주 추이 (1월 ~ 12월 시즌별 분석)</h2>
               <p id="chart-monthly-subtitle" class="text-xs text-[#8b95a1] mt-0.5">월별 발주 건수(막대) 및 총 배정예산(선 그래프)</p>
@@ -253,7 +261,9 @@
               <h2 class="gov-section-title">5억 미만 최다 발주 지자체 Top 10</h2>
               <p class="text-xs text-[#8b95a1] mt-0.5">공간정보 사업을 활발히 발주하는 기초 시·군·구 순위</p>
             </div>
-            <span class="text-xs font-semibold px-2 py-0.5 bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">발주 건수 기준</span>
+            <span
+              class="text-xs font-semibold px-2 py-0.5 bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">발주
+              건수 기준</span>
           </div>
           <div class="relative h-64 sm:h-72 w-full">
             <canvas id="chart-under500-top-agencies"></canvas>
@@ -266,7 +276,9 @@
               <h2 class="gov-section-title">5억 미만 계약 체결 방식</h2>
               <p class="text-xs text-[#8b95a1] mt-0.5">수의계약(소액) vs 제한경쟁 vs 협상에 의한 계약</p>
             </div>
-            <span class="text-xs font-semibold px-2 py-0.5 bg-[#f1f3f5] rounded text-[#495057] border border-[#dee2e6]">계약 방법</span>
+            <span
+              class="text-xs font-semibold px-2 py-0.5 bg-[#f1f3f5] rounded text-[#495057] border border-[#dee2e6]">계약
+              방법</span>
           </div>
           <div class="relative h-64 sm:h-72 w-full">
             <canvas id="chart-under500-contracts"></canvas>
@@ -281,7 +293,8 @@
             <h2 class="gov-section-title">주목할 만한 5억 미만 핵심 프로젝트 (3억 ~ 5억 구간)</h2>
             <p class="text-xs text-[#8b95a1] mt-0.5">중소기업 참여 최적화 및 기술평가 중심 알짜 사업</p>
           </div>
-          <button onclick="switchTab('projects')" class="text-xs text-[#1543a3] hover:underline font-semibold">전체 목록 보기 →</button>
+          <button onclick="switchTab('projects')" class="text-xs text-[#1543a3] hover:underline font-semibold">전체 목록 보기
+            →</button>
         </div>
         <div id="highlight-under500-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3.5"></div>
       </div>
@@ -290,7 +303,8 @@
     <!-- TAB 2: 사업 목록 탐색기 (PROJECTS LIST & LIVE BIDS) -->
     <section id="tab-projects" class="tab-content space-y-4 hidden">
       <!-- 상단 실시간 라이브 & 과거 실적 3단 뷰 모드 전환 배너 (단정한 data.go.kr 스타일) -->
-      <div class="gov-card p-4 sm:p-5 bg-white border border-[#dcdfe3] flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div
+        class="gov-card p-4 sm:p-5 bg-white border border-[#dcdfe3] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div class="flex items-center space-x-2 mb-1">
             <span class="px-2 py-0.5 text-xs font-bold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] rounded">
@@ -324,8 +338,7 @@
       </div>
 
       <!-- 실시간 라이브 공고 요약 대시보드 스트립 -->
-      <div id="live-bids-summary-strip"
-        class="grid grid-cols-2 lg:grid-cols-4 gap-3 bg-white p-3.5 sm:p-4 gov-card">
+      <div id="live-bids-summary-strip" class="grid grid-cols-2 lg:grid-cols-4 gap-3 bg-white p-3.5 sm:p-4 gov-card">
         <div class="p-3 bg-[#f8f9fa] rounded border border-[#dee2e6]">
           <span class="text-[11px] font-semibold text-[#495057] block mb-0.5">현재 접수중 5억 미만</span>
           <div class="flex items-baseline space-x-1">
@@ -388,7 +401,8 @@
 
             <div class="hidden sm:flex border border-[#ced4da] rounded overflow-hidden p-0.5 bg-[#f8f9fa]">
               <button id="btn-view-card" onclick="setViewMode('card')"
-                class="px-2.5 py-1.5 rounded text-xs text-[#6c757d] hover:text-[#212529] transition-colors" title="카드 뷰">
+                class="px-2.5 py-1.5 rounded text-xs text-[#6c757d] hover:text-[#212529] transition-colors"
+                title="카드 뷰">
                 카드
               </button>
               <button id="btn-view-table" onclick="setViewMode('table')"
@@ -411,19 +425,15 @@
           <div id="live-quick-filters" class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
             <span class="text-[#071952] font-bold shrink-0 px-1 py-0.5">빠른필터:</span>
             <button onclick="setLiveQuickFilter('all')"
-              class="live-chip active shrink-0 px-2.5 py-1 rounded text-xs font-semibold"
-              data-live-filter="all">전체 실시간 (<span id="badge-live-pill-all">12</span>)</button>
-            <button onclick="setLiveQuickFilter('dday3')"
-              class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              class="live-chip active shrink-0 px-2.5 py-1 rounded text-xs font-semibold" data-live-filter="all">전체 실시간
+              (<span id="badge-live-pill-all">12</span>)</button>
+            <button onclick="setLiveQuickFilter('dday3')" class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-live-filter="dday3">마감임박 D-3 (<span id="badge-live-pill-dday3">4</span>)</button>
-            <button onclick="setLiveQuickFilter('small')"
-              class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="setLiveQuickFilter('small')" class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-live-filter="small">소액 수의시담 (<span id="badge-live-pill-small">5</span>)</button>
-            <button onclick="setLiveQuickFilter('single_corp')"
-              class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="setLiveQuickFilter('single_corp')" class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-live-filter="single_corp">중소기업 단독(1~3억) (<span id="badge-live-pill-single">4</span>)</button>
-            <button onclick="setLiveQuickFilter('matched')"
-              class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="setLiveQuickFilter('matched')" class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-live-filter="matched">전년도 실적 연계 매칭 (<span id="badge-live-pill-matched">5</span>)</button>
           </div>
 
@@ -432,16 +442,13 @@
             class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
             <span class="text-[#071952] font-bold shrink-0 px-1 py-0.5">발주연도:</span>
             <button onclick="filterProjectYear('all')"
-              class="filter-year-chip active shrink-0 px-2.5 py-1 rounded text-xs font-semibold"
-              data-year="all">3개년 전체 (<span id="badge-year-all-count">419</span>)</button>
-            <button onclick="filterProjectYear('2026')"
-              class="filter-year-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              class="filter-year-chip active shrink-0 px-2.5 py-1 rounded text-xs font-semibold" data-year="all">3개년 전체
+              (<span id="badge-year-all-count">419</span>)</button>
+            <button onclick="filterProjectYear('2026')" class="filter-year-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-year="2026">2026년 (<span id="badge-year-2026-count">109</span>)</button>
-            <button onclick="filterProjectYear('2025')"
-              class="filter-year-chip shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="filterProjectYear('2025')" class="filter-year-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-year="2025">2025년 (<span id="badge-year-2025-count">156</span>)</button>
-            <button onclick="filterProjectYear('2024')"
-              class="filter-year-chip shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="filterProjectYear('2024')" class="filter-year-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-year="2024">2024년 (<span id="badge-year-2024-count">154</span>)</button>
           </div>
 
@@ -451,41 +458,31 @@
               class="filter-budget-chip active shrink-0 px-2.5 py-1 rounded text-xs font-semibold"
               data-budget="5억 미만">5억 미만 전체</button>
             <button onclick="filterBudgetRange('5천만 미만')"
-              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
-              data-budget="5천만 미만">5천만 미만 (초소액)</button>
+              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs" data-budget="5천만 미만">5천만 미만 (초소액)</button>
             <button onclick="filterBudgetRange('5천만 ~ 1억')"
-              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
-              data-budget="5천만 ~ 1억">5천만 ~ 1억</button>
+              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs" data-budget="5천만 ~ 1억">5천만 ~ 1억</button>
             <button onclick="filterBudgetRange('1억 ~ 3억')"
-              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
-              data-budget="1억 ~ 3억">1억 ~ 3억</button>
+              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs" data-budget="1억 ~ 3억">1억 ~ 3억</button>
             <button onclick="filterBudgetRange('3억 ~ 5억')"
-              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
-              data-budget="3억 ~ 5억">3억 ~ 5억 (핵심)</button>
-            <button onclick="filterBudgetRange('전체')"
-              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs" data-budget="3억 ~ 5억">3억 ~ 5억
+              (핵심)</button>
+            <button onclick="filterBudgetRange('전체')" class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-budget="전체">전체 (대형포함)</button>
           </div>
 
           <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
             <span class="text-[#6c757d] font-medium shrink-0 px-1 py-0.5">사업분류:</span>
-            <button onclick="filterCategory('전체')"
-              class="filter-chip active shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="filterCategory('전체')" class="filter-chip active shrink-0 px-2.5 py-1 rounded text-xs"
               data-cat="전체">전체</button>
-            <button onclick="filterCategory('유지보수/운영')"
-              class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="filterCategory('유지보수/운영')" class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-cat="유지보수/운영">유지보수/운영</button>
-            <button onclick="filterCategory('시스템/SW구축')"
-              class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="filterCategory('시스템/SW구축')" class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-cat="시스템/SW구축">시스템/SW구축</button>
-            <button onclick="filterCategory('DB/데이터구축')"
-              class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="filterCategory('DB/데이터구축')" class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-cat="DB/데이터구축">DB/데이터구축</button>
-            <button onclick="filterCategory('디지털트윈/융합')"
-              class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="filterCategory('디지털트윈/융합')" class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-cat="디지털트윈/융합">디지털트윈/융합</button>
-            <button onclick="filterCategory('기획/연구/ISP')"
-              class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
+            <button onclick="filterCategory('기획/연구/ISP')" class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
               data-cat="기획/연구/ISP">기획/연구/ISP</button>
 
             <span class="text-[#dee2e6] shrink-0">|</span>
@@ -534,15 +531,13 @@
         <div id="empty-state" class="hidden gov-card p-12 text-center">
           <h3 class="text-base font-bold text-[#212529] mb-1">조건에 맞는 공고가 없습니다</h3>
           <p class="text-xs text-[#6c757d] mb-4">예산 구간이나 필터를 초기화해 보세요.</p>
-          <button onclick="resetAllFilters()"
-            class="px-4 py-2 text-xs font-semibold bg-[#1543a3] text-white rounded">
+          <button onclick="resetAllFilters()" class="px-4 py-2 text-xs font-semibold bg-[#1543a3] text-white rounded">
             필터 초기화
           </button>
         </div>
       </div>
 
-      <div id="pagination-controls"
-        class="flex items-center justify-between gov-card px-4 py-3">
+      <div id="pagination-controls" class="flex items-center justify-between gov-card px-4 py-3">
         <button id="btn-prev-page" onclick="changePage(-1)"
           class="px-3 py-1.5 text-xs font-medium text-[#495057] bg-white hover:bg-[#f8f9fa] rounded border border-[#ced4da] transition-colors disabled:opacity-40">이전</button>
         <span id="page-indicator" class="text-xs text-[#6c757d] font-semibold">1 / 1 페이지</span>
@@ -556,7 +551,8 @@
       <!-- 상단 인사이트 배너 (공공 포털 브리핑 스타일) -->
       <div class="gov-card p-5 sm:p-6 bg-white border border-[#dcdfe3] border-l-4 border-l-[#1543a3]">
         <div class="max-w-3xl">
-          <span class="px-2 py-0.5 text-xs font-bold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] rounded mb-2.5 inline-block">
+          <span
+            class="px-2 py-0.5 text-xs font-bold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] rounded mb-2.5 inline-block">
             5억 미만 조달시장 통계 분석
           </span>
           <h2 class="text-lg sm:text-xl font-bold text-[#071952] mb-2">지자체 실무 중심의 공간정보 사업 구조와 진입 전략</h2>
@@ -570,7 +566,8 @@
 
       <!-- 차트 1: 5억 미만 4대 예산 구간 종합 비교 -->
       <div class="gov-card p-5 sm:p-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb] gap-2">
+        <div
+          class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb] gap-2">
           <div>
             <h3 class="gov-section-title">5억 미만 4대 예산 구간별 종합 비교 (건수 vs 총 예산)</h3>
             <p class="text-xs text-[#8b95a1] mt-0.5">5천만 미만(초소액), 5천만~1억, 1억~3억, 3억~5억 구간의 사업 수와 예산 규모 비교</p>
@@ -623,7 +620,8 @@
             <h3 class="gov-section-title">5억 미만 실속형 사업 최다 발주 지자체 순위</h3>
             <p class="text-xs text-[#8b95a1] mt-0.5">공간정보 사업을 가장 활발하게 발주한 기초 지자체(시·군·구) Top 10</p>
           </div>
-          <span class="text-xs font-semibold px-2 py-0.5 bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">발주 건수 기준</span>
+          <span class="text-xs font-semibold px-2 py-0.5 bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">발주
+            건수 기준</span>
         </div>
         <div class="relative h-64 sm:h-72 w-full">
           <canvas id="chart-analytics-agencies"></canvas>
@@ -646,7 +644,8 @@
             <h3 class="gov-section-title">5억 미만 사업 주요 수주 기업 및 실적</h3>
             <p class="text-xs text-[#8b95a1] mt-0.5">개찰 완료된 5억 미만 사업에서 가장 많은 수주를 기록한 전문 기업</p>
           </div>
-          <span class="text-xs font-semibold px-2 py-0.5 bg-[#e6f6f1] text-[#00835f] rounded border border-[#b2e7d7]">낙찰 결과 기반</span>
+          <span class="text-xs font-semibold px-2 py-0.5 bg-[#e6f6f1] text-[#00835f] rounded border border-[#b2e7d7]">낙찰
+            결과 기반</span>
         </div>
         <div class="overflow-x-auto">
           <table class="krds-table min-w-full text-xs sm:text-sm">
@@ -731,7 +730,8 @@
         <div class="gov-card p-4 sm:p-5 border-t-2 border-t-[#1543a3]">
           <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">3개년 계속사업군</div>
           <div class="flex items-baseline space-x-1">
-            <span id="kpi-rec-total-count" class="text-2xl sm:text-3xl font-extrabold text-[#1543a3] tracking-tight">37</span>
+            <span id="kpi-rec-total-count"
+              class="text-2xl sm:text-3xl font-extrabold text-[#1543a3] tracking-tight">37</span>
             <span class="text-xs sm:text-sm text-[#4e5968] font-semibold">개 군</span>
           </div>
           <p id="kpi-rec-scope-desc" class="text-[11px] sm:text-xs text-[#8b95a1] mt-2">5억 미만 37건 / 전체 48건</p>
@@ -740,7 +740,8 @@
         <div class="gov-card p-4 sm:p-5 border-t-2 border-t-[#00835f]">
           <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">3개년 누적 예산</div>
           <div class="flex items-baseline space-x-1">
-            <span id="kpi-rec-total-budget" class="text-2xl sm:text-3xl font-extrabold text-[#191f28] tracking-tight">163.4</span>
+            <span id="kpi-rec-total-budget"
+              class="text-2xl sm:text-3xl font-extrabold text-[#191f28] tracking-tight">163.4</span>
             <span class="text-xs sm:text-sm text-[#00835f] font-bold">억 원</span>
           </div>
           <p id="kpi-rec-2026-budget" class="text-[11px] sm:text-xs text-[#8b95a1] mt-2">2026년 당해 60.5억 원</p>
@@ -749,16 +750,19 @@
         <div class="gov-card p-4 sm:p-5 border-t-2 border-t-[#b76e00]">
           <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">사업자 교체 기회</div>
           <div class="flex items-baseline space-x-1">
-            <span id="kpi-rec-churn-count" class="text-2xl sm:text-3xl font-extrabold text-[#b76e00] tracking-tight">21</span>
+            <span id="kpi-rec-churn-count"
+              class="text-2xl sm:text-3xl font-extrabold text-[#b76e00] tracking-tight">21</span>
             <span class="text-xs sm:text-sm text-[#4e5968] font-semibold">건</span>
           </div>
-          <p id="kpi-rec-churn-ratio" class="text-[11px] sm:text-xs text-[#b76e00] font-medium mt-2">전체의 56.8% (수주 진입 유망)</p>
+          <p id="kpi-rec-churn-ratio" class="text-[11px] sm:text-xs text-[#b76e00] font-medium mt-2">전체의 56.8% (수주 진입
+            유망)</p>
         </div>
 
         <div class="gov-card p-4 sm:p-5 border-t-2 border-t-[#495057]">
           <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">2027년 1분기 발주예상</div>
           <div class="flex items-baseline space-x-1">
-            <span id="kpi-rec-early2027-count" class="text-2xl sm:text-3xl font-extrabold text-[#343a40] tracking-tight">22</span>
+            <span id="kpi-rec-early2027-count"
+              class="text-2xl sm:text-3xl font-extrabold text-[#343a40] tracking-tight">22</span>
             <span class="text-xs sm:text-sm text-[#4e5968] font-semibold">건</span>
           </div>
           <p class="text-[11px] sm:text-xs text-[#6c757d] font-medium mt-2">1~3월 집중 재공고 대비 필요</p>
@@ -774,7 +778,9 @@
               <h3 class="gov-section-title">3개년(2024~2026) 예산 추이</h3>
               <p class="text-xs text-[#8b95a1] mt-0.5">계속사업 연도별 총 예산(억 원) 및 전년 대비 증감</p>
             </div>
-            <span class="px-2 py-0.5 text-xs font-semibold bg-[#e6f6f1] text-[#00835f] rounded border border-[#b2e7d7]">연평균 +5.6% 성장</span>
+            <span
+              class="px-2 py-0.5 text-xs font-semibold bg-[#e6f6f1] text-[#00835f] rounded border border-[#b2e7d7]">연평균
+              +5.6% 성장</span>
           </div>
           <div class="h-64 relative">
             <canvas id="chart-recurring-trend"></canvas>
@@ -788,7 +794,9 @@
               <h3 class="gov-section-title">계속사업 주요 수주기업 점유 순위</h3>
               <p class="text-xs text-[#8b95a1] mt-0.5">2026년 기준 계속사업 수주 총액 TOP 기업</p>
             </div>
-            <span class="px-2 py-0.5 text-xs font-semibold bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">수주 실적 기준</span>
+            <span
+              class="px-2 py-0.5 text-xs font-semibold bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">수주
+              실적 기준</span>
           </div>
           <div class="h-64 relative">
             <canvas id="chart-recurring-market"></canvas>
@@ -881,8 +889,7 @@
           </div>
           <div>
             <label class="block text-[11px] font-semibold text-[#6c757d] mb-1">사업명 / 지자체 / 수주사 검색</label>
-            <input type="text" id="rec-search-input" oninput="applyRecurringFilters()"
-              placeholder="예: 의왕시, 지오메트릭스..."
+            <input type="text" id="rec-search-input" oninput="applyRecurringFilters()" placeholder="예: 의왕시, 지오메트릭스..."
               class="w-full text-xs bg-white border border-[#ced4da] rounded px-3 py-2 text-[#495057] focus:outline-none focus:border-[#1543a3]">
           </div>
         </div>
@@ -942,7 +949,8 @@
         <div>
           <div class="flex items-center space-x-2 mb-1.5">
             <span id="modal-tier-badge"
-              class="px-2 py-0.5 text-xs font-bold rounded bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff]">5억 미만</span>
+              class="px-2 py-0.5 text-xs font-bold rounded bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff]">5억
+              미만</span>
             <span id="modal-category-badge"
               class="px-2 py-0.5 text-xs font-semibold rounded bg-[#f1f3f5] text-[#495057] border border-[#dee2e6]">시스템/SW구축</span>
             <span id="modal-contract-badge"
@@ -1001,8 +1009,7 @@
           </div>
         </div>
 
-        <div id="modal-winner-box"
-          class="bg-[#e6f6f1] border border-[#b2e7d7] rounded p-3 text-[#00835f] hidden">
+        <div id="modal-winner-box" class="bg-[#e6f6f1] border border-[#b2e7d7] rounded p-3 text-[#00835f] hidden">
           <div class="font-bold text-xs mb-1">낙찰 및 수주 결과</div>
           <div class="flex justify-between text-xs mt-1">
             <span>수주업체: <strong id="modal-winner-corp">--</strong></span>
@@ -1011,14 +1018,14 @@
         </div>
 
         <!-- 실시간 공고 ↔ 과거 계속사업 크로스 분석 상자 -->
-        <div id="modal-cross-analysis-box"
-          class="bg-[#f8f9fa] border border-[#cfdfff] rounded p-4 space-y-2.5 hidden">
+        <div id="modal-cross-analysis-box" class="bg-[#f8f9fa] border border-[#cfdfff] rounded p-4 space-y-2.5 hidden">
           <div class="flex items-center justify-between">
             <div class="text-[#071952] font-bold text-xs sm:text-sm">
               과거 3개년 수주 실적 크로스 분석 (투찰 전략)
             </div>
             <span id="modal-cross-match-badge"
-              class="px-2 py-0.5 text-[10px] font-bold rounded bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff]">연계 완료</span>
+              class="px-2 py-0.5 text-[10px] font-bold rounded bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff]">연계
+              완료</span>
           </div>
 
           <div class="grid grid-cols-2 gap-2 text-xs pt-1">
@@ -1118,7 +1125,8 @@
   <div id="modal-qr"
     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs hidden opacity-0 transition-opacity duration-200"
     onclick="closeQrModal(event)">
-    <div class="bg-white w-full max-w-sm rounded-lg p-6 shadow-xl text-center border border-[#ced4da]" onclick="event.stopPropagation()">
+    <div class="bg-white w-full max-w-sm rounded-lg p-6 shadow-xl text-center border border-[#ced4da]"
+      onclick="event.stopPropagation()">
       <h3 class="text-base font-bold text-[#071952] mb-1">모바일 스마트폰으로 접속하기</h3>
       <p class="text-xs text-[#6c757d] mb-4">휴대폰 카메라로 비추면 배포 주소로 즉시 이동합니다.</p>
 
@@ -1148,7 +1156,8 @@
   <div id="modal-openapi-key"
     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs hidden opacity-0 transition-opacity duration-200"
     onclick="closeOpenApiKeyModal(event)">
-    <div class="bg-white w-full max-w-lg rounded-lg p-5 sm:p-6 shadow-xl overflow-hidden space-y-4 border border-[#ced4da]"
+    <div
+      class="bg-white w-full max-w-lg rounded-lg p-5 sm:p-6 shadow-xl overflow-hidden space-y-4 border border-[#ced4da]"
       onclick="event.stopPropagation()">
       <div class="flex items-center justify-between pb-3 border-b border-[#e5e8eb]">
         <div>
@@ -1169,11 +1178,11 @@
 
         <div>
           <label class="block text-xs font-bold text-[#333d4b] mb-1">공공데이터포털 일반 인증키 (ServiceKey, 선택사항)</label>
-          <input type="password" id="input-openapi-servicekey"
-            value=""
+          <input type="password" id="input-openapi-servicekey" value=""
             placeholder="미입력 시 서버 환경변수 기본 인증키를 안전하게 사용합니다..."
             class="w-full text-xs font-mono bg-white border border-[#ced4da] rounded px-3 py-2 text-[#212529] focus:outline-none focus:border-[#1543a3]">
-          <p class="text-[11px] text-[#8b95a1] mt-1">※ 보안을 위해 기본 키는 서버 환경변수(KONEPS_API_KEY)에 은닉되어 있습니다. 개별 인증키 사용 시에만 입력하세요.</p>
+          <p class="text-[11px] text-[#8b95a1] mt-1">※ 보안을 위해 기본 키는 서버 환경변수(KONEPS_API_KEY)에 은닉되어 있습니다. 개별 인증키 사용 시에만
+            입력하세요.</p>
         </div>
 
         <div class="grid grid-cols-2 gap-2">

@@ -1542,5 +1542,35 @@
       "GIS"
     ],
     "summary": "경기도 파주시에서 발주한 2027년 공간정보시스템(누리맵) 통합유지관리 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01855103-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "경상남도 3차원 실내공간정보관리시스템 유지관리",
+    "ntceInsttNm": "경상남도",
+    "dminsttNm": "경상남도",
+    "orgType": "지자체",
+    "category": "디지털트윈/융합",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 31070000,
+    "presmptPrce": 28245455,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-25 13:03:36",
+    "bidClseDt": "",
+    "opengDt": "2026-12-07 18:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01855103&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "5천만 미만",
+    "keyThemes": [
+      "3D/3차원"
+    ],
+    "summary": "경상남도에서 발주한 경상남도 3차원 실내공간정보관리시스템 유지관리 실제 조달청 나라장터 공고입니다."
   }
 ]
