@@ -1,17 +1,17 @@
 /**
  * 나라장터 공간정보 사업 데이터 분석 및 통계 집계 엔진
- * [5억 미만 중점 분석 세그먼트 포함]
+ * [3개년(2024, 2025, 2026) 통합 & 5억 미만 중점 분석 세그먼트]
  */
 
-function calculateAnalytics(projects) {
+function calculateSingleSet(projects, scopeYear = 'all') {
   if (!projects || projects.length === 0) {
     return {
-      summary: { totalCount: 0, totalBudget: 0, avgBudget: 0, maxBudget: 0, successCount: 0, pendingCount: 0 },
-      under500M: { totalCount: 0, totalBudget: 0, avgBudget: 0, smallBizRatio: 0, buckets: [] },
+      summary: { totalCount: 0, totalBudget: 0, avgBudget: 0, maxBudget: 0, maxBudgetTitle: '', successCount: 0, pendingCount: 0, successRatio: 0, uniqueAgencies: 0 },
+      under500M: { totalCount: 0, totalBudget: 0, avgBudget: 0, countRatio: 0, budgetRatio: 0, under100Count: 0, under50Count: 0, buckets: [], categories: [], topAgencies: [], contractMethods: [] },
       monthly: [],
       categories: [],
       orgTypes: [],
-      topAgencies: [],
+      topAgencies: { byBudget: [], byCount: [], under500M: [] },
       budgetRanges: [],
       contractMethods: [],
       topThemes: [],
@@ -40,9 +40,22 @@ function calculateAnalytics(projects) {
   ];
 
   const monthMap = {};
-  for (let m = 1; m <= 11; m++) {
-    const key = `2026-${String(m).padStart(2, '0')}`;
-    monthMap[key] = { month: key, label: `${m}월`, count: 0, budget: 0, under500Count: 0, under500Budget: 0 };
+  for (let m = 1; m <= 12; m++) {
+    const key = String(m).padStart(2, '0');
+    monthMap[key] = {
+      month: key,
+      label: `${m}월`,
+      count: 0,
+      budget: 0,
+      under500Count: 0,
+      under500Budget: 0,
+      y2024Count: 0,
+      y2025Count: 0,
+      y2026Count: 0,
+      y2024Budget: 0,
+      y2025Budget: 0,
+      y2026Budget: 0
+    };
   }
 
   const catMap = {};
@@ -107,15 +120,27 @@ function calculateAnalytics(projects) {
     }
 
     // 월별 통계
-    const dt = p.bidNtceDt ? p.bidNtceDt.substring(0, 7) : '기타';
-    if (!monthMap[dt]) {
-      monthMap[dt] = { month: dt, label: dt, count: 0, budget: 0, under500Count: 0, under500Budget: 0 };
-    }
-    monthMap[dt].count += 1;
-    monthMap[dt].budget += budget;
-    if (isUnder500M) {
-      monthMap[dt].under500Count += 1;
-      monthMap[dt].under500Budget += budget;
+    const dt = p.bidNtceDt ? p.bidNtceDt.substring(0, 10) : '';
+    const yr = p.year || (dt ? parseInt(dt.substring(0, 4), 10) : 2026);
+    const mStr = dt && dt.length >= 7 ? dt.substring(5, 7) : '01';
+
+    if (monthMap[mStr]) {
+      monthMap[mStr].count += 1;
+      monthMap[mStr].budget += budget;
+      if (isUnder500M) {
+        monthMap[mStr].under500Count += 1;
+        monthMap[mStr].under500Budget += budget;
+        if (yr === 2024) {
+          monthMap[mStr].y2024Count += 1;
+          monthMap[mStr].y2024Budget += budget;
+        } else if (yr === 2025) {
+          monthMap[mStr].y2025Count += 1;
+          monthMap[mStr].y2025Budget += budget;
+        } else if (yr === 2026) {
+          monthMap[mStr].y2026Count += 1;
+          monthMap[mStr].y2026Budget += budget;
+        }
+      }
     }
 
     // 전체 카테고리
@@ -236,6 +261,7 @@ function calculateAnalytics(projects) {
     .slice(0, 8);
 
   return {
+    scopeYear,
     summary: {
       totalCount,
       totalBudget,
@@ -280,4 +306,74 @@ function calculateAnalytics(projects) {
   };
 }
 
-module.exports = { calculateAnalytics };
+function calculateAnalytics(projects) {
+  if (!projects || projects.length === 0) {
+    return calculateSingleSet([]);
+  }
+
+  const allResult = calculateSingleSet(projects, 'all');
+
+  const p2024 = projects.filter(p => p.year === 2024 || (p.bidNtceDt && p.bidNtceDt.startsWith('2024')));
+  const p2025 = projects.filter(p => p.year === 2025 || (p.bidNtceDt && p.bidNtceDt.startsWith('2025')));
+  const p2026 = projects.filter(p => p.year === 2026 || (p.bidNtceDt && p.bidNtceDt.startsWith('2026')));
+
+  const res2024 = calculateSingleSet(p2024, '2024');
+  const res2025 = calculateSingleSet(p2025, '2025');
+  const res2026 = calculateSingleSet(p2026, '2026');
+
+  const yearlyComparison = [
+    {
+      year: 'all',
+      label: '3개년 종합',
+      totalCount: allResult.summary.totalCount,
+      totalBudget: allResult.summary.totalBudget,
+      under500Count: allResult.under500M.totalCount,
+      under500Budget: allResult.under500M.totalBudget,
+      under500Ratio: allResult.under500M.countRatio,
+      avgUnder500Budget: allResult.under500M.avgBudget
+    },
+    {
+      year: '2026',
+      label: '2026년',
+      totalCount: res2026.summary.totalCount,
+      totalBudget: res2026.summary.totalBudget,
+      under500Count: res2026.under500M.totalCount,
+      under500Budget: res2026.under500M.totalBudget,
+      under500Ratio: res2026.under500M.countRatio,
+      avgUnder500Budget: res2026.under500M.avgBudget
+    },
+    {
+      year: '2025',
+      label: '2025년',
+      totalCount: res2025.summary.totalCount,
+      totalBudget: res2025.summary.totalBudget,
+      under500Count: res2025.under500M.totalCount,
+      under500Budget: res2025.under500M.totalBudget,
+      under500Ratio: res2025.under500M.countRatio,
+      avgUnder500Budget: res2025.under500M.avgBudget
+    },
+    {
+      year: '2024',
+      label: '2024년',
+      totalCount: res2024.summary.totalCount,
+      totalBudget: res2024.summary.totalBudget,
+      under500Count: res2024.under500M.totalCount,
+      under500Budget: res2024.under500M.totalBudget,
+      under500Ratio: res2024.under500M.countRatio,
+      avgUnder500Budget: res2024.under500M.avgBudget
+    }
+  ];
+
+  return {
+    ...allResult,
+    yearly: yearlyComparison,
+    byYear: {
+      'all': allResult,
+      '2026': res2026,
+      '2025': res2025,
+      '2024': res2024
+    }
+  };
+}
+
+module.exports = { calculateAnalytics, calculateSingleSet };

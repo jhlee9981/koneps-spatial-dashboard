@@ -1,0 +1,23 @@
+{
+  "name": "g2b-spatial-analyzer-2026",
+  "version": "1.0.0",
+  "description": "2026년 나라장터 공간정보 입찰공고 분석 및 실시간 모니터링 플랫폼",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "generate-data": "node scripts/generate_data.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "나라장터",
+    "공간정보",
+    "GIS",
+    "입찰공고",
+    "조달청",
+    "OpenAPI"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}

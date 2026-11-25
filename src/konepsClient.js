@@ -10,7 +10,7 @@
  * 5. getBidPblancSubsiCnsttyIndstrytyListInfo02: 부공종 정보조회 분리 오퍼레이션
  */
 
-const DEFAULT_SERVICE_KEY = process.env.KONEPS_API_KEY || "eb442978f5cad44e6ccfe882fb7bb09a00fcf662585b7a0adffcfcf55f393cd6";
+const DEFAULT_SERVICE_KEY = process.env.KONEPS_API_KEY || "";
 const BASE_ENDPOINT = "https://apis.data.go.kr/1230000/ad/BidPublicInfoService02";
 
 function inferCategory(title) {
@@ -58,27 +58,34 @@ function inferKeyThemes(title) {
 
 // 7일 단위 날짜 청크 생성기 (조달청 Open API 조회기간 최대 7일 제한 준수)
 function generateDateRanges(beginDateStr, endDateStr) {
-  const parseDt = (s) => new Date(
-    parseInt(s.substring(0, 4), 10),
-    parseInt(s.substring(4, 6), 10) - 1,
-    parseInt(s.substring(6, 8), 10)
-  );
-
+  const pad = n => String(n).padStart(2, '0');
   const formatDt = (d, isEnd = false) => {
     const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
+    const m = pad(d.getMonth() + 1);
+    const day = pad(d.getDate());
     return `${y}${m}${day}${isEnd ? '2359' : '0000'}`;
   };
 
-  const start = parseDt(beginDateStr);
-  const end = parseDt(endDateStr);
-  const ranges = [];
+  let start, end;
+  if (!beginDateStr || !endDateStr) {
+    end = new Date();
+    start = new Date();
+    start.setDate(start.getDate() - 28); // 최근 4주(28일)
+  } else {
+    const parseDt = s => new Date(
+      parseInt(s.substring(0, 4), 10),
+      parseInt(s.substring(4, 6), 10) - 1,
+      parseInt(s.substring(6, 8), 10)
+    );
+    start = parseDt(beginDateStr);
+    end = parseDt(endDateStr);
+  }
 
+  const ranges = [];
   let curr = new Date(start);
   while (curr <= end) {
     let next = new Date(curr);
-    next.setDate(next.getDate() + 6); // 7일 범위
+    next.setDate(next.getDate() + 6); // 7일 범위 (조달청 검색 제한 7일 이내 준수)
     if (next > end) next = new Date(end);
 
     ranges.push({
@@ -94,16 +101,20 @@ function generateDateRanges(beginDateStr, endDateStr) {
 }
 
 /**
- * 1. 실시간 공고 목록 조회 (02 오퍼레이션)
+ * 1. 실시간 공고 목록 조회 (02 오퍼레이션 병렬 고속 수신)
  */
 async function fetchKonepsBids({
   serviceKey = DEFAULT_SERVICE_KEY,
   keyword = "공간정보",
-  beginDate = "202610280000",
-  endDate = "202611242359",
-  maxPages = 3
-}) {
-  const cleanKey = (serviceKey || DEFAULT_SERVICE_KEY).trim();
+  beginDate = null,
+  endDate = null,
+  maxPages = 1
+} = {}) {
+  const cleanKey = (serviceKey || DEFAULT_SERVICE_KEY || "").trim();
+  if (!cleanKey) {
+    console.warn('⚠️ KONEPS_API_KEY 환경변수가 설정되지 않아 실시간 OpenAPI 조회를 건너뜁니다.');
+    return [];
+  }
   const allItems = [];
   const seenNoticeNos = new Set();
   
@@ -114,19 +125,20 @@ async function fetchKonepsBids({
     { op: "getBidPblancListInfoCnstwkPPSSrch02", workType: "공사" }
   ];
 
-  // 최근 35일 7일 단위 청크
+  // 최근 28일 7일 단위 청크
   const chunks = generateDateRanges(beginDate, endDate);
-  chunks.reverse();
+  chunks.reverse(); // 최신 날짜 청크부터 우선 처리
 
+  // 병렬 비동기 요청 (초고속 수신)
+  const tasks = [];
   for (const { op, workType } of operations) {
     const baseUrl = `${BASE_ENDPOINT}/${op}`;
-
-    for (const chunk of chunks.slice(0, 5)) {
-      for (let page = 1; page <= maxPages; page++) {
+    for (const chunk of chunks) {
+      tasks.push((async () => {
         const params = new URLSearchParams({
           serviceKey: cleanKey,
           numOfRows: "100",
-          pageNo: String(page),
+          pageNo: "1",
           inqryDiv: "1",
           inqryBgnDt: chunk.bgn,
           inqryEndDt: chunk.end,
@@ -137,7 +149,8 @@ async function fetchKonepsBids({
         const targetUrl = `${baseUrl}?${params.toString()}`;
         try {
           const response = await fetch(targetUrl, {
-            headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" }
+            headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" },
+            signal: AbortSignal.timeout(6000)
           });
 
           const rawText = await response.text();
@@ -145,72 +158,73 @@ async function fetchKonepsBids({
           try {
             data = JSON.parse(rawText);
           } catch (err) {
-            continue;
+            return [];
           }
 
           if (data?.nkoneps?.com?.response?.ResponseError) {
-            continue;
+            return [];
           }
 
           const body = data?.response?.body;
           if (!body || !body.items) {
-            break;
+            return [];
           }
 
           const items = Array.isArray(body.items) ? body.items : [body.items];
-          if (items.length === 0) break;
-
-          for (const item of items) {
-            const fullNo = `${item.bidNtceNo || ""}-${item.bidNtceOrd || "000"}`;
-            if (seenNoticeNos.has(fullNo)) continue;
-            seenNoticeNos.add(fullNo);
-
-            const budget = Number(item.asignBdgtAmt || item.presmptPrce || 0);
-            const noticeDt = item.bidNtceDt ? `${item.bidNtceDt.substring(0, 10)} ${item.bidNtceDt.substring(11, 19)}` : "";
-            const closeDt = item.bidClseDt ? `${item.bidClseDt.substring(0, 10)} ${item.bidClseDt.substring(11, 19)}` : "";
-            const openDt = item.opengDt ? `${item.opengDt.substring(0, 10)} ${item.opengDt.substring(11, 19)}` : "";
-
-            const proj = {
-              bidNtceNo: fullNo,
-              bidNtceOrd: item.bidNtceOrd || "000",
-              bidNtceNm: item.bidNtceNm || "",
-              ntceInsttNm: item.ntceInsttNm || "조달청",
-              dminsttNm: item.dminsttNm || item.ntceInsttNm || "",
-              orgType: inferOrgType(item.dminsttNm || item.ntceInsttNm),
-              category: inferCategory(item.bidNtceNm),
-              workType: workType,
-              noticeType: item.cntrctCnclsMthdNm || "제한경쟁",
-              awardMethod: item.sucsfbidMthdNm || "협상에 의한 계약",
-              assignBdgtAmt: budget,
-              presmptPrce: Number(item.presmptPrce || Math.round(budget / 1.1)),
-              bsisAmt: Number(item.bsisAmount || 0),
-              bidNtceDt: noticeDt,
-              bidClseDt: closeDt,
-              opengDt: openDt,
-              bidPrcsTypeNm: "입찰공고중",
-              bidNtceDtlUrl: item.bidNtceDtlUrl ? item.bidNtceDtlUrl.replace(':8081', '') : `https://www.g2b.go.kr#PNPE027_01?bidPbancNo=${item.bidNtceNo}&bidPbancOrd=${item.bidNtceOrd || '000'}`,
-              isSuccessBidded: false,
-              succBidAmt: null,
-              succBidCorp: null,
-              bidRate: null,
-              isUnder500M: budget < 500000000,
-              budgetTier: budget < 50000000 ? "5천만 미만" : (budget < 100000000 ? "5천만~1억" : (budget < 300000000 ? "1억~3억" : (budget < 500000000 ? "3억~5억" : "5억 이상"))),
-              keyThemes: inferKeyThemes(item.bidNtceNm),
-              summary: `${item.dminsttNm || item.ntceInsttNm}에서 발주한 ${item.bidNtceNm} 실제 조달청 나라장터 공고입니다.`
-            };
-            allItems.push(proj);
-          }
-
-          if (items.length < 50 || page * 50 >= (body.totalCount || 0)) {
-            break;
-          }
+          return items.map(item => ({ item, workType }));
         } catch (e) {
-          console.error(`Error querying ${op}:`, e.message);
+          return [];
         }
-      }
+      })());
     }
   }
 
+  const taskResults = await Promise.all(tasks);
+  const flatItems = taskResults.flat();
+
+  for (const { item, workType } of flatItems) {
+    const fullNo = `${item.bidNtceNo || ""}-${item.bidNtceOrd || "000"}`;
+    if (seenNoticeNos.has(fullNo)) continue;
+    seenNoticeNos.add(fullNo);
+
+    const budget = Number(item.asignBdgtAmt || item.presmptPrce || 0);
+    const noticeDt = item.bidNtceDt ? `${item.bidNtceDt.substring(0, 10)} ${item.bidNtceDt.substring(11, 19)}` : "";
+    const closeDt = item.bidClseDt ? `${item.bidClseDt.substring(0, 10)} ${item.bidClseDt.substring(11, 19)}` : "";
+    const openDt = item.opengDt ? `${item.opengDt.substring(0, 10)} ${item.opengDt.substring(11, 19)}` : "";
+
+    const proj = {
+      bidNtceNo: fullNo,
+      bidNtceOrd: item.bidNtceOrd || "000",
+      bidNtceNm: item.bidNtceNm || "",
+      ntceInsttNm: item.ntceInsttNm || "조달청",
+      dminsttNm: item.dminsttNm || item.ntceInsttNm || "",
+      orgType: inferOrgType(item.dminsttNm || item.ntceInsttNm),
+      category: inferCategory(item.bidNtceNm),
+      workType: workType,
+      noticeType: item.cntrctCnclsMthdNm || "제한경쟁",
+      awardMethod: item.sucsfbidMthdNm || "협상에 의한 계약",
+      assignBdgtAmt: budget,
+      presmptPrce: Number(item.presmptPrce || Math.round(budget / 1.1)),
+      bsisAmt: Number(item.bsisAmount || 0),
+      bidNtceDt: noticeDt,
+      bidClseDt: closeDt,
+      opengDt: openDt,
+      bidPrcsTypeNm: "입찰공고중",
+      bidNtceDtlUrl: item.bidNtceDtlUrl ? item.bidNtceDtlUrl.replace(':8081', '') : `https://www.g2b.go.kr#PNPE027_01?bidPbancNo=${item.bidNtceNo}&bidPbancOrd=${item.bidNtceOrd || '000'}`,
+      isSuccessBidded: false,
+      succBidAmt: null,
+      succBidCorp: null,
+      bidRate: null,
+      isUnder500M: budget < 500000000,
+      budgetTier: budget < 50000000 ? "5천만 미만" : (budget < 100000000 ? "5천만~1억" : (budget < 300000000 ? "1억~3억" : (budget < 500000000 ? "3억~5억" : "5억 이상"))),
+      keyThemes: inferKeyThemes(item.bidNtceNm),
+      summary: `${item.dminsttNm || item.ntceInsttNm}에서 발주한 ${item.bidNtceNm} 실제 조달청 나라장터 공고입니다.`
+    };
+    allItems.push(proj);
+  }
+
+  // 최신 공고순 정렬
+  allItems.sort((a, b) => (b.bidNtceDt || "").localeCompare(a.bidNtceDt || ""));
   return allItems;
 }
 

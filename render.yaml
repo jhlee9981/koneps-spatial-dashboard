@@ -10,4 +10,4 @@ services:
       - key: NODE_VERSION
         value: 20.18.0
       - key: KONEPS_API_KEY
-        value: eb442978f5cad44e6ccfe882fb7bb09a00fcf662585b7a0adffcfcf55f393cd6
+        sync: false

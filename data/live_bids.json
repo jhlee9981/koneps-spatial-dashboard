@@ -25,27 +25,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "성남시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경기도 성남시에서 발주한 2027년 성남시 공간정보시스템 통합유지관리 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 1,
-    "ddayText": "D-1",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경기도 성남시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 153619659,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경기도 성남시에서 발주한 2027년 성남시 공간정보시스템 통합유지관리 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01825843-000",
@@ -63,7 +46,7 @@
     "bsisAmt": 0,
     "bidNtceDt": "2026-11-12 13:26:22",
     "bidClseDt": "2026-11-25 10:00:00",
-    "opengDt": "2026-11-25 11:00:00",
+    "opengDt": "2026-11-25 10:18:00",
     "bidPrcsTypeNm": "입찰공고중",
     "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01825843&bidPbancOrd=000",
     "isSuccessBidded": false,
@@ -73,27 +56,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "파주시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경기도 파주시에서 발주한 2027년 공간정보시스템(누리맵) 통합유지관리 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 1,
-    "ddayText": "D-1",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경기도 파주시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 137193475,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경기도 파주시에서 발주한 2027년 공간정보시스템(누리맵) 통합유지관리 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01833663-000",
@@ -121,27 +87,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "창원시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경상남도 창원시에서 발주한 2027년 공간정보시스템 통합유지관리 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(적격심사제-관리규정외 수기심사(총점입력))입니다.",
-    "dday": 1,
-    "ddayText": "D-1",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경상남도 창원시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 106907016,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경상남도 창원시에서 발주한 2027년 공간정보시스템 통합유지관리 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01841899-000",
@@ -169,27 +118,10 @@
     "isUnder500M": true,
     "budgetTier": "5천만~1억",
     "keyThemes": [
-      "유지보수",
-      "거제시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경상남도 거제시에서 발주한 2027년 거제시 공간정보통합시스템 유지관리 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 수의계약(소액수의견적-소액수의견적(2인 이상 견적 제출))입니다.",
-    "dday": 1,
-    "ddayText": "D-1",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경상남도 거제시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 49186750,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경상남도 거제시에서 발주한 2027년 거제시 공간정보통합시스템 유지관리 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01809547-000",
@@ -217,27 +149,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "대구광역시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "대구광역시에서 발주한 2027년 공간정보시스템 통합유지보수 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 2,
-    "ddayText": "D-2",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "대구광역시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 171950000,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "대구광역시에서 발주한 2027년 공간정보시스템 통합유지보수 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01841129-000",
@@ -265,29 +180,10 @@
     "isUnder500M": true,
     "budgetTier": "5천만~1억",
     "keyThemes": [
-      "공간정보플랫폼",
-      "경상북도"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경상북도에서 발주한 지능공간정보플랫폼 고도화 구축 감리용역 공고입니다. 업무구분은 일반용역이며 계약방식은 수의계약(소액수의견적-소액수의견적(2인 이상 견적 제출))입니다.",
-    "dday": 2,
-    "ddayText": "D-2",
-    "crossMatch": {
-      "matched": true,
-      "source": "recurring",
-      "familyId": "REC-R26BK01538411-001",
-      "familyName": "안동시 공감행정 공간정보 통합플랫폼 구축사업(3차) 감리용역",
-      "agency": "경상북도 안동시",
-      "incumbentCompany": "주식회사 한국정보보안원",
-      "winnerChangeCount": 1,
-      "isIncumbentLocked": false,
-      "pastWinners": [
-        "2026년 계약사: 주식회사 한국정보보안원"
-      ],
-      "avgBidRate": 87.745,
-      "recommendedBid": 52616289,
-      "pastBudget": 72413237,
-      "strategicAdvice": "실제 수주 변동(FACT): 최근 사업자 교체(1회)가 발생한 경쟁 유망 사업입니다. (2025년 '(주)비앤디컨설팅' ➡️ 2026년 '주식회사 한국정보보안원') 기존 사업자의 과업 수행 내역을 정밀 분석하여 2027.05 차기 발주 시 수주 가능성 극대화 추천."
-    }
+    "summary": "경상북도에서 발주한 지능공간정보플랫폼 고도화 구축 감리용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01832175-000",
@@ -315,29 +211,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "한국국토정보공사"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "한국국토정보공사에서 발주한 2027년 공간정보 품질관리시스템 운영 및 유지관리 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 3,
-    "ddayText": "D-3",
-    "crossMatch": {
-      "matched": true,
-      "source": "recurring",
-      "familyId": "REC-R26BK01550692-000",
-      "familyName": "세종 공간정보 통합플랫폼 유지관리 용역",
-      "agency": "한국국토정보공사 대전충남지역본부",
-      "incumbentCompany": "주식회사 웨이버스",
-      "winnerChangeCount": 1,
-      "isIncumbentLocked": false,
-      "pastWinners": [
-        "2026년 계약사: 주식회사 웨이버스"
-      ],
-      "avgBidRate": 91.5,
-      "recommendedBid": 137707500,
-      "pastBudget": 149352000,
-      "strategicAdvice": "실제 수주 변동(FACT): 최근 사업자 교체(1회)가 발생한 경쟁 유망 사업입니다. (2025년 '(주)메타지아이에스컨설팅' ➡️ 2026년 '주식회사 웨이버스') 기존 사업자의 과업 수행 내역을 정밀 분석하여 2027.05 차기 발주 시 수주 가능성 극대화 추천."
-    }
+    "summary": "한국국토정보공사에서 발주한 2027년 공간정보 품질관리시스템 운영 및 유지관리 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01836060-000",
@@ -365,27 +242,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "양평군"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경기도 양평군에서 발주한 [긴급] 2027년도 양평군 공간정보 관련시스템 통합유지관리 용역(협상에의한계약) 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 6,
-    "ddayText": "D-6",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경기도 양평군",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 144148400,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경기도 양평군에서 발주한 [긴급] 2027년도 양평군 공간정보 관련시스템 통합유지관리 용역(협상에의한계약) 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01836060-001",
@@ -413,27 +273,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "양평군"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경기도 양평군에서 발주한 [긴급] 2027년도 양평군 공간정보 관련시스템 통합유지관리 용역(협상에의한계약) 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 6,
-    "ddayText": "D-6",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경기도 양평군",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 144148400,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경기도 양평군에서 발주한 [긴급] 2027년도 양평군 공간정보 관련시스템 통합유지관리 용역(협상에의한계약) 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01836161-000",
@@ -461,27 +304,10 @@
     "isUnder500M": false,
     "budgetTier": "5억 이상",
     "keyThemes": [
-      "유지보수",
-      "기후에너지환경부"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "기후에너지환경부에서 발주한 2027-2028년 환경공간정보시스템 통합유지관리사업 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 7,
-    "ddayText": "D-7",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "기후에너지환경부",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 1210423382,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "기후에너지환경부에서 발주한 2027-2028년 환경공간정보시스템 통합유지관리사업 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01840253-000",
@@ -509,30 +335,10 @@
     "isUnder500M": false,
     "budgetTier": "5억 이상",
     "keyThemes": [
-      "유지보수",
-      "공간정보플랫폼",
-      "인천광역시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "인천광역시에서 발주한 (긴급)2027년 공간정보플랫폼 통합 유지관리 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 7,
-    "ddayText": "D-7",
-    "crossMatch": {
-      "matched": true,
-      "source": "recurring",
-      "familyId": "REC-R26BK01514036-000",
-      "familyName": "(긴급)2026년 인천광역시 항공사진 판독 및 공간정보 구축 용역",
-      "agency": "인천광역시",
-      "incumbentCompany": "제일항업(주)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": true,
-      "pastWinners": [
-        "2026년 계약사: 제일항업(주)"
-      ],
-      "avgBidRate": 91.5,
-      "recommendedBid": 515868765,
-      "pastBudget": 437900000,
-      "strategicAdvice": "실제 독점 분석(FACT): 연속으로 '제일항업(주)'이 수주·독점하고 있는 안정형 계속사업입니다. (2026년 배정예산 340,000,000원, 투찰률 84.847%) 차기 발주(2027.05) 전 사전규격공개 검토 및 기능보강 제안으로 복수응찰 구도 전환 필요."
-    }
+    "summary": "인천광역시에서 발주한 (긴급)2027년 공간정보플랫폼 통합 유지관리 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01836025-000",
@@ -560,27 +366,10 @@
     "isUnder500M": true,
     "budgetTier": "3억~5억",
     "keyThemes": [
-      "유지보수",
-      "울산광역시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "울산광역시에서 발주한 2027~2028년도 공간정보시스템 유지관리 용역(긴급, 장기계속, 협상에의한계약) 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 7,
-    "ddayText": "D-7",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "울산광역시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 329248864,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "울산광역시에서 발주한 2027~2028년도 공간정보시스템 유지관리 용역(긴급, 장기계속, 협상에의한계약) 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01841573-000",
@@ -608,27 +397,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "제주특별자치도"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "제주특별자치도에서 발주한 2027년 공간정보시스템 HW，상용SW 유지관리 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 7,
-    "ddayText": "D-7",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "제주특별자치도",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 207843404,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "제주특별자치도에서 발주한 2027년 공간정보시스템 HW，상용SW 유지관리 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01837995-000",
@@ -656,27 +428,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "김해시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경상남도 김해시에서 발주한 2027년 김해시 공간정보통합시스템 유지관리 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 7,
-    "ddayText": "D-7",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경상남도 김해시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 163138305,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경상남도 김해시에서 발주한 2027년 김해시 공간정보통합시스템 유지관리 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01835143-000",
@@ -704,27 +459,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "의정부시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경기도 의정부시에서 발주한 2027년 공간정보시스템 통합 유지관리 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 7,
-    "ddayText": "D-7",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경기도 의정부시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 141470668,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경기도 의정부시에서 발주한 2027년 공간정보시스템 통합 유지관리 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01809317-000",
@@ -752,27 +490,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "상주시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경상북도 상주시에서 발주한 2027년도 공간정보시스템 통합유지보수 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 7,
-    "ddayText": "D-7",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경상북도 상주시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 103259713,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경상북도 상주시에서 발주한 2027년도 공간정보시스템 통합유지보수 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01840656-000",
@@ -800,27 +521,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "논산시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "충청남도 논산시에서 발주한 2027년 공간정보시스템 통합유지보수 용역(협상에 의한 계약) 공고입니다. 업무구분은 일반용역이며 계약방식은 일반경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 7,
-    "ddayText": "D-7",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "충청남도 논산시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 99055598,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "충청남도 논산시에서 발주한 2027년 공간정보시스템 통합유지보수 용역(협상에 의한 계약) 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01824268-001",
@@ -848,27 +552,10 @@
     "isUnder500M": true,
     "budgetTier": "5천만~1억",
     "keyThemes": [
-      "유지보수",
-      "남양주시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경기도 남양주시에서 발주한 2027년 공간정보시스템 통합유지보수 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 7,
-    "ddayText": "D-7",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경기도 남양주시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 80992070,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경기도 남양주시에서 발주한 2027년 공간정보시스템 통합유지보수 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01848373-000",
@@ -876,8 +563,8 @@
     "bidNtceNm": "2027년 IFEZ 3차원 공간정보서비스 유지보수 용역(재공고)",
     "ntceInsttNm": "인천광역시 경제자유구역청",
     "dminsttNm": "인천광역시 경제자유구역청",
-    "orgType": "지자체",
-    "category": "유지보수/운영",
+    "orgType": "국가기관",
+    "category": "디지털트윈/융합",
     "workType": "일반용역",
     "noticeType": "수의계약",
     "awardMethod": "소액수의견적-소액수의견적(2인 이상 견적 제출)",
@@ -896,30 +583,9 @@
     "isUnder500M": true,
     "budgetTier": "5천만~1억",
     "keyThemes": [
-      "유지보수",
-      "3D/디지털트윈",
-      "경제자유구역청"
+      "3D/3차원"
     ],
-    "summary": "인천광역시 경제자유구역청에서 발주한 2027년 IFEZ 3차원 공간정보서비스 유지보수 용역(재공고) 공고입니다. 업무구분은 일반용역이며 계약방식은 수의계약(소액수의견적-소액수의견적(2인 이상 견적 제출))입니다.",
-    "dday": 7,
-    "ddayText": "D-7",
-    "crossMatch": {
-      "matched": true,
-      "source": "recurring",
-      "familyId": "REC-R26BK01629779-000",
-      "familyName": "2026년 IFEZ 3차원 공간정보 데이터 구매",
-      "agency": "인천광역시 경제자유구역청",
-      "incumbentCompany": "엘티메트릭 주식회사",
-      "winnerChangeCount": 1,
-      "isIncumbentLocked": false,
-      "pastWinners": [
-        "2026년 계약사: 엘티메트릭 주식회사"
-      ],
-      "avgBidRate": 87.745,
-      "recommendedBid": 60544050,
-      "pastBudget": 118488933,
-      "strategicAdvice": "실제 수주 변동(FACT): 최근 사업자 교체(1회)가 발생한 경쟁 유망 사업입니다. (2024년 '주식회사 스페이스' ➡️ 2025년 '엘티메트릭 주식회사' ➡️ 2026년 '엘티메트릭 주식회사') 기존 사업자의 과업 수행 내역을 정밀 분석하여 2027.07 차기 발주 시 수주 가능성 극대화 추천."
-    }
+    "summary": "인천광역시 경제자유구역청에서 발주한 2027년 IFEZ 3차원 공간정보서비스 유지보수 용역(재공고) 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01819419-000",
@@ -947,27 +613,9 @@
     "isUnder500M": true,
     "budgetTier": "3억~5억",
     "keyThemes": [
-      "유지보수",
-      "제주특별자치도"
+      "오픈API/포털"
     ],
-    "summary": "제주특별자치도에서 발주한 2027년 공간정보업무포털 유지관리 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 8,
-    "ddayText": "D-8",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "제주특별자치도",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 330370874,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "제주특별자치도에서 발주한 2027년 공간정보업무포털 유지관리 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01841320-000",
@@ -995,27 +643,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "양평군"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경기도 양평군에서 발주한 [긴급] 2027년도 양평군 공간정보 관련시스템 통합유지관리 용역(협상에의한계약) 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 8,
-    "ddayText": "D-8",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경기도 양평군",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 144148400,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경기도 양평군에서 발주한 [긴급] 2027년도 양평군 공간정보 관련시스템 통합유지관리 용역(협상에의한계약) 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01823916-000",
@@ -1043,27 +674,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "통영시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경상남도 통영시에서 발주한 2027년 통영시 공간정보시스템 통합유지보수 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 8,
-    "ddayText": "D-8",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경상남도 통영시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 104852142,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경상남도 통영시에서 발주한 2027년 통영시 공간정보시스템 통합유지보수 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01825220-000",
@@ -1091,28 +705,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "서울특별시농수산식품공사"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "서울특별시농수산식품공사에서 발주한 가락시장 공간정보 경량화 및 Map 서비스 구축 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 8,
-    "ddayText": "D-8",
-    "crossMatch": {
-      "matched": true,
-      "source": "contract_history",
-      "familyId": null,
-      "familyName": "차세대 통합공간정보플랫폼 구축 용역(1단계)",
-      "agency": "서울특별시",
-      "incumbentCompany": "주식회사 올포랜드",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": true,
-      "pastWinners": [
-        "2026년 실측 수주사: 주식회사 올포랜드"
-      ],
-      "avgBidRate": 99.843,
-      "recommendedBid": 107999481,
-      "pastBudget": 1443256000,
-      "strategicAdvice": "실측 조달 계약 연계(FACT): 2026년 직전 선행 사업(차세대 통합공간정보플랫폼 구축 용역(...)에서 '주식회사 올포랜드'이(가) 투찰률 99.843%로 낙찰받았습니다. 기존 사업자 산출물 대비 개선 제안으로 공략하세요."
-    }
+    "summary": "서울특별시농수산식품공사에서 발주한 가락시장 공간정보 경량화 및 Map 서비스 구축 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01838165-000",
@@ -1140,28 +736,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "공간정보플랫폼",
-      "남해군"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경상남도 남해군에서 발주한 2027~2028년 남해군 공간정보플랫폼 유지보수 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 9,
-    "ddayText": "D-9",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경상남도 남해군",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 103528914,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경상남도 남해군에서 발주한 2027~2028년 남해군 공간정보플랫폼 유지보수 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01819793-000",
@@ -1189,27 +767,10 @@
     "isUnder500M": true,
     "budgetTier": "3억~5억",
     "keyThemes": [
-      "유지보수",
-      "화성시"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경기도 화성시에서 발주한 2027년 화성시 공간정보시스템 통합 유지관리 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 10,
-    "ddayText": "D-10",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경기도 화성시",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 357681231,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경기도 화성시에서 발주한 2027년 화성시 공간정보시스템 통합 유지관리 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01849322-000",
@@ -1237,30 +798,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "공간정보플랫폼",
-      "경상남도"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경상남도에서 발주한 2027년 스마트공간정보플랫폼 운영 및 유지관리 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 10,
-    "ddayText": "D-10",
-    "crossMatch": {
-      "matched": true,
-      "source": "contract_history",
-      "familyId": null,
-      "familyName": "2026년 스마트공간정보플랫폼 유지관리",
-      "agency": "경상남도 진주시",
-      "incumbentCompany": "주식회사 대림네트",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": true,
-      "pastWinners": [
-        "2026년 실측 수주사: 주식회사 대림네트"
-      ],
-      "avgBidRate": 88.471,
-      "recommendedBid": 240991925,
-      "pastBudget": 40290000,
-      "strategicAdvice": "실측 조달 계약 연계(FACT): 2026년 직전 선행 사업(2026년 스마트공간정보플랫폼 유지관...)에서 '주식회사 대림네트'이(가) 투찰률 88.471%로 낙찰받았습니다. 기존 사업자 산출물 대비 개선 제안으로 공략하세요."
-    }
+    "summary": "경상남도에서 발주한 2027년 스마트공간정보플랫폼 운영 및 유지관리 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01853325-000",
@@ -1288,27 +829,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "광주청사"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "전남광주통합특별시 광주청사에서 발주한 2027년 전남광주통합특별시 공간정보시스템 통합 유지보수 용역(협상) 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 13,
-    "ddayText": "D-13",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "전남광주통합특별시 광주청사",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 175910280,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "전남광주통합특별시 광주청사에서 발주한 2027년 전남광주통합특별시 공간정보시스템 통합 유지보수 용역(협상) 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01830982-000",
@@ -1336,27 +860,10 @@
     "isUnder500M": true,
     "budgetTier": "1억~3억",
     "keyThemes": [
-      "유지보수",
-      "경상북도"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "경상북도에서 발주한 2027년도 공간정보시스템 통합유지보수 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 13,
-    "ddayText": "D-13",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "경상북도",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 113261655,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "경상북도에서 발주한 2027년도 공간정보시스템 통합유지보수 용역 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01811538-000",
@@ -1384,30 +891,10 @@
     "isUnder500M": false,
     "budgetTier": "5억 이상",
     "keyThemes": [
-      "유지보수",
-      "공간정보플랫폼",
-      "한국국토정보공사"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "한국국토정보공사에서 발주한 27년 국가공간정보통합플랫폼(K-GeoP) 유지관리 및 운영지원 공고입니다. 업무구분은 일반용역이며 계약방식은 일반경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 14,
-    "ddayText": "D-14",
-    "crossMatch": {
-      "matched": true,
-      "source": "recurring",
-      "familyId": "REC-R26BK01550692-000",
-      "familyName": "세종 공간정보 통합플랫폼 유지관리 용역",
-      "agency": "한국국토정보공사 대전충남지역본부",
-      "incumbentCompany": "주식회사 웨이버스",
-      "winnerChangeCount": 1,
-      "isIncumbentLocked": false,
-      "pastWinners": [
-        "2026년 계약사: 주식회사 웨이버스"
-      ],
-      "avgBidRate": 91.5,
-      "recommendedBid": 3255653338,
-      "pastBudget": 149352000,
-      "strategicAdvice": "실제 수주 변동(FACT): 최근 사업자 교체(1회)가 발생한 경쟁 유망 사업입니다. (2025년 '(주)메타지아이에스컨설팅' ➡️ 2026년 '주식회사 웨이버스') 기존 사업자의 과업 수행 내역을 정밀 분석하여 2027.05 차기 발주 시 수주 가능성 극대화 추천."
-    }
+    "summary": "한국국토정보공사에서 발주한 27년 국가공간정보통합플랫폼(K-GeoP) 유지관리 및 운영지원 실제 조달청 나라장터 공고입니다."
   },
   {
     "bidNtceNo": "R26BK01838911-000",
@@ -1435,25 +922,625 @@
     "isUnder500M": true,
     "budgetTier": "3억~5억",
     "keyThemes": [
-      "소상공인시장진흥공단"
+      "공간정보",
+      "GIS"
     ],
-    "summary": "소상공인시장진흥공단에서 발주한 전통시장 소방출동 지원기능 개선 및 공간정보 구축 용역 공고입니다. 업무구분은 일반용역이며 계약방식은 제한경쟁(협상에의한계약-협상에 의한 낙찰자 결정(SW사업))입니다.",
-    "dday": 21,
-    "ddayText": "D-21",
-    "crossMatch": {
-      "matched": false,
-      "source": "none",
-      "familyId": null,
-      "familyName": null,
-      "agency": "소상공인시장진흥공단",
-      "incumbentCompany": "기존 고착 사업자 없음 (신규 기회)",
-      "winnerChangeCount": 0,
-      "isIncumbentLocked": false,
-      "pastWinners": [],
-      "avgBidRate": 90.5,
-      "recommendedBid": 326843094,
-      "pastBudget2026": null,
-      "strategicAdvice": "✨ 직전 3년간 고착 사업자가 없는 신규/경쟁 진입 기회 공고입니다. 과업요청서 요구사항을 충실히 반영한 차별화된 제안서 작성을 추천합니다."
-    }
+    "summary": "소상공인시장진흥공단에서 발주한 전통시장 소방출동 지원기능 개선 및 공간정보 구축 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01848643-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 원주시 공간정보시스템 유지관리 용역",
+    "ntceInsttNm": "강원특별자치도 원주시",
+    "dminsttNm": "강원특별자치도 원주시",
+    "orgType": "지자체",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "수의계약",
+    "awardMethod": "수의시담-수의시담",
+    "assignBdgtAmt": 49850000,
+    "presmptPrce": 45318182,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-23 14:53:36",
+    "bidClseDt": "2026-11-23 16:00:00",
+    "opengDt": "2026-11-23 17:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01848643&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "5천만 미만",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "강원특별자치도 원주시에서 발주한 2027년 원주시 공간정보시스템 유지관리 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01843660-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "공간정보 현행화 및 공간 사용현황 분석 용역",
+    "ntceInsttNm": "광주과학기술원",
+    "dminsttNm": "광주과학기술원",
+    "orgType": "국가기관",
+    "category": "시스템/SW구축",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정",
+    "assignBdgtAmt": 120000000,
+    "presmptPrce": 109090909,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-19 21:22:59",
+    "bidClseDt": "",
+    "opengDt": "2026-11-30 14:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01843660&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "광주과학기술원에서 발주한 공간정보 현행화 및 공간 사용현황 분석 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01843061-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 공간정보오픈플랫폼 민간위탁사업(유지보수)",
+    "ntceInsttNm": "국토교통부",
+    "dminsttNm": "국토교통부",
+    "orgType": "국가기관",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "수의계약",
+    "awardMethod": "수의시담-수의시담",
+    "assignBdgtAmt": 2602000000,
+    "presmptPrce": 2365454545,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-19 17:04:20",
+    "bidClseDt": "2026-11-20 11:00:00",
+    "opengDt": "2026-11-20 12:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01843061&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": false,
+    "budgetTier": "5억 이상",
+    "keyThemes": [
+      "오픈API/포털"
+    ],
+    "summary": "국토교통부에서 발주한 2027년 공간정보오픈플랫폼 민간위탁사업(유지보수) 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01843040-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 공간정보오픈플랫폼 민간위탁사업(운영)",
+    "ntceInsttNm": "국토교통부",
+    "dminsttNm": "국토교통부",
+    "orgType": "국가기관",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "수의계약",
+    "awardMethod": "수의시담-수의시담",
+    "assignBdgtAmt": 1748000000,
+    "presmptPrce": 1589090909,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-19 17:01:01",
+    "bidClseDt": "2026-11-20 11:00:00",
+    "opengDt": "2026-11-20 12:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01843040&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": false,
+    "budgetTier": "5억 이상",
+    "keyThemes": [
+      "오픈API/포털"
+    ],
+    "summary": "국토교통부에서 발주한 2027년 공간정보오픈플랫폼 민간위탁사업(운영) 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01835915-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 공간정보 통합플랫폼 유지관리사업",
+    "ntceInsttNm": "충청남도",
+    "dminsttNm": "충청남도",
+    "orgType": "지자체",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 232530000,
+    "presmptPrce": 211390909,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-17 13:52:37",
+    "bidClseDt": "",
+    "opengDt": "2026-11-30 17:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01835915&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "충청남도에서 발주한 2027년 공간정보 통합플랫폼 유지관리사업 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01824268-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 공간정보시스템 통합유지보수 용역",
+    "ntceInsttNm": "경기도 남양주시",
+    "dminsttNm": "경기도 남양주시",
+    "orgType": "지자체",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 89494000,
+    "presmptPrce": 81358182,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-13 10:22:18",
+    "bidClseDt": "2026-11-24 16:00:00",
+    "opengDt": "2026-11-26 17:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01824268&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "5천만~1억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "경기도 남양주시에서 발주한 2027년 공간정보시스템 통합유지보수 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01825240-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 IFEZ 3차원 공간정보서비스 유지보수 용역",
+    "ntceInsttNm": "인천광역시 경제자유구역청",
+    "dminsttNm": "인천광역시 경제자유구역청",
+    "orgType": "국가기관",
+    "category": "디지털트윈/융합",
+    "workType": "일반용역",
+    "noticeType": "수의계약",
+    "awardMethod": "소액수의견적-소액수의견적(2인 이상 견적 제출)",
+    "assignBdgtAmt": 69000000,
+    "presmptPrce": 62727273,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-12 16:59:07",
+    "bidClseDt": "2026-11-20 10:00:00",
+    "opengDt": "2026-11-20 11:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01825240&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "5천만~1억",
+    "keyThemes": [
+      "3D/3차원"
+    ],
+    "summary": "인천광역시 경제자유구역청에서 발주한 2027년 IFEZ 3차원 공간정보서비스 유지보수 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01824584-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "경상남도 3차원 실내공간정보관리시스템 유지관리",
+    "ntceInsttNm": "경상남도",
+    "dminsttNm": "경상남도",
+    "orgType": "지자체",
+    "category": "디지털트윈/융합",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 31070000,
+    "presmptPrce": 28245455,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-11 16:46:05",
+    "bidClseDt": "",
+    "opengDt": "2026-11-23 18:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01824584&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "5천만 미만",
+    "keyThemes": [
+      "3D/3차원"
+    ],
+    "summary": "경상남도에서 발주한 경상남도 3차원 실내공간정보관리시스템 유지관리 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01821974-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 공간정보시스템 통합 유지보수 용역",
+    "ntceInsttNm": "조달청 서울지방조달청",
+    "dminsttNm": "경기도 이천시",
+    "orgType": "지자체",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 150942380,
+    "presmptPrce": 135775273,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-11 11:11:57",
+    "bidClseDt": "2026-11-24 10:00:00",
+    "opengDt": "2026-11-24 10:32:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01821974&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "경기도 이천시에서 발주한 2027년 공간정보시스템 통합 유지보수 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01818805-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 공간정보시스템 통합 유지관리 용역",
+    "ntceInsttNm": "경기도 김포시",
+    "dminsttNm": "경기도 김포시",
+    "orgType": "지자체",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 147860000,
+    "presmptPrce": 134418182,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-11 09:36:24",
+    "bidClseDt": "2026-11-24 17:00:00",
+    "opengDt": "2026-11-24 18:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01818805&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "경기도 김포시에서 발주한 2027년 공간정보시스템 통합 유지관리 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01818949-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 공간정보사업 공유 및 관리시스템 유지관리",
+    "ntceInsttNm": "국토교통부",
+    "dminsttNm": "국토교통부",
+    "orgType": "국가기관",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 50000000,
+    "presmptPrce": 45454545,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-09 17:26:26",
+    "bidClseDt": "2026-11-20 10:00:00",
+    "opengDt": "2026-11-20 11:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01818949&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "5천만~1억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "국토교통부에서 발주한 2027년 공간정보사업 공유 및 관리시스템 유지관리 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01813104-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 공간정보시스템 HW，상용SW 유지관리 용역",
+    "ntceInsttNm": "조달청 제주지방조달청",
+    "dminsttNm": "제주특별자치도",
+    "orgType": "지자체",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 229661220,
+    "presmptPrce": 206744545,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-06 14:55:21",
+    "bidClseDt": "2026-11-19 10:00:00",
+    "opengDt": "2026-11-19 11:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01813104&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "제주특별자치도에서 발주한 2027년 공간정보시스템 HW，상용SW 유지관리 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01813917-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 공간정보시스템 통합유지보수 용역(협상에 의한 계약)",
+    "ntceInsttNm": "충청남도 논산시",
+    "dminsttNm": "충청남도 논산시",
+    "orgType": "지자체",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "일반경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 109453700,
+    "presmptPrce": 99503364,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-06 11:27:27",
+    "bidClseDt": "2026-11-17 17:00:00",
+    "opengDt": "2026-11-17 18:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01813917&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "충청남도 논산시에서 발주한 2027년 공간정보시스템 통합유지보수 용역(협상에 의한 계약) 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01810587-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 새만금 공간정보시스템 관리 및 기능개선 용역",
+    "ntceInsttNm": "새만금개발청",
+    "dminsttNm": "새만금개발청",
+    "orgType": "국가기관",
+    "category": "시스템/SW구축",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정",
+    "assignBdgtAmt": 80000000,
+    "presmptPrce": 72727273,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-04 17:21:48",
+    "bidClseDt": "2026-11-16 10:00:00",
+    "opengDt": "2026-11-16 11:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01810587&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "5천만~1억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "새만금개발청에서 발주한 2027년 새만금 공간정보시스템 관리 및 기능개선 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01810156-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 통합공간정보시스템(SDW) 외 2종 통합 유지관리 용역",
+    "ntceInsttNm": "서울특별시",
+    "dminsttNm": "서울특별시",
+    "orgType": "지자체",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 150472000,
+    "presmptPrce": 136792727,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-04 16:46:00",
+    "bidClseDt": "2026-11-17 16:00:00",
+    "opengDt": "2026-11-17 17:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01810156&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "서울특별시에서 발주한 2027년 통합공간정보시스템(SDW) 외 2종 통합 유지관리 용역 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01801584-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "(긴급)2027년 안산시 공간정보시스템 통합 운영·유지관리 용역(협상에 의한 계약)",
+    "ntceInsttNm": "조달청 인천지방조달청",
+    "dminsttNm": "경기도 안산시",
+    "orgType": "지자체",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 169503470,
+    "presmptPrce": 152509091,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-02 16:40:54",
+    "bidClseDt": "2026-11-13 10:00:00",
+    "opengDt": "2026-11-13 11:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01801584&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "경기도 안산시에서 발주한 (긴급)2027년 안산시 공간정보시스템 통합 운영·유지관리 용역(협상에 의한 계약) 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01801364-001",
+    "bidNtceOrd": "001",
+    "bidNtceNm": "여수공업고등학교 드론공간정보과 학과재구조화 건축 공사 입찰 공고",
+    "ntceInsttNm": "전라남도교육청 여수공업고등학교",
+    "dminsttNm": "전라남도교육청 여수공업고등학교",
+    "orgType": "공공기관",
+    "category": "시스템/SW구축",
+    "workType": "공사",
+    "noticeType": "제한경쟁",
+    "awardMethod": "적격심사제-추정가격이 4억원 미만 2억원 이상인 입찰공사(실적제한 아님, 전문공사)",
+    "assignBdgtAmt": 229297273,
+    "presmptPrce": 229297273,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-02 09:22:15",
+    "bidClseDt": "2026-11-10 10:00:00",
+    "opengDt": "2026-11-10 11:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01801364&bidPbancOrd=001",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "전라남도교육청 여수공업고등학교에서 발주한 여수공업고등학교 드론공간정보과 학과재구조화 건축 공사 입찰 공고 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01801364-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "여수공업고등학교 드론공간정보과 학과재구조화 건축 공사 입찰 공고",
+    "ntceInsttNm": "전라남도교육청 여수공업고등학교",
+    "dminsttNm": "전라남도교육청 여수공업고등학교",
+    "orgType": "공공기관",
+    "category": "시스템/SW구축",
+    "workType": "공사",
+    "noticeType": "제한경쟁",
+    "awardMethod": "적격심사제-추정가격이 4억원 미만 2억원 이상인 입찰공사(실적제한 아님, 전문공사)",
+    "assignBdgtAmt": 229297273,
+    "presmptPrce": 229297273,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-02 08:28:02",
+    "bidClseDt": "2026-11-10 10:00:00",
+    "opengDt": "2026-11-10 11:00:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01801364&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "전라남도교육청 여수공업고등학교에서 발주한 여수공업고등학교 드론공간정보과 학과재구조화 건축 공사 입찰 공고 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01801443-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "여수공업고등학교 드론공간정보과 학과재구조화전기 공사 소액수의 견적 제출 안내 공고",
+    "ntceInsttNm": "전라남도교육청 여수공업고등학교",
+    "dminsttNm": "전라남도교육청 여수공업고등학교",
+    "orgType": "공공기관",
+    "category": "시스템/SW구축",
+    "workType": "공사",
+    "noticeType": "수의계약",
+    "awardMethod": "소액수의견적-소액수의견적(2인 이상 견적 제출)-국민연금보험료 등 합산액 감액 적용",
+    "assignBdgtAmt": 82427273,
+    "presmptPrce": 82427273,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-11-02 08:26:10",
+    "bidClseDt": "2026-11-06 13:10:00",
+    "opengDt": "2026-11-06 14:10:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01801443&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "5천만~1억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "전라남도교육청 여수공업고등학교에서 발주한 여수공업고등학교 드론공간정보과 학과재구조화전기 공사 소액수의 견적 제출 안내 공고 실제 조달청 나라장터 공고입니다."
+  },
+  {
+    "bidNtceNo": "R26BK01796955-000",
+    "bidNtceOrd": "000",
+    "bidNtceNm": "2027년 공간정보시스템(누리맵) 통합유지관리 용역",
+    "ntceInsttNm": "조달청 서울지방조달청",
+    "dminsttNm": "경기도 파주시",
+    "orgType": "지자체",
+    "category": "유지보수/운영",
+    "workType": "일반용역",
+    "noticeType": "제한경쟁",
+    "awardMethod": "협상에의한계약-협상에 의한 낙찰자 결정(SW사업)",
+    "assignBdgtAmt": 151595000,
+    "presmptPrce": 136363636,
+    "bsisAmt": 0,
+    "bidNtceDt": "2026-10-29 10:45:39",
+    "bidClseDt": "2026-11-12 10:00:00",
+    "opengDt": "2026-11-12 10:17:00",
+    "bidPrcsTypeNm": "입찰공고중",
+    "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01796955&bidPbancOrd=000",
+    "isSuccessBidded": false,
+    "succBidAmt": null,
+    "succBidCorp": null,
+    "bidRate": null,
+    "isUnder500M": true,
+    "budgetTier": "1억~3억",
+    "keyThemes": [
+      "공간정보",
+      "GIS"
+    ],
+    "summary": "경기도 파주시에서 발주한 2027년 공간정보시스템(누리맵) 통합유지관리 용역 실제 조달청 나라장터 공고입니다."
   }
 ]

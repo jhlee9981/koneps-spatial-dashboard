@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#1543a3">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>공간정보 조달 포털 - 나라장터 발주 및 계약 데이터 분석</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- SheetJS (xlsx) for Excel Export/Import -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <!-- Google Fonts: Pretendard -->
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- KRDS & Custom Styles -->
+  <link rel="stylesheet" href="/style.css">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            gov: {
+              primary: '#1543a3',
+              navy: '#071952',
+              blue: '#1d58cc',
+              light: '#f8f9fa',
+              border: '#dcdfe3',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-[#f8f9fa] text-[#191f28] antialiased font-sans flex flex-col min-h-screen pb-16 md:pb-0">
+
+
+  <!-- 주 네비게이션 헤더 (data.go.kr 스타일: 순백색 배경, 네이비 엠블럼, 텍스트 탭) -->
+  <header class="gov-header sticky top-0 z-30 bg-white shadow-xs border-b border-[#dcdfe3]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- 로고 및 서비스 타이틀 (공공기관 표준 스타일) -->
+      <div class="flex items-center space-x-3.5">
+        <div class="w-9 h-9 bg-[#1543a3] rounded flex flex-col items-center justify-center text-white shadow-xs shrink-0">
+          <span class="text-[10px] font-bold leading-tight tracking-tight">공간</span>
+          <span class="text-[10px] font-black leading-tight tracking-wider">정보</span>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-base sm:text-lg font-extrabold text-[#071952] tracking-tight">공간정보 데이터 분석 포털</h1>
+            <span class="px-2 py-0.5 text-[11px] font-bold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] rounded">
+              5억 미만 중점
+            </span>
+          </div>
+          <p class="text-[11px] text-[#6c757d] hidden sm:block">조달청 나라장터 2024~2026년 3개년 계약 실적 및 실시간 입찰 데이터</p>
+        </div>
+      </div>
+
+      <!-- 데스크톱 텍스트 탭 메뉴 (아이콘 없는 순수 공공 표준 네비게이션) -->
+      <nav class="hidden md:flex items-center space-x-1">
+        <button onclick="switchTab('dashboard')" id="desktop-tab-dashboard"
+          class="nav-tab active px-3.5 py-2 text-sm font-semibold transition-colors">
+          <span>5억미만 대시보드</span>
+        </button>
+        <button onclick="switchTab('projects')" id="desktop-tab-projects"
+          class="nav-tab px-3.5 py-2 text-sm font-medium transition-colors">
+          <span>사업 목록</span>
+          <span id="badge-total-count"
+            class="ml-1 px-1.5 py-0.2 text-[10px] bg-[#eef4ff] text-[#1543a3] font-bold border border-[#cfdfff] rounded">--</span>
+        </button>
+        <button onclick="switchTab('analytics')" id="desktop-tab-analytics"
+          class="nav-tab px-3.5 py-2 text-sm font-medium transition-colors">
+          <span>구간별 심층분석</span>
+        </button>
+        <button onclick="switchTab('recurring')" id="desktop-tab-recurring"
+          class="nav-tab px-3.5 py-2 text-sm font-medium transition-colors">
+          <span>3개년 계속사업</span>
+        </button>
+        <button onclick="switchTab('data')" id="desktop-tab-data"
+          class="nav-tab px-3.5 py-2 text-sm font-medium transition-colors">
+          <span>데이터 연동</span>
+        </button>
+      </nav>
+
+      <!-- 우측 빠른 도구 (단정한 테두리 버튼) -->
+      <div class="flex items-center space-x-2">
+        <button onclick="openQrModal()"
+          class="px-3 py-1.5 text-xs font-semibold bg-white hover:bg-[#f8f9fa] text-[#333d4b] border border-[#ced4da] rounded transition-colors"
+          title="모바일 기기에서 바로 접속하기 위한 안내">
+          모바일 접속 안내
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 5억 미만 안내 배너 (공공데이터포털 공지 스타일: 부드러운 블루 톤 & 단정한 테두리) -->
+  <div class="bg-[#f0f4fc] border-b border-[#d2def5] py-2.5 px-4 sm:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+      <div class="flex items-center space-x-2 text-[#071952]">
+        <span class="px-1.5 py-0.5 bg-[#1543a3] text-white font-bold rounded text-[10px]">안내</span>
+        <span class="font-bold">5억 미만 사업 중점 모드 적용 중:</span>
+        <span class="text-[#333d4b]">중소기업 참여 적합 사업, 소액수의 대상, 기초 지자체 실무 프로젝트를 우선 분석합니다.</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button onclick="toggleUnder500MOnly()" id="btn-toggle-under500-banner"
+          class="px-3 py-1 bg-[#1543a3] hover:bg-[#0f3282] text-white font-semibold rounded text-xs transition-colors">
+          <span id="banner-toggle-text">5억 미만 전용 필터 적용 중</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 메인 컨텐츠 영역 -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 space-y-5">
+
+    <!-- TAB 1: 대시보드 (DASHBOARD - 5억 미만 중점) -->
+    <section id="tab-dashboard" class="tab-content active space-y-5">
+      <!-- 3개년 연도 범위 선택 바 -->
+      <div class="gov-card p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center space-x-2">
+          <span class="text-xs font-bold text-[#333d4b]">분석 데이터 기간:</span>
+          <span id="dashboard-scope-badge"
+            class="px-2.5 py-0.5 text-xs font-bold bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">
+            전체 3개년 통합 (2024~2026)
+          </span>
+        </div>
+        <div class="flex items-center space-x-1.5 bg-[#f1f3f5] p-1 rounded">
+          <button onclick="setDashboardYear('all')" id="btn-year-all"
+            class="dashboard-year-btn active px-3.5 py-1.5 text-xs font-bold rounded bg-white text-[#1543a3] border border-[#ced4da] shadow-xs">
+            3개년 종합 (419건)
+          </button>
+          <button onclick="setDashboardYear('2026')" id="btn-year-2026"
+            class="dashboard-year-btn px-3 py-1.5 text-xs font-medium text-[#495057] hover:text-[#212529] rounded">
+            2026년 (109건)
+          </button>
+          <button onclick="setDashboardYear('2025')" id="btn-year-2025"
+            class="dashboard-year-btn px-3 py-1.5 text-xs font-medium text-[#495057] hover:text-[#212529] rounded">
+            2025년 (156건)
+          </button>
+          <button onclick="setDashboardYear('2024')" id="btn-year-2024"
+            class="dashboard-year-btn px-3 py-1.5 text-xs font-medium text-[#495057] hover:text-[#212529] rounded">
+            2024년 (154건)
+          </button>
+        </div>
+      </div>
+
+      <!-- 핵심 KPI 카드 그리드 (단정한 공공 포털 규격: 아이콘 제거, 명확한 수치) -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+        <div class="gov-card p-4 sm:p-5 relative border-t-2 border-t-[#1543a3]">
+          <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">5억 미만 사업</div>
+          <div class="flex items-baseline space-x-1">
+            <span id="kpi-under500-count" class="text-2xl sm:text-3xl font-extrabold text-[#1543a3] tracking-tight">--</span>
+            <span class="text-xs sm:text-sm text-[#4e5968] font-semibold">건</span>
+          </div>
+          <p id="kpi-under500-ratio" class="text-[11px] sm:text-xs text-[#6c757d] mt-2 font-medium">전체 대비 --% 점유</p>
+        </div>
+
+        <div class="gov-card p-4 sm:p-5 relative border-t-2 border-t-[#00835f]">
+          <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">5억 미만 총 배정예산</div>
+          <div class="flex items-baseline space-x-1">
+            <span id="kpi-under500-budget" class="text-2xl sm:text-3xl font-extrabold text-[#191f28] tracking-tight">--</span>
+            <span class="text-xs sm:text-sm text-[#00835f] font-bold">억 원</span>
+          </div>
+          <p id="kpi-under500-raw-budget" class="text-[11px] sm:text-xs text-[#8b95a1] mt-2">합산 배정예산</p>
+        </div>
+
+        <div class="gov-card p-4 sm:p-5 relative border-t-2 border-t-[#1d58cc]">
+          <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">건당 평균 사업비</div>
+          <div class="flex items-baseline space-x-1">
+            <span id="kpi-under500-avg" class="text-2xl sm:text-3xl font-extrabold text-[#1d58cc] tracking-tight">--</span>
+            <span class="text-xs sm:text-sm text-[#1d58cc] font-bold">억 원</span>
+          </div>
+          <p class="text-[11px] sm:text-xs text-[#8b95a1] mt-2">5억 미만 건당 평균액</p>
+        </div>
+
+        <div class="gov-card p-4 sm:p-5 relative border-t-2 border-t-[#495057]">
+          <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">1억 미만 소액사업</div>
+          <div class="flex items-baseline space-x-1">
+            <span id="kpi-under100-count" class="text-2xl sm:text-3xl font-extrabold text-[#343a40] tracking-tight">--</span>
+            <span class="text-xs sm:text-sm text-[#4e5968] font-semibold">건</span>
+          </div>
+          <p id="kpi-under50-detail" class="text-[11px] sm:text-xs text-[#495057] font-medium mt-2">5천만 미만 수의계약: --건</p>
+        </div>
+      </div>
+
+      <!-- 5억 미만 4대 금액 구간별 세부 분석 카드 -->
+      <div class="gov-card p-4 sm:p-5">
+        <div class="mb-4 pb-2 border-b border-[#e5e8eb] flex items-center justify-between">
+          <div>
+            <h2 class="gov-section-title">5억 미만 4대 예산 구간별 사업 분포</h2>
+            <p class="text-xs text-[#6c757d] mt-0.5">초소액 수의계약부터 중소기업 핵심 중형 프로젝트까지 세부 구간 비교</p>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 bg-[#f1f3f5] text-[#495057] rounded border border-[#dee2e6]">구간별 비교</span>
+        </div>
+        <div id="under500-buckets-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <!-- 동적 주입 -->
+        </div>
+      </div>
+
+      <!-- 차트 그리드 1: 5억 미만 세부 구간 분포 & 월별 발주 추이 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2 gov-card p-4 sm:p-5 flex flex-col justify-between">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb] gap-2">
+            <div>
+              <h2 id="chart-monthly-title" class="gov-section-title">5억 미만 발주 추이 (1월 ~ 12월 시즌별 분석)</h2>
+              <p id="chart-monthly-subtitle" class="text-xs text-[#8b95a1] mt-0.5">월별 발주 건수(막대) 및 총 배정예산(선 그래프)</p>
+            </div>
+            <div class="flex items-center space-x-3 text-xs">
+              <span class="flex items-center space-x-1 text-[#4e5968]">
+                <span class="w-3 h-3 bg-[#1543a3] rounded-xs"></span>
+                <span>발주건수 (건)</span>
+              </span>
+              <span class="flex items-center space-x-1 text-[#4e5968]">
+                <span class="w-3 h-1 bg-[#00835f]"></span>
+                <span>예산합계 (억원)</span>
+              </span>
+            </div>
+          </div>
+          <div class="relative h-64 sm:h-72 w-full">
+            <canvas id="chart-under500-monthly"></canvas>
+          </div>
+        </div>
+
+        <div class="gov-card p-4 sm:p-5 flex flex-col justify-between">
+          <div class="mb-3 pb-2 border-b border-[#e5e8eb]">
+            <h2 class="gov-section-title">5억 미만 사업 분류 비중</h2>
+            <p class="text-xs text-[#8b95a1] mt-0.5">유지보수, 소규모 DB구축, SW기능보강, 연구</p>
+          </div>
+          <div class="relative h-56 sm:h-64 flex items-center justify-center">
+            <canvas id="chart-under500-categories"></canvas>
+          </div>
+          <div id="under500-category-legend-list" class="grid grid-cols-2 gap-1.5 mt-2 text-xs"></div>
+        </div>
+      </div>
+
+      <!-- 차트 그리드 2: 5억 미만 최다 발주 기초지자체 Top 10 & 계약방식 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="gov-card p-4 sm:p-5">
+          <div class="flex items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb]">
+            <div>
+              <h2 class="gov-section-title">5억 미만 최다 발주 지자체 Top 10</h2>
+              <p class="text-xs text-[#8b95a1] mt-0.5">공간정보 사업을 활발히 발주하는 기초 시·군·구 순위</p>
+            </div>
+            <span class="text-xs font-semibold px-2 py-0.5 bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">발주 건수 기준</span>
+          </div>
+          <div class="relative h-64 sm:h-72 w-full">
+            <canvas id="chart-under500-top-agencies"></canvas>
+          </div>
+        </div>
+
+        <div class="gov-card p-4 sm:p-5">
+          <div class="flex items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb]">
+            <div>
+              <h2 class="gov-section-title">5억 미만 계약 체결 방식</h2>
+              <p class="text-xs text-[#8b95a1] mt-0.5">수의계약(소액) vs 제한경쟁 vs 협상에 의한 계약</p>
+            </div>
+            <span class="text-xs font-semibold px-2 py-0.5 bg-[#f1f3f5] rounded text-[#495057] border border-[#dee2e6]">계약 방법</span>
+          </div>
+          <div class="relative h-64 sm:h-72 w-full">
+            <canvas id="chart-under500-contracts"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 추천 실속형 사업 카드 그리드 -->
+      <div class="gov-card p-4 sm:p-5">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb]">
+          <div>
+            <h2 class="gov-section-title">주목할 만한 5억 미만 핵심 프로젝트 (3억 ~ 5억 구간)</h2>
+            <p class="text-xs text-[#8b95a1] mt-0.5">중소기업 참여 최적화 및 기술평가 중심 알짜 사업</p>
+          </div>
+          <button onclick="switchTab('projects')" class="text-xs text-[#1543a3] hover:underline font-semibold">전체 목록 보기 →</button>
+        </div>
+        <div id="highlight-under500-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3.5"></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: 사업 목록 탐색기 (PROJECTS LIST & LIVE BIDS) -->
+    <section id="tab-projects" class="tab-content space-y-4 hidden">
+      <!-- 상단 실시간 라이브 & 과거 실적 3단 뷰 모드 전환 배너 (단정한 data.go.kr 스타일) -->
+      <div class="gov-card p-4 sm:p-5 bg-white border border-[#dcdfe3] flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="px-2 py-0.5 text-xs font-bold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] rounded">
+              조달청 OpenAPI 실시간 연계
+            </span>
+            <span class="text-xs text-[#6c757d]">공간정보 5억 미만 중점 관제</span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-extrabold text-[#071952]">
+            실시간 라이브 입찰공고 및 계약완료 실적 통합 관제
+          </h2>
+          <p class="text-xs text-[#4e5968] mt-1">
+            현재 응찰 가능한 <strong>진행 중인 5억 미만 실시간 공고</strong>와 과거 수주 실적을 연계 분석하여 <strong>최적 투찰률 및 수주 전략</strong>을 제시합니다.
+          </p>
+        </div>
+
+        <!-- 3단 전환 세그먼트 버튼 (단정한 사각 버튼) -->
+        <div class="inline-flex rounded bg-[#f1f3f5] p-1 border border-[#ced4da] shrink-0">
+          <button id="btn-project-mode-live" onclick="setProjectViewSource('live')"
+            class="px-3.5 py-2 rounded text-xs font-bold transition-all shadow-xs bg-[#1543a3] text-white">
+            현재 접수중 라이브 (<span id="badge-live-count">12</span>)
+          </button>
+          <button id="btn-project-mode-past" onclick="setProjectViewSource('past')"
+            class="px-3.5 py-2 rounded text-xs font-medium text-[#495057] hover:text-[#212529] transition-all">
+            3개년 계약완료 실적 (<span id="badge-past-count">355</span>)
+          </button>
+          <button id="btn-project-mode-all" onclick="setProjectViewSource('all')"
+            class="px-3.5 py-2 rounded text-xs font-medium text-[#495057] hover:text-[#212529] transition-all">
+            전체 통합 (<span id="badge-all-combined-count">367</span>)
+          </button>
+        </div>
+      </div>
+
+      <!-- 실시간 라이브 공고 요약 대시보드 스트립 -->
+      <div id="live-bids-summary-strip"
+        class="grid grid-cols-2 lg:grid-cols-4 gap-3 bg-white p-3.5 sm:p-4 gov-card">
+        <div class="p-3 bg-[#f8f9fa] rounded border border-[#dee2e6]">
+          <span class="text-[11px] font-semibold text-[#495057] block mb-0.5">현재 접수중 5억 미만</span>
+          <div class="flex items-baseline space-x-1">
+            <span id="strip-live-count" class="text-xl sm:text-2xl font-black text-[#1543a3]">12</span>
+            <span class="text-xs text-[#1543a3] font-bold">건</span>
+          </div>
+          <span class="text-[10px] text-[#6c757d]">공간정보 실시간 공고</span>
+        </div>
+        <div class="p-3 bg-[#f8f9fa] rounded border border-[#dee2e6]">
+          <span class="text-[11px] font-semibold text-[#495057] block mb-0.5">합산 배정예산</span>
+          <div class="flex items-baseline space-x-1">
+            <span id="strip-live-budget" class="text-xl sm:text-2xl font-black text-[#00835f]">24.3</span>
+            <span class="text-xs text-[#00835f] font-bold">억 원</span>
+          </div>
+          <span class="text-[10px] text-[#6c757d]">평균 2.0억 / 공고</span>
+        </div>
+        <div class="p-3 bg-[#f8f9fa] rounded border border-[#dee2e6]">
+          <span class="text-[11px] font-semibold text-[#d9383a] block mb-0.5">3일 이내 마감 임박</span>
+          <div class="flex items-baseline space-x-1">
+            <span id="strip-live-dday3" class="text-xl sm:text-2xl font-black text-[#d9383a]">4</span>
+            <span class="text-xs text-[#d9383a] font-bold">건</span>
+          </div>
+          <span class="text-[10px] text-[#8b95a1]">제안서 제출 서둘러야 할 공고</span>
+        </div>
+        <div class="p-3 bg-[#f8f9fa] rounded border border-[#dee2e6] flex flex-col justify-between">
+          <div>
+            <span class="text-[11px] font-semibold text-[#495057] block mb-0.5">소액 수의계약 대상 (5천만 이하)</span>
+            <div class="flex items-baseline space-x-1">
+              <span id="strip-live-small" class="text-xl sm:text-2xl font-black text-[#212529]">5</span>
+              <span class="text-xs text-[#6c757d] font-bold">건</span>
+            </div>
+          </div>
+          <button id="btn-refresh-live-now" onclick="refreshLiveBidsNow()"
+            class="mt-1.5 px-2.5 py-1 text-[11px] font-semibold bg-[#1543a3] hover:bg-[#0f3282] text-white rounded transition-colors flex items-center justify-center">
+            실시간 즉시 갱신
+          </button>
+        </div>
+      </div>
+
+      <!-- 검색 및 필터 툴바 -->
+      <div class="gov-card p-4 space-y-3">
+        <div class="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center justify-between">
+          <div class="relative flex-1">
+            <input type="text" id="input-search" placeholder="공고명, 시·군·구 지자체명 검색 (예: 용인, 성남, 유지관리, 지하시설물)"
+              class="w-full pl-3 pr-8 py-2 text-sm bg-white border border-[#ced4da] rounded focus:outline-none focus:border-[#1543a3] transition-colors">
+            <button id="btn-clear-search" onclick="clearSearch()"
+              class="absolute inset-y-0 right-0 pr-2.5 flex items-center text-[#adb5bd] hover:text-[#495057] hidden">
+              ✕
+            </button>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <select id="select-sort" onchange="applyFilters()"
+              class="text-xs sm:text-sm bg-white border border-[#ced4da] rounded px-3 py-2 focus:outline-none focus:border-[#1543a3] text-[#495057] font-medium">
+              <option value="date_desc">공고일 최신순</option>
+              <option value="date_asc">공고일 과거순</option>
+              <option value="budget_desc">예산 높은순</option>
+              <option value="budget_asc">예산 낮은순</option>
+            </select>
+
+            <div class="hidden sm:flex border border-[#ced4da] rounded overflow-hidden p-0.5 bg-[#f8f9fa]">
+              <button id="btn-view-card" onclick="setViewMode('card')"
+                class="px-2.5 py-1.5 rounded text-xs text-[#6c757d] hover:text-[#212529] transition-colors" title="카드 뷰">
+                카드
+              </button>
+              <button id="btn-view-table" onclick="setViewMode('table')"
+                class="px-2.5 py-1.5 rounded text-xs text-[#1543a3] font-bold active bg-white shadow-xs border border-[#dee2e6]"
+                title="테이블 뷰">
+                목록
+              </button>
+            </div>
+
+            <button onclick="exportToExcel()"
+              class="px-3 py-2 text-xs sm:text-sm bg-[#ffffff] hover:bg-[#f8f9fa] text-[#1543a3] border border-[#1543a3] font-semibold rounded transition-colors flex items-center space-x-1"
+              title="현재 조회된 목록을 엑셀로 다운로드">
+              <span>엑셀 다운로드</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-2 border-t border-[#e5e8eb]">
+          <!-- 실시간 라이브 전용 빠른 칩 필터 -->
+          <div id="live-quick-filters" class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+            <span class="text-[#071952] font-bold shrink-0 px-1 py-0.5">빠른필터:</span>
+            <button onclick="setLiveQuickFilter('all')"
+              class="live-chip active shrink-0 px-2.5 py-1 rounded text-xs font-semibold"
+              data-live-filter="all">전체 실시간 (<span id="badge-live-pill-all">12</span>)</button>
+            <button onclick="setLiveQuickFilter('dday3')"
+              class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-live-filter="dday3">마감임박 D-3 (<span id="badge-live-pill-dday3">4</span>)</button>
+            <button onclick="setLiveQuickFilter('small')"
+              class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-live-filter="small">소액 수의시담 (<span id="badge-live-pill-small">5</span>)</button>
+            <button onclick="setLiveQuickFilter('single_corp')"
+              class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-live-filter="single_corp">중소기업 단독(1~3억) (<span id="badge-live-pill-single">4</span>)</button>
+            <button onclick="setLiveQuickFilter('matched')"
+              class="live-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-live-filter="matched">전년도 실적 연계 매칭 (<span id="badge-live-pill-matched">5</span>)</button>
+          </div>
+
+          <!-- 계약실적 연도별 빠른 칩 필터 -->
+          <div id="project-year-filters"
+            class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+            <span class="text-[#071952] font-bold shrink-0 px-1 py-0.5">발주연도:</span>
+            <button onclick="filterProjectYear('all')"
+              class="filter-year-chip active shrink-0 px-2.5 py-1 rounded text-xs font-semibold"
+              data-year="all">3개년 전체 (<span id="badge-year-all-count">419</span>)</button>
+            <button onclick="filterProjectYear('2026')"
+              class="filter-year-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-year="2026">2026년 (<span id="badge-year-2026-count">109</span>)</button>
+            <button onclick="filterProjectYear('2025')"
+              class="filter-year-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-year="2025">2025년 (<span id="badge-year-2025-count">156</span>)</button>
+            <button onclick="filterProjectYear('2024')"
+              class="filter-year-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-year="2024">2024년 (<span id="badge-year-2024-count">154</span>)</button>
+          </div>
+
+          <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+            <span class="text-[#071952] font-bold shrink-0 px-1 py-0.5">예산구간:</span>
+            <button onclick="filterBudgetRange('5억 미만')"
+              class="filter-budget-chip active shrink-0 px-2.5 py-1 rounded text-xs font-semibold"
+              data-budget="5억 미만">5억 미만 전체</button>
+            <button onclick="filterBudgetRange('5천만 미만')"
+              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-budget="5천만 미만">5천만 미만 (초소액)</button>
+            <button onclick="filterBudgetRange('5천만 ~ 1억')"
+              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-budget="5천만 ~ 1억">5천만 ~ 1억</button>
+            <button onclick="filterBudgetRange('1억 ~ 3억')"
+              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-budget="1억 ~ 3억">1억 ~ 3억</button>
+            <button onclick="filterBudgetRange('3억 ~ 5억')"
+              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-budget="3억 ~ 5억">3억 ~ 5억 (핵심)</button>
+            <button onclick="filterBudgetRange('전체')"
+              class="filter-budget-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-budget="전체">전체 (대형포함)</button>
+          </div>
+
+          <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+            <span class="text-[#6c757d] font-medium shrink-0 px-1 py-0.5">사업분류:</span>
+            <button onclick="filterCategory('전체')"
+              class="filter-chip active shrink-0 px-2.5 py-1 rounded text-xs"
+              data-cat="전체">전체</button>
+            <button onclick="filterCategory('유지보수/운영')"
+              class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-cat="유지보수/운영">유지보수/운영</button>
+            <button onclick="filterCategory('시스템/SW구축')"
+              class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-cat="시스템/SW구축">시스템/SW구축</button>
+            <button onclick="filterCategory('DB/데이터구축')"
+              class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-cat="DB/데이터구축">DB/데이터구축</button>
+            <button onclick="filterCategory('디지털트윈/융합')"
+              class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-cat="디지털트윈/융합">디지털트윈/융합</button>
+            <button onclick="filterCategory('기획/연구/ISP')"
+              class="filter-chip shrink-0 px-2.5 py-1 rounded text-xs"
+              data-cat="기획/연구/ISP">기획/연구/ISP</button>
+
+            <span class="text-[#dee2e6] shrink-0">|</span>
+            <button onclick="toggleBookmarkOnly()" id="btn-filter-bookmark"
+              class="shrink-0 px-2.5 py-1 rounded border border-[#ced4da] text-[#495057] bg-white hover:bg-[#f8f9fa] text-xs font-medium">
+              관심 등록 사업만
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between text-xs sm:text-sm text-[#6c757d] px-1">
+        <div>
+          <span>검색 결과: <strong id="search-filtered-count" class="text-[#1543a3] font-bold">--</strong> 건</span>
+          <span class="text-[#ced4da] mx-1.5">|</span>
+          <span>합산 예산: <strong id="search-filtered-budget" class="text-[#00835f] font-bold">--</strong></span>
+        </div>
+        <div class="text-[#8b95a1] text-xs">
+          항목 클릭 시 상세 과업 내용과 나라장터 공고문을 확인하실 수 있습니다.
+        </div>
+      </div>
+
+      <div id="projects-container">
+        <!-- 공공데이터포털 표준 테이블 레이아웃 (상단 2px 네이비 강조선) -->
+        <div id="table-view-container" class="gov-card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="krds-table min-w-full text-left text-sm">
+              <thead>
+                <tr>
+                  <th scope="col" class="py-3 px-3 w-12 text-center">관심</th>
+                  <th scope="col" class="py-3 px-4">공고번호 / 게시일</th>
+                  <th scope="col" class="py-3 px-4">입찰공고명</th>
+                  <th scope="col" class="py-3 px-4">수요기관 (지자체)</th>
+                  <th scope="col" class="py-3 px-4">계약방식 / 분류</th>
+                  <th scope="col" class="py-3 px-4 text-right">배정예산</th>
+                  <th scope="col" class="py-3 px-4 text-center">진행상태</th>
+                </tr>
+              </thead>
+              <tbody id="projects-table-body" class="bg-white"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="card-view-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 hidden"></div>
+
+        <div id="empty-state" class="hidden gov-card p-12 text-center">
+          <h3 class="text-base font-bold text-[#212529] mb-1">조건에 맞는 공고가 없습니다</h3>
+          <p class="text-xs text-[#6c757d] mb-4">예산 구간이나 필터를 초기화해 보세요.</p>
+          <button onclick="resetAllFilters()"
+            class="px-4 py-2 text-xs font-semibold bg-[#1543a3] text-white rounded">
+            필터 초기화
+          </button>
+        </div>
+      </div>
+
+      <div id="pagination-controls"
+        class="flex items-center justify-between gov-card px-4 py-3">
+        <button id="btn-prev-page" onclick="changePage(-1)"
+          class="px-3 py-1.5 text-xs font-medium text-[#495057] bg-white hover:bg-[#f8f9fa] rounded border border-[#ced4da] transition-colors disabled:opacity-40">이전</button>
+        <span id="page-indicator" class="text-xs text-[#6c757d] font-semibold">1 / 1 페이지</span>
+        <button id="btn-next-page" onclick="changePage(1)"
+          class="px-3 py-1.5 text-xs font-medium text-[#495057] bg-white hover:bg-[#f8f9fa] rounded border border-[#ced4da] transition-colors disabled:opacity-40">다음</button>
+      </div>
+    </section>
+
+    <!-- TAB 3: 심층 통계 분석 (ANALYTICS DEEP DIVE) -->
+    <section id="tab-analytics" class="tab-content space-y-5 hidden">
+      <!-- 상단 인사이트 배너 (공공 포털 브리핑 스타일) -->
+      <div class="gov-card p-5 sm:p-6 bg-white border border-[#dcdfe3] border-l-4 border-l-[#1543a3]">
+        <div class="max-w-3xl">
+          <span class="px-2 py-0.5 text-xs font-bold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] rounded mb-2.5 inline-block">
+            5억 미만 조달시장 통계 분석
+          </span>
+          <h2 class="text-lg sm:text-xl font-bold text-[#071952] mb-2">지자체 실무 중심의 공간정보 사업 구조와 진입 전략</h2>
+          <p class="text-xs sm:text-sm text-[#4e5968] leading-relaxed">
+            5억 미만 공고는 대형 인프라 구축보다는 <strong>기초 시·군·구의 생활지리 웹 개편</strong>,
+            <strong>도시계획 인허가 공간지원</strong>, <strong>지하시설물 수시갱신</strong>, <strong>일상 유지관리</strong> 비중이 높습니다.
+            특히 <strong>수의계약(1억 미만)</strong> 및 <strong>지역제한/제한경쟁</strong>을 적극 활용하는 것이 실질적인 수주 전략입니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- 차트 1: 5억 미만 4대 예산 구간 종합 비교 -->
+      <div class="gov-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb] gap-2">
+          <div>
+            <h3 class="gov-section-title">5억 미만 4대 예산 구간별 종합 비교 (건수 vs 총 예산)</h3>
+            <p class="text-xs text-[#8b95a1] mt-0.5">5천만 미만(초소액), 5천만~1억, 1억~3억, 3억~5억 구간의 사업 수와 예산 규모 비교</p>
+          </div>
+          <div class="flex items-center space-x-3 text-xs">
+            <span class="flex items-center space-x-1 text-[#4e5968]">
+              <span class="w-3 h-3 bg-[#1543a3] rounded-xs"></span>
+              <span>공고 건수 (건)</span>
+            </span>
+            <span class="flex items-center space-x-1 text-[#4e5968]">
+              <span class="w-3 h-1 bg-[#00835f]"></span>
+              <span>합산 예산 (억원)</span>
+            </span>
+          </div>
+        </div>
+        <div class="relative h-64 sm:h-72 w-full">
+          <canvas id="chart-tier-comparison"></canvas>
+        </div>
+      </div>
+
+      <!-- 세부 분석 그리드: 계약방식 & 기관유형별 예산 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="gov-card p-5">
+          <div class="mb-4 pb-2 border-b border-[#e5e8eb]">
+            <h3 class="gov-section-title">5억 미만 계약 방식 비중</h3>
+            <p class="text-xs text-[#8b95a1] mt-0.5">수의계약 및 제한경쟁 비중</p>
+          </div>
+          <div class="relative h-60 w-full">
+            <canvas id="chart-contract-methods"></canvas>
+          </div>
+          <div id="contract-methods-list" class="mt-3 space-y-1.5 text-xs"></div>
+        </div>
+
+        <div class="gov-card p-5">
+          <div class="mb-4 pb-2 border-b border-[#e5e8eb]">
+            <h3 class="gov-section-title">5억 미만 수요기관 분포</h3>
+            <p class="text-xs text-[#8b95a1] mt-0.5">시·군·구 기초지자체 집중도</p>
+          </div>
+          <div class="relative h-60 w-full">
+            <canvas id="chart-org-types"></canvas>
+          </div>
+          <div id="org-types-list" class="mt-3 space-y-1.5 text-xs"></div>
+        </div>
+      </div>
+
+      <!-- 최다 발주 기초 시·군·구 지자체 순위 차트 -->
+      <div class="gov-card p-5 sm:p-6">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb]">
+          <div>
+            <h3 class="gov-section-title">5억 미만 실속형 사업 최다 발주 지자체 순위</h3>
+            <p class="text-xs text-[#8b95a1] mt-0.5">공간정보 사업을 가장 활발하게 발주한 기초 지자체(시·군·구) Top 10</p>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">발주 건수 기준</span>
+        </div>
+        <div class="relative h-64 sm:h-72 w-full">
+          <canvas id="chart-analytics-agencies"></canvas>
+        </div>
+      </div>
+
+      <!-- 핵심 키워드 태그 목록 -->
+      <div class="gov-card p-5 sm:p-6">
+        <div class="mb-4 pb-2 border-b border-[#e5e8eb]">
+          <h3 class="gov-section-title">5억 미만 공고 주요 빈출 키워드 Top 15</h3>
+          <p class="text-xs text-[#8b95a1] mt-0.5">자주 요구되는 실무 과업 및 기술 스펙</p>
+        </div>
+        <div id="themes-cloud-container" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <!-- 5억 미만 주요 수주 기업 및 컨소시엄 현황 -->
+      <div class="gov-card p-5 sm:p-6">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-[#e5e8eb]">
+          <div>
+            <h3 class="gov-section-title">5억 미만 사업 주요 수주 기업 및 실적</h3>
+            <p class="text-xs text-[#8b95a1] mt-0.5">개찰 완료된 5억 미만 사업에서 가장 많은 수주를 기록한 전문 기업</p>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 bg-[#e6f6f1] text-[#00835f] rounded border border-[#b2e7d7]">낙찰 결과 기반</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="krds-table min-w-full text-xs sm:text-sm">
+            <thead>
+              <tr>
+                <th class="py-2.5 px-3 text-left">순위</th>
+                <th class="py-2.5 px-3 text-left">수주 기업 / 컨소시엄</th>
+                <th class="py-2.5 px-3 text-center">5억미만 수주 건수</th>
+                <th class="py-2.5 px-3 text-right">총 수주 금액</th>
+              </tr>
+            </thead>
+            <tbody id="analytics-winners-body" class="bg-white"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: 데이터 연동 및 관리 (DATA CENTER) -->
+    <section id="tab-data" class="tab-content space-y-5 hidden">
+      <div class="gov-card p-5 sm:p-6">
+        <div class="flex items-center space-x-3 mb-4 pb-3 border-b border-[#e5e8eb]">
+          <div>
+            <h3 class="gov-section-title">나라장터 엑셀(XLSX/CSV) 파일 직접 업로드</h3>
+            <p class="text-xs text-[#8b95a1] mt-0.5">나라장터 포털에서 다운로드한 엑셀 파일을 드래그하여 분석 데이터셋에 즉시 반영합니다.</p>
+          </div>
+        </div>
+
+        <div
+          class="border-2 border-dashed border-[#ced4da] rounded p-6 text-center hover:border-[#1543a3] transition-colors bg-[#f8f9fa]"
+          id="drop-zone" ondragover="handleDragOver(event)" ondrop="handleFileDrop(event)">
+          <p class="text-sm font-semibold text-[#343a40] mb-1">엑셀 파일(XLSX, XLS, CSV)을 이곳에 끌어다 놓으세요</p>
+          <input type="file" id="input-file-excel" accept=".xlsx,.xls,.csv" class="hidden"
+            onchange="handleFileSelect(event)">
+          <button onclick="document.getElementById('input-file-excel').click()"
+            class="mt-2 px-4 py-2 bg-white border border-[#ced4da] rounded text-xs font-semibold text-[#333d4b] hover:bg-[#f8f9fa] shadow-xs">
+            파일 선택하기
+          </button>
+          <p id="file-upload-status" class="text-xs text-[#1543a3] mt-2 font-medium"></p>
+        </div>
+      </div>
+
+      <div class="gov-card p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h3 class="gov-section-title">2024~2026년 조달청 공식 투찰·계약 데이터셋 복원</h3>
+          <p class="text-xs text-[#8b95a1] mt-0.5">조달청 나라장터 공식 3개년 실측 데이터(총 419건, 5억 미만 355건) 기반으로 원상복구합니다.</p>
+        </div>
+        <button onclick="resetDefaultDataset()"
+          class="px-4 py-2 bg-[#f1f3f5] hover:bg-[#dee2e6] text-[#333d4b] text-xs font-semibold rounded border border-[#ced4da] transition-colors shrink-0">
+          기본 데이터셋으로 초기화
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 5: 과거 3개년 계속사업 심층분석 (RECURRING PROJECTS) -->
+    <section id="tab-recurring" class="tab-content space-y-5 hidden">
+      <!-- 상단 기획 배경 및 가이드 배너 -->
+      <div class="gov-card p-5 sm:p-6 bg-white border border-[#dcdfe3] border-l-4 border-l-[#1543a3]">
+        <div class="flex flex-wrap items-center gap-2 mb-2">
+          <span class="px-2 py-0.5 text-xs font-bold bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] rounded">
+            3개년 계속사업 분석
+          </span>
+          <span class="px-2 py-0.5 text-xs font-semibold bg-[#f8f9fa] text-[#495057] border border-[#dee2e6] rounded">
+            2024 ~ 2026 실측 수주패턴 추적
+          </span>
+          <span class="px-2 py-0.5 text-xs font-semibold bg-[#e6f6f1] text-[#00835f] border border-[#b2e7d7] rounded">
+            2027년 재발주 파이프라인
+          </span>
+        </div>
+        <h2 class="text-xl font-extrabold text-[#071952] mb-2">
+          조달청 공식 3개년 실측 투찰·계약 기반 계속사업 분석 및 2027년 수주 공략
+        </h2>
+        <p class="text-xs sm:text-sm text-[#4e5968] leading-relaxed max-w-3xl">
+          조달청 3개년(2024~2026년) 기업별 투찰 및 계약내역(총 419건)의
+          실제 배정예산, 실제 낙찰업체명, 실제 투찰률 및 계약금액을 100% 매핑하여,
+          <strong>실제 사업자 교체 발생 사업(수주 기회) 및 3년 연속 수주 사업</strong>의
+          <strong>2027년 예상 재발주 시기 및 맞춤형 수주 공략 전략</strong>을 제시합니다.
+        </p>
+      </div>
+
+      <!-- 핵심 요약 KPI 카드 그리드 -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+        <div class="gov-card p-4 sm:p-5 border-t-2 border-t-[#1543a3]">
+          <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">3개년 계속사업군</div>
+          <div class="flex items-baseline space-x-1">
+            <span id="kpi-rec-total-count" class="text-2xl sm:text-3xl font-extrabold text-[#1543a3] tracking-tight">37</span>
+            <span class="text-xs sm:text-sm text-[#4e5968] font-semibold">개 군</span>
+          </div>
+          <p id="kpi-rec-scope-desc" class="text-[11px] sm:text-xs text-[#8b95a1] mt-2">5억 미만 37건 / 전체 48건</p>
+        </div>
+
+        <div class="gov-card p-4 sm:p-5 border-t-2 border-t-[#00835f]">
+          <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">3개년 누적 예산</div>
+          <div class="flex items-baseline space-x-1">
+            <span id="kpi-rec-total-budget" class="text-2xl sm:text-3xl font-extrabold text-[#191f28] tracking-tight">163.4</span>
+            <span class="text-xs sm:text-sm text-[#00835f] font-bold">억 원</span>
+          </div>
+          <p id="kpi-rec-2026-budget" class="text-[11px] sm:text-xs text-[#8b95a1] mt-2">2026년 당해 60.5억 원</p>
+        </div>
+
+        <div class="gov-card p-4 sm:p-5 border-t-2 border-t-[#b76e00]">
+          <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">사업자 교체 기회</div>
+          <div class="flex items-baseline space-x-1">
+            <span id="kpi-rec-churn-count" class="text-2xl sm:text-3xl font-extrabold text-[#b76e00] tracking-tight">21</span>
+            <span class="text-xs sm:text-sm text-[#4e5968] font-semibold">건</span>
+          </div>
+          <p id="kpi-rec-churn-ratio" class="text-[11px] sm:text-xs text-[#b76e00] font-medium mt-2">전체의 56.8% (수주 진입 유망)</p>
+        </div>
+
+        <div class="gov-card p-4 sm:p-5 border-t-2 border-t-[#495057]">
+          <div class="text-xs sm:text-sm font-semibold text-[#4e5968] mb-2">2027년 1분기 발주예상</div>
+          <div class="flex items-baseline space-x-1">
+            <span id="kpi-rec-early2027-count" class="text-2xl sm:text-3xl font-extrabold text-[#343a40] tracking-tight">22</span>
+            <span class="text-xs sm:text-sm text-[#4e5968] font-semibold">건</span>
+          </div>
+          <p class="text-[11px] sm:text-xs text-[#6c757d] font-medium mt-2">1~3월 집중 재공고 대비 필요</p>
+        </div>
+      </div>
+
+      <!-- 심층 시각화 차트 그리드 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- 3개년 연도별 예산 추이 차트 -->
+        <div class="gov-card p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="gov-section-title">3개년(2024~2026) 예산 추이</h3>
+              <p class="text-xs text-[#8b95a1] mt-0.5">계속사업 연도별 총 예산(억 원) 및 전년 대비 증감</p>
+            </div>
+            <span class="px-2 py-0.5 text-xs font-semibold bg-[#e6f6f1] text-[#00835f] rounded border border-[#b2e7d7]">연평균 +5.6% 성장</span>
+          </div>
+          <div class="h-64 relative">
+            <canvas id="chart-recurring-trend"></canvas>
+          </div>
+        </div>
+
+        <!-- 3개년 주요 수주업체 점유 현황 차트 -->
+        <div class="gov-card p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="gov-section-title">계속사업 주요 수주기업 점유 순위</h3>
+              <p class="text-xs text-[#8b95a1] mt-0.5">2026년 기준 계속사업 수주 총액 TOP 기업</p>
+            </div>
+            <span class="px-2 py-0.5 text-xs font-semibold bg-[#eef4ff] text-[#1543a3] rounded border border-[#cfdfff]">수주 실적 기준</span>
+          </div>
+          <div class="h-64 relative">
+            <canvas id="chart-recurring-market"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 계속사업 필터 툴바 & 검색바 -->
+      <div class="gov-card p-4 sm:p-5 space-y-4">
+        <!-- 5억 미만 vs 전체 계속사업 원클릭 전환 탭 -->
+        <div class="flex items-center justify-between flex-wrap gap-3 pb-3 border-b border-[#e5e8eb]">
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-bold text-[#333d4b]">분석 범위 선택:</span>
+            <div class="inline-flex rounded bg-[#f1f3f5] p-1 border border-[#ced4da]">
+              <button id="btn-rec-mode-under500" onclick="setRecurringBudgetMode('under500')"
+                class="px-3.5 py-1.5 rounded text-xs font-bold transition-all shadow-xs bg-[#1543a3] text-white">
+                5억 미만 중점 (<span id="rec-btn-under500-count">37</span>건)
+              </button>
+              <button id="btn-rec-mode-all" onclick="setRecurringBudgetMode('all')"
+                class="px-3.5 py-1.5 rounded text-xs font-medium text-[#495057] hover:text-[#212529] transition-all">
+                전체 계속사업 (<span id="rec-btn-all-count">48</span>건)
+              </button>
+            </div>
+          </div>
+          <div id="rec-current-mode-badge"
+            class="text-xs px-2.5 py-1 rounded bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff] font-semibold">
+            현재: <strong>5억 미만 중소기업 최적 계속사업 37건</strong> 표시 중
+          </div>
+        </div>
+
+        <!-- 빠른 필터 탭 칩 -->
+        <div class="flex items-center space-x-2 overflow-x-auto pb-1 text-xs no-scrollbar">
+          <button onclick="setRecurringQuickFilter('all')" id="rec-filter-all"
+            class="rec-filter-btn px-3 py-1.5 rounded font-bold bg-[#1543a3] text-white whitespace-nowrap">
+            전체 (<span id="badge-rec-all-count">37</span>)
+          </button>
+          <button onclick="setRecurringQuickFilter('churn')" id="rec-filter-churn"
+            class="rec-filter-btn px-3 py-1.5 rounded font-semibold bg-white text-[#495057] hover:bg-[#f8f9fa] border border-[#ced4da] whitespace-nowrap transition-all">
+            사업자 교체 (<span id="badge-rec-churn-count">21</span>)
+          </button>
+          <button onclick="setRecurringQuickFilter('locked')" id="rec-filter-locked"
+            class="rec-filter-btn px-3 py-1.5 rounded font-semibold bg-white text-[#495057] hover:bg-[#f8f9fa] border border-[#ced4da] whitespace-nowrap transition-all">
+            3년 연속 독점 (<span id="badge-rec-locked-count">16</span>)
+          </button>
+          <button onclick="setRecurringQuickFilter('high_growth')" id="rec-filter-high_growth"
+            class="rec-filter-btn px-3 py-1.5 rounded font-semibold bg-white text-[#495057] hover:bg-[#f8f9fa] border border-[#ced4da] whitespace-nowrap transition-all">
+            예산 급증 (+10%↑)
+          </button>
+          <button onclick="setRecurringQuickFilter('early_2027')" id="rec-filter-early_2027"
+            class="rec-filter-btn px-3 py-1.5 rounded font-semibold bg-white text-[#495057] hover:bg-[#f8f9fa] border border-[#ced4da] whitespace-nowrap transition-all">
+            2027년 1분기 발주예상 (<span id="badge-rec-early-count">22</span>)
+          </button>
+        </div>
+
+        <!-- 세부 드롭다운 및 검색어 (중복 제거) -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5 pt-1">
+          <div>
+            <label class="block text-[11px] font-semibold text-[#6c757d] mb-1">분야/카테고리</label>
+            <select id="rec-select-category" onchange="applyRecurringFilters()"
+              class="w-full text-xs bg-white border border-[#ced4da] rounded px-3 py-2 text-[#495057] focus:outline-none focus:border-[#1543a3]">
+              <option value="전체">전체 카테고리</option>
+              <option value="유지보수/운영">유지보수/운영</option>
+              <option value="DB/데이터구축">DB/데이터구축</option>
+              <option value="시스템/SW구축">시스템/SW구축</option>
+              <option value="디지털트윈/융합">디지털트윈/융합</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-[#6c757d] mb-1">예산 규모 / 구간 필터</label>
+            <select id="rec-select-tier" onchange="onRecurringTierChange()"
+              class="w-full text-xs bg-white border border-[#ced4da] rounded px-3 py-2 text-[#495057] focus:outline-none focus:border-[#1543a3]">
+              <option value="5억 미만" selected>5억 미만 전체 (37건)</option>
+              <option value="전체">전체 예산 (5억 미만 + 5억 이상, 48건)</option>
+              <option value="5천만 미만">5천만 미만 (소액/체험)</option>
+              <option value="5천만~1억">5천만 ~ 1억 (단위개선)</option>
+              <option value="1억~3억">1억 ~ 3억 (중소기업 최적)</option>
+              <option value="3억~5억">3억 ~ 5억 (알짜 중형사업)</option>
+              <option value="5억 이상">5억 이상 (대형 계속사업, 11건)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-[#6c757d] mb-1">정렬 기준</label>
+            <select id="rec-select-sort" onchange="applyRecurringFilters()"
+              class="w-full text-xs bg-white border border-[#ced4da] rounded px-3 py-2 text-[#495057] focus:outline-none focus:border-[#1543a3]">
+              <option value="growth_desc">예산 증가율 높은순</option>
+              <option value="budget_desc">3개년 총 예산 큰순</option>
+              <option value="next_date">2027년 발주 임박순</option>
+              <option value="budget_asc">예산 낮은순</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-[#6c757d] mb-1">사업명 / 지자체 / 수주사 검색</label>
+            <input type="text" id="rec-search-input" oninput="applyRecurringFilters()"
+              placeholder="예: 의왕시, 지오메트릭스..."
+              class="w-full text-xs bg-white border border-[#ced4da] rounded px-3 py-2 text-[#495057] focus:outline-none focus:border-[#1543a3]">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-2 border-t border-[#e5e8eb] text-xs">
+          <div class="text-[#6c757d] font-medium">
+            검색 결과: <strong id="rec-filtered-count" class="text-[#1543a3] font-bold">36</strong>건
+          </div>
+          <button onclick="exportRecurringToExcel()"
+            class="px-3 py-1.5 bg-white hover:bg-[#f8f9fa] text-[#1543a3] border border-[#1543a3] rounded font-semibold transition-colors">
+            계속사업 분석표 CSV 다운로드
+          </button>
+        </div>
+      </div>
+
+      <!-- 계속사업 패밀리 카드 리스트 컨테이너 -->
+      <div id="recurring-families-container" class="space-y-4">
+        <!-- JS로 동적 렌더링 -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 하단 모바일 내비게이션 바 (공공 표준 간결 텍스트 탭) -->
+  <nav
+    class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#ced4da] shadow-lg px-2 py-1.5 flex items-center justify-around safe-bottom">
+    <button onclick="switchTab('dashboard')" id="mobile-tab-dashboard"
+      class="mobile-nav-btn active flex flex-col items-center py-1 px-3 text-[#1543a3]">
+      <span class="text-xs font-bold">대시보드</span>
+    </button>
+    <button onclick="switchTab('projects')" id="mobile-tab-projects"
+      class="mobile-nav-btn flex flex-col items-center py-1 px-3 text-[#6c757d]">
+      <span class="text-xs font-medium">사업목록</span>
+    </button>
+    <button onclick="switchTab('analytics')" id="mobile-tab-analytics"
+      class="mobile-nav-btn flex flex-col items-center py-1 px-2 text-[#6c757d]">
+      <span class="text-xs font-medium">심층분석</span>
+    </button>
+    <button onclick="switchTab('recurring')" id="mobile-tab-recurring"
+      class="mobile-nav-btn flex flex-col items-center py-1 px-2 text-[#6c757d]">
+      <span class="text-xs font-medium">계속사업</span>
+    </button>
+    <button onclick="switchTab('data')" id="mobile-tab-data"
+      class="mobile-nav-btn flex flex-col items-center py-1 px-2 text-[#6c757d]">
+      <span class="text-xs font-medium">데이터</span>
+    </button>
+  </nav>
+
+  <!-- 상세 정보 모달 / 바텀 시트 (data.go.kr 스타일) -->
+  <div id="modal-project-detail"
+    class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-xs hidden opacity-0 transition-opacity duration-200"
+    onclick="closeDetailModal(event)">
+    <div
+      class="bg-white w-full sm:max-w-2xl sm:rounded-lg rounded-t-lg max-h-[90vh] flex flex-col shadow-xl overflow-hidden transform transition-transform duration-200 translate-y-full sm:translate-y-0 border border-[#ced4da]"
+      onclick="event.stopPropagation()">
+      <div class="px-5 py-4 border-b border-[#e5e8eb] flex items-start justify-between bg-[#f8f9fa]">
+        <div>
+          <div class="flex items-center space-x-2 mb-1.5">
+            <span id="modal-tier-badge"
+              class="px-2 py-0.5 text-xs font-bold rounded bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff]">5억 미만</span>
+            <span id="modal-category-badge"
+              class="px-2 py-0.5 text-xs font-semibold rounded bg-[#f1f3f5] text-[#495057] border border-[#dee2e6]">시스템/SW구축</span>
+            <span id="modal-contract-badge"
+              class="px-2 py-0.5 text-xs font-medium rounded bg-[#f1f3f5] text-[#495057] border border-[#dee2e6]">제한경쟁</span>
+          </div>
+          <h3 id="modal-title" class="text-base sm:text-lg font-bold text-[#071952] leading-snug">공고 제목</h3>
+        </div>
+        <button onclick="closeDetailModal()"
+          class="p-1 rounded text-[#6c757d] hover:text-[#212529] hover:bg-[#dee2e6] transition-colors text-sm font-bold">
+          ✕
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4 text-xs sm:text-sm">
+        <div class="grid grid-cols-2 gap-3 bg-[#f8f9fa] p-3.5 rounded border border-[#dee2e6]">
+          <div>
+            <span class="text-[#6c757d] block text-xs">배정예산 (원)</span>
+            <span id="modal-budget" class="text-lg font-extrabold text-[#1543a3]">-- 원</span>
+          </div>
+          <div>
+            <span class="text-[#6c757d] block text-xs">추정가격 (원)</span>
+            <span id="modal-presmpt" class="text-base font-bold text-[#495057]">-- 원</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-y-2.5 gap-x-4 border-t border-b border-[#e5e8eb] py-3 text-[#495057]">
+          <div>
+            <span class="text-[#8b95a1] block text-xs">수요기관 (지자체)</span>
+            <strong id="modal-dminstt" class="text-[#212529]">--</strong>
+          </div>
+          <div>
+            <span class="text-[#8b95a1] block text-xs">공고기관</span>
+            <span id="modal-ntceinstt">--</span>
+          </div>
+          <div>
+            <span class="text-[#8b95a1] block text-xs">공고번호</span>
+            <div class="flex items-center space-x-1.5 mt-0.5">
+              <span id="modal-bidno" class="font-mono text-[#212529] font-bold">--</span>
+              <button onclick="copyBidNo()"
+                class="px-1.5 py-0.5 bg-[#f1f3f5] hover:bg-[#dee2e6] text-[#495057] rounded text-[10px] font-semibold border border-[#ced4da] transition-colors">
+                <span id="btn-copy-bidno-text">복사</span>
+              </button>
+            </div>
+          </div>
+          <div>
+            <span class="text-[#8b95a1] block text-xs">계약체결방법</span>
+            <span id="modal-contract">--</span>
+          </div>
+          <div>
+            <span class="text-[#8b95a1] block text-xs">입찰공고일시</span>
+            <span id="modal-noticedt">--</span>
+          </div>
+          <div>
+            <span class="text-[#8b95a1] block text-xs">입찰마감일시</span>
+            <span id="modal-closedt" class="font-semibold text-[#d9383a]">--</span>
+          </div>
+        </div>
+
+        <div id="modal-winner-box"
+          class="bg-[#e6f6f1] border border-[#b2e7d7] rounded p-3 text-[#00835f] hidden">
+          <div class="font-bold text-xs mb-1">낙찰 및 수주 결과</div>
+          <div class="flex justify-between text-xs mt-1">
+            <span>수주업체: <strong id="modal-winner-corp">--</strong></span>
+            <span>낙찰금액: <strong id="modal-winner-amt">--</strong></span>
+          </div>
+        </div>
+
+        <!-- 실시간 공고 ↔ 과거 계속사업 크로스 분석 상자 -->
+        <div id="modal-cross-analysis-box"
+          class="bg-[#f8f9fa] border border-[#cfdfff] rounded p-4 space-y-2.5 hidden">
+          <div class="flex items-center justify-between">
+            <div class="text-[#071952] font-bold text-xs sm:text-sm">
+              과거 3개년 수주 실적 크로스 분석 (투찰 전략)
+            </div>
+            <span id="modal-cross-match-badge"
+              class="px-2 py-0.5 text-[10px] font-bold rounded bg-[#eef4ff] text-[#1543a3] border border-[#cfdfff]">연계 완료</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs pt-1">
+            <div class="bg-white p-2.5 rounded border border-[#dee2e6]">
+              <span class="text-[#8b95a1] block text-[11px]">전년도/기존 수주 기업</span>
+              <strong id="modal-cross-incumbent" class="text-[#071952] font-bold text-xs sm:text-sm">--</strong>
+            </div>
+            <div class="bg-white p-2.5 rounded border border-[#dee2e6]">
+              <span class="text-[#8b95a1] block text-[11px]">과거 실적 기반 추천 투찰가</span>
+              <div class="flex items-baseline space-x-1">
+                <strong id="modal-cross-recommended-price"
+                  class="text-[#00835f] font-bold text-xs sm:text-sm">--</strong>
+                <span id="modal-cross-avg-rate" class="text-[10px] text-[#6c757d] font-medium">(--%)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-2.5 rounded border border-[#dee2e6] space-y-1">
+            <span class="text-[#8b95a1] block text-[10px] font-semibold">과거 3개년 수주 이력</span>
+            <div id="modal-cross-history" class="text-xs text-[#495057] space-y-0.5">--</div>
+          </div>
+
+          <p id="modal-cross-advice"
+            class="text-xs text-[#071952] leading-relaxed font-medium bg-[#eef4ff] p-2.5 rounded border border-[#cfdfff]">
+            전략 조언 내용
+          </p>
+        </div>
+
+        <!-- 실시간 첨부파일 & 공동도급의무지역 박스 -->
+        <div id="modal-atch-container" class="bg-[#f8f9fa] border border-[#ced4da] rounded p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="text-[#071952] font-bold text-xs sm:text-sm">
+              조달청 실시간 첨부서류 (과업지시서 · 공고서)
+            </div>
+            <span id="modal-atch-status-badge"
+              class="px-2 py-0.5 text-[10px] font-bold rounded bg-[#f1f3f5] text-[#495057] border border-[#dee2e6]">조회중...</span>
+          </div>
+
+          <!-- 첨부파일 다운로드 리스트 -->
+          <div id="modal-atch-list" class="space-y-1.5 text-xs">
+            <div class="text-[#8b95a1] text-xs">조달청 첨부파일 정보를 불러오는 중입니다...</div>
+          </div>
+
+          <!-- 지역의무공동도급 및 가산지역 정보 -->
+          <div id="modal-joint-contract-box"
+            class="hidden pt-2 border-t border-[#dee2e6] text-xs text-[#495057] flex flex-wrap items-center gap-2">
+            <span class="font-bold text-[#071952]">공동도급 / 지역의무:</span>
+            <span id="modal-joint-contract-text"
+              class="px-2 py-0.5 bg-white rounded border border-[#ced4da] font-medium"></span>
+          </div>
+        </div>
+
+        <!-- 나라장터 보안 안내 알림 박스 -->
+        <div class="bg-[#eef4ff] border border-[#cfdfff] rounded p-3 text-xs text-[#1543a3] flex items-start space-x-2">
+          <div class="leading-relaxed">
+            <strong class="font-bold">나라장터 연동 안내:</strong> 나라장터 보안 세션 정책으로 인해 외부 직링크 진입 시 메인으로 리다이렉트됩니다.
+            아래 <strong>[나라장터 열기]</strong>를 누르시면 <strong>공고명이 자동 복사</strong>되어 검색창에 바로 붙여넣기(<kbd
+              class="px-1 py-0.5 bg-white border border-[#cfdfff] rounded font-mono">Ctrl+V</kbd>)하실 수 있습니다.
+          </div>
+        </div>
+
+        <div>
+          <span class="text-[#8b95a1] block text-xs mb-1.5">핵심 기술 및 과업 키워드</span>
+          <div id="modal-themes" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <div>
+          <span class="text-[#8b95a1] block text-xs mb-1">사업 개요 및 주요 과업</span>
+          <p id="modal-summary"
+            class="bg-[#f8f9fa] p-3 rounded border border-[#e5e8eb] text-[#333d4b] leading-relaxed text-xs sm:text-sm">
+            내용 요약
+          </p>
+        </div>
+      </div>
+
+      <div class="px-5 py-3.5 bg-[#f8f9fa] border-t border-[#e5e8eb] flex items-center justify-between">
+        <button id="modal-btn-bookmark" onclick="toggleCurrentBookmark()"
+          class="px-3 py-2 text-xs font-semibold border border-[#ced4da] rounded hover:bg-white text-[#495057] transition-colors">
+          <span id="modal-bookmark-text">관심 등록</span>
+        </button>
+        <div class="flex items-center space-x-2">
+          <button onclick="openPortalSearch()"
+            class="px-3 py-2 text-xs font-semibold text-[#495057] bg-white border border-[#ced4da] rounded hover:bg-[#f8f9fa] transition-colors"
+            title="포털에서 공고문 원문 검색">
+            공고문 검색
+          </button>
+          <button onclick="openKonepsWithClipboard()"
+            class="px-4 py-2 text-xs font-bold text-white bg-[#1543a3] hover:bg-[#0f3282] rounded shadow-xs transition-colors">
+            나라장터 열기 (공고명 자동복사)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 모바일 접속 안내 모달 -->
+  <div id="modal-qr"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs hidden opacity-0 transition-opacity duration-200"
+    onclick="closeQrModal(event)">
+    <div class="bg-white w-full max-w-sm rounded-lg p-6 shadow-xl text-center border border-[#ced4da]" onclick="event.stopPropagation()">
+      <h3 class="text-base font-bold text-[#071952] mb-1">모바일 스마트폰으로 접속하기</h3>
+      <p class="text-xs text-[#6c757d] mb-4">휴대폰 카메라로 비추면 배포 주소로 즉시 이동합니다.</p>
+
+      <div class="bg-[#f8f9fa] p-4 rounded inline-block border border-[#dee2e6] mb-3">
+        <img id="qr-code-img" src="" alt="Mobile QR Code" class="w-48 h-48 mx-auto rounded shadow-xs">
+      </div>
+
+      <div class="bg-[#f1f3f5] rounded p-2.5 text-xs font-mono text-[#1543a3] font-bold break-all mb-4 select-all"
+        id="qr-url-text">
+        https://yesltdev.onrender.com/
+      </div>
+
+      <div class="flex gap-2">
+        <a href="https://yesltdev.onrender.com/" target="_blank"
+          class="flex-1 py-2.5 bg-[#1543a3] hover:bg-[#0f3282] text-white font-bold text-xs rounded transition-colors text-center">
+          새 탭에서 열기
+        </a>
+        <button onclick="closeQrModal()"
+          class="flex-1 py-2.5 bg-[#343a40] hover:bg-[#212529] text-white font-medium text-xs rounded transition-colors">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 공공데이터포털 OpenAPI 실시간 연동 모달 -->
+  <div id="modal-openapi-key"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs hidden opacity-0 transition-opacity duration-200"
+    onclick="closeOpenApiKeyModal(event)">
+    <div class="bg-white w-full max-w-lg rounded-lg p-5 sm:p-6 shadow-xl overflow-hidden space-y-4 border border-[#ced4da]"
+      onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between pb-3 border-b border-[#e5e8eb]">
+        <div>
+          <h3 class="text-base font-bold text-[#071952]">나라장터 OpenAPI 실시간 공고 연동</h3>
+          <p class="text-xs text-[#8b95a1]">공공데이터포털(data.go.kr) '입찰공고정보서비스' 연계</p>
+        </div>
+        <button onclick="closeOpenApiKeyModal()" class="text-[#6c757d] hover:text-[#212529] p-1 text-sm font-bold">
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs sm:text-sm">
+        <div class="bg-[#f8f9fa] p-3 rounded border border-[#dee2e6] text-[#4e5968] text-xs leading-relaxed space-y-1">
+          <p class="font-bold text-[#071952]">실시간 연동 안내:</p>
+          <p>• 기본적으로 <strong>현재 접수 중인 공간정보 5억 미만 실시간 조달청 공고</strong>가 연계 탑재되어 있습니다.</p>
+          <p>• 공공데이터포털 <strong>일반 인증키(ServiceKey)</strong>를 통해 나라장터 서버에서 5억 미만 최신 공고를 지금 즉시 호출하여 갱신합니다.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-[#333d4b] mb-1">공공데이터포털 일반 인증키 (ServiceKey, 선택사항)</label>
+          <input type="password" id="input-openapi-servicekey"
+            value=""
+            placeholder="미입력 시 서버 환경변수 기본 인증키를 안전하게 사용합니다..."
+            class="w-full text-xs font-mono bg-white border border-[#ced4da] rounded px-3 py-2 text-[#212529] focus:outline-none focus:border-[#1543a3]">
+          <p class="text-[11px] text-[#8b95a1] mt-1">※ 보안을 위해 기본 키는 서버 환경변수(KONEPS_API_KEY)에 은닉되어 있습니다. 개별 인증키 사용 시에만 입력하세요.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-semibold text-[#6c757d] mb-1">검색 키워드</label>
+            <input type="text" id="input-openapi-keyword" value="공간정보"
+              class="w-full text-xs bg-white border border-[#ced4da] rounded px-3 py-2 text-[#212529]">
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-[#6c757d] mb-1">최대 페이지 수</label>
+            <select id="select-openapi-pages"
+              class="w-full text-xs bg-white border border-[#ced4da] rounded px-3 py-2 text-[#212529]">
+              <option value="2">2페이지 (최대 100건)</option>
+              <option value="3" selected>3페이지 (최대 150건)</option>
+              <option value="5">5페이지 (최대 250건)</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="openapi-refresh-status" class="text-xs font-medium text-[#1543a3] hidden"></div>
+      </div>
+
+      <div class="pt-3 border-t border-[#e5e8eb] flex items-center justify-between">
+        <button onclick="restoreDefaultLiveBids()"
+          class="px-3 py-2 text-xs text-[#495057] hover:text-[#212529] bg-[#f1f3f5] rounded font-medium border border-[#dee2e6]">
+          기본 실시간 공고로 복원
+        </button>
+        <div class="flex items-center space-x-2">
+          <button onclick="closeOpenApiKeyModal()"
+            class="px-3 py-2 text-xs text-[#6c757d] hover:text-[#212529] font-medium">
+            닫기
+          </button>
+          <button id="btn-submit-openapi-refresh" onclick="executeOpenApiRefresh()"
+            class="px-4 py-2 text-xs font-bold bg-[#1543a3] hover:bg-[#0f3282] text-white rounded transition-colors">
+            지금 실시간 공고 가져오기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 메인 프론트엔드 스크립트 -->
+  <script src="/app.js"></script>
+</body>
+
+</html>

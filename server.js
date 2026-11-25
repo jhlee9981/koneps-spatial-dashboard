@@ -3,6 +3,29 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const os = require('os');
+
+// 로컬 .env 파일 네이티브 자동 로드 (npm 의존성 없이 표준 라이브러리로 처리)
+const envFile = path.join(__dirname, '.env');
+if (fs.existsSync(envFile)) {
+  try {
+    const envLines = fs.readFileSync(envFile, 'utf-8').split(/\r?\n/);
+    envLines.forEach(line => {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) return;
+      const idx = trimmed.indexOf('=');
+      if (idx > 0) {
+        const key = trimmed.slice(0, idx).trim();
+        const val = trimmed.slice(idx + 1).trim().replace(/^['"]|['"]$/g, '');
+        if (!process.env[key]) {
+          process.env[key] = val;
+        }
+      }
+    });
+  } catch (err) {
+    console.warn('.env 로드 중 경고:', err.message);
+  }
+}
+
 const { calculateAnalytics } = require('./src/analytics');
 const { fetchKonepsBids, fetchBidAttachments, fetchBidJointContract, fetchBidIncentiveRegion, DEFAULT_SERVICE_KEY } = require('./src/konepsClient');
 const { loadLiveBids, saveLiveBids, findCrossMatch } = require('./src/liveBidsManager');
@@ -46,6 +69,42 @@ function saveProjects(projects) {
     console.error('데이터 파일 저장 오류:', err);
     return false;
   }
+}
+
+// 실시간 라이브 공고 캐시 & 실시간 API 수신기 (모듈 스코프)
+let cachedLiveBids = null;
+let lastLiveFetchTime = 0;
+const LIVE_CACHE_TTL_MS = 30 * 1000; // 30초 (페이지 접속/새로고침 시 실시간 호출 보장, 초 단위 광클 시 과도한 중복 호출 방지)
+
+async function getLiveBidsRealtime(force = false) {
+  const isExpired = (Date.now() - lastLiveFetchTime) > LIVE_CACHE_TTL_MS;
+  if (!force && !isExpired && cachedLiveBids && cachedLiveBids.length > 0) {
+    return cachedLiveBids;
+  }
+
+  try {
+    console.log('🌐 조달청 02 OpenAPI 실시간 라이브 공고 직접 호출 중 (키워드: 공간정보)...');
+    const freshBids = await fetchKonepsBids({ keyword: '공간정보' });
+    if (freshBids && freshBids.length > 0) {
+      const diskBids = loadLiveBids();
+      const map = new Map();
+      diskBids.forEach(b => map.set(b.bidNtceNo, b));
+      freshBids.forEach(b => map.set(b.bidNtceNo, b));
+      const merged = Array.from(map.values());
+      saveLiveBids(merged);
+      cachedLiveBids = merged;
+      lastLiveFetchTime = Date.now();
+      console.log(`✅ 조달청 OpenAPI 실시간 수신 완료: 총 ${freshBids.length}건 (누적 ${merged.length}건)`);
+      return merged;
+    }
+  } catch (err) {
+    console.error('실시간 OpenAPI 호출 실패, 보관된 데이터 폴백 사용:', err.message);
+  }
+
+  if (!cachedLiveBids || cachedLiveBids.length === 0) {
+    cachedLiveBids = loadLiveBids();
+  }
+  return cachedLiveBids;
 }
 
 function getLocalIpv4List() {
@@ -104,8 +163,9 @@ const server = http.createServer(async (req, res) => {
         port: PORT,
         localIps,
         primaryIp: localIps.length > 0 ? localIps[0].ip : 'localhost',
-        dateRange: "2026-01-01 ~ 2026-11-24",
-        keyword: "공간정보 (5억 미만 중점)"
+        dateRange: "2024-01-01 ~ 2026-11-24 (3개년 전체)",
+        keyword: "공간정보 (3개년 5억 미만 중점)",
+        cloudUrl: "https://yesltdev.onrender.com/"
       }));
       return;
     }
@@ -113,6 +173,11 @@ const server = http.createServer(async (req, res) => {
     // 2. GET /api/analytics
     if (pathname === '/api/analytics' && method === 'GET') {
       let projects = loadProjects();
+      // query param ?year=2024 | 2025 | 2026 지원
+      if (parsedUrl.query.year && parsedUrl.query.year !== 'all') {
+        const yr = Number(parsedUrl.query.year);
+        projects = projects.filter(p => p.year === yr);
+      }
       // query param ?onlyUnder500=true 지원
       if (parsedUrl.query.onlyUnder500 === 'true') {
         projects = projects.filter(p => (p.assignBdgtAmt || 0) < 500000000);
@@ -193,12 +258,13 @@ const server = http.createServer(async (req, res) => {
 
     // 2-2. GET /api/bids/live (현재 접수 중 실시간 OpenAPI 공고)
     if (pathname === '/api/bids/live' && method === 'GET') {
-      const rawBids = loadLiveBids();
+      const query = parsedUrl.query;
+      const force = query.force === 'true';
+      const rawBids = await getLiveBidsRealtime(force);
       const projects = loadProjects();
       const recData = loadRecurringData();
       const recFamilies = recData.families || [];
-      const query = parsedUrl.query;
-      const now = new Date('2026-11-24T18:00:00+09:00'); // 기준시각 (2026년 실시간 조달청 공고 기준)
+      const now = new Date(); // 현재 실시간 시각 기준
 
       let bids = rawBids.map(b => {
         // D-Day 계산
@@ -300,7 +366,9 @@ const server = http.createServer(async (req, res) => {
           totalLiveBudget: totalBudget,
           dday3Count,
           smallCount,
-          under500Count: rawBids.filter(b => (b.assignBdgtAmt || 0) < 500000000).length
+          under500Count: rawBids.filter(b => (b.assignBdgtAmt || 0) < 500000000).length,
+          lastUpdated: new Date(lastLiveFetchTime || Date.now()).toISOString(),
+          isLiveRealtime: true
         },
         data: bids
       }));
@@ -468,6 +536,12 @@ const server = http.createServer(async (req, res) => {
         projects = projects.filter(p => (p.assignBdgtAmt || 0) < 500000000);
       }
 
+      // 연도 필터 (2024, 2025, 2026, 전체)
+      if (query.year && query.year !== '전체' && query.year !== 'all') {
+        const yr = Number(query.year);
+        projects = projects.filter(p => p.year === yr);
+      }
+
       // 검색어 필터
       if (query.q) {
         const qLower = query.q.toLowerCase().trim();
@@ -542,10 +616,10 @@ const server = http.createServer(async (req, res) => {
       req.on('end', async () => {
         try {
           const body = JSON.parse(bodyStr || '{}');
-          const serviceKey = body.serviceKey;
+          const serviceKey = body.serviceKey || DEFAULT_SERVICE_KEY;
           if (!serviceKey) {
             res.writeHead(400);
-            res.end(JSON.stringify({ success: false, message: 'serviceKey가 제공되지 않았습니다.' }));
+            res.end(JSON.stringify({ success: false, message: '서버 환경변수(KONEPS_API_KEY) 또는 입력된 serviceKey가 필요합니다.' }));
             return;
           }
 
@@ -702,6 +776,7 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 [5억 미만 중점] 2026 공간정보 사업 분석 웹 서버 가동`);
   console.log(`-------------------------------------------------------`);
   console.log(`💻 PC 브라우저 접속:     http://localhost:${PORT}`);
+  console.log(`🌐 클라우드 배포 주소:   https://yesltdev.onrender.com/`);
   localIps.forEach(net => {
     console.log(`📱 모바일 기기 접속:    http://${net.ip}:${PORT}  (${net.name})`);
   });
